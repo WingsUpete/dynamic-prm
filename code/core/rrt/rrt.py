@@ -196,7 +196,7 @@ class Rrt:
     @staticmethod
     def cal_dist_n_angle(from_node: RrtNode, to_node: RrtNode) -> (float, float):
         """
-        Calculates the distance and angle between two nodes.
+        Calculates the distance and angle from one node to the other.
         :param from_node: from this node
         :param to_node: to this node
         :return: `d` as distance, `theta` as angle
