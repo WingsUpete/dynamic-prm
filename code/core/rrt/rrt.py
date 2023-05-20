@@ -32,7 +32,7 @@ class RrtNode(Node2D):
             if cur_node.parent is None:
                 break
 
-            cost += cur_node.euclidean_distance(other=cur_node.parent)
+            cost += cur_node.parent.euclidean_distance(other=cur_node)
             cur_node = cur_node.parent
 
         path.reverse()
@@ -255,32 +255,34 @@ class Rrt:
             lambda event: [exit(0) if event.key == 'escape' else None]
         )
 
-        # draw global map info & query info
-        plt.plot(self.start.x, self.start.y, 'xr')  # xr = red x marker
-        plt.plot(self.goal.x, self.goal.y, 'dr')  # dr = red thin_diamond marker
+        # set global map info
         plt.axis('equal')
         plt.xlim([self.map_min, self.map_max])
         plt.ylim([self.map_min, self.map_max])
         plt.grid(False)
 
-        # draw `rnd_node`
-        if rnd_node is not None and new_node is not None:
-            plt.plot(rnd_node.x, rnd_node.y, '^c')  # ^c = cyan triangle
-            if self.robot_radius > 0.0:
-                self.plot_circle(new_node.x, new_node.y, self.robot_radius, 'm', fill=False)   # m = magenta
+        # draw all obstacles
+        for (ox, oy, o_radius) in self.obstacles:
+            self.plot_circle(ox, oy, o_radius, 'k', fill=True)    # -k = black solid line ---> a big black circle
 
         # draw all paths for nodes in the node list
         for node in self.node_list:
             if node.parent:
                 plt.plot(node.path_x, node.path_y, '-g')    # -g = green solid line
 
+        # draw `rnd_node` and `new_node`
+        if rnd_node is not None and new_node is not None:
+            plt.plot(rnd_node.x, rnd_node.y, '^c')  # ^c = cyan triangle
+            if self.robot_radius > 0.0:
+                self.plot_circle(new_node.x, new_node.y, self.robot_radius, 'm', fill=False)   # m = magenta
+
         # draw the specified path
         if path:
             plt.plot([x for (x, _) in path], [y for (_, y) in path], '-b')  # -b = blue solid line
 
-        # draw all obstacles
-        for (ox, oy, o_radius) in self.obstacles:
-            self.plot_circle(ox, oy, o_radius, 'k', fill=True)    # -k = black solid line ---> a big black circle
+        # draw start & goal
+        plt.plot(self.start.x, self.start.y, 'xr')  # xr = red x marker
+        plt.plot(self.goal.x, self.goal.y, 'dr')  # dr = red thin_diamond marker
 
         plt.pause(0.01)
 
