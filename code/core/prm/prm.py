@@ -1,312 +1,285 @@
-"""
-
-Probabilistic Road Map (PRM) Planner
-
-author: Atsushi Sakai (@Atsushi_twi)
-
-"""
-
 import math
+from typing import Optional
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.spatial import KDTree
 
-# parameter
-N_SAMPLE = 500  # number of sample_points
-N_KNN = 10  # number of edge from one sampled point
-MAX_EDGE_LEN = 30.0  # [m] Maximum edge length
+from .shortest_path import dijkstra
 
-show_animation = True
+__all__ = ['Prm']
 
 
-class Node:
+class Prm:
     """
-    Node class for dijkstra search
+    PRM: Probabilistic Road Map
+
+    Reference: https://github.com/AtsushiSakai/PythonRobotics/blob/master/PathPlanning/ProbabilisticRoadMap/probabilistic_road_map.py#L195
     """
+    def __init__(self,
+                 map_range: list[float], obstacle_xs: list[float], obstacle_ys: list[float],
+                 robot_radius: float,
+                 n_samples: int = 500, n_neighbors: int = 10, max_edge_len: float = 30.0,
+                 rnd_seed: int = None, rng=None):
+        """
+        Creates a PRM Solver for a robot to solve path-planning problems.
+        :param map_range: the range of the map, as `[min, max]` for both `x` and `y`
+        :param obstacle_xs: list of x coordinates of the point obstacles
+        :param obstacle_ys: list of y coordinates of the point obstacles
+        :param robot_radius: radius of the circle robot
+        :param n_samples: number of points to sample
+        :param n_neighbors: number of edges one sample point has
+        :param max_edge_len: maximum edge length
+        :param rnd_seed: random seed for sampler
+        :param rng: specifies a random generator to use
+        """
+        self.map_min, self.map_max = map_range
+        self.obstacle_x_list = obstacle_xs
+        self.obstacle_y_list = obstacle_ys
 
-    def __init__(self, x, y, cost, parent_index):
-        self.x = x
-        self.y = y
-        self.cost = cost
-        self.parent_index = parent_index
+        self.robot_radius = robot_radius
 
-    def __str__(self):
-        return str(self.x) + "," + str(self.y) + "," +\
-               str(self.cost) + "," + str(self.parent_index)
+        self.n_samples = n_samples
+        self.n_neighbors = n_neighbors
+        self.max_edge_len = max_edge_len
 
+        self.rnd_seed = rnd_seed
+        np.random.seed(self.rnd_seed)
+        self.rng = rng
 
-def prm_planning(start_x, start_y, goal_x, goal_y,
-                 obstacle_x_list, obstacle_y_list, robot_radius, *, rng=None):
-    """
-    Run probabilistic road map planning
+        # kd-tree for obstacles
+        self.obstacle_kd_tree = KDTree(np.vstack((self.obstacle_x_list, self.obstacle_y_list)).T)
 
-    :param start_x: start x position
-    :param start_y: start y position
-    :param goal_x: goal x position
-    :param goal_y: goal y position
-    :param obstacle_x_list: obstacle x positions
-    :param obstacle_y_list: obstacle y positions
-    :param robot_radius: robot radius
-    :param rng: (Optional) Random generator
-    :return:
-    """
-    obstacle_kd_tree = KDTree(np.vstack((obstacle_x_list, obstacle_y_list)).T)
+        # sample n points
+        self.sample_x, self.sample_y = self.sample_points()
+        self.sample_kd_tree = KDTree(np.vstack((self.sample_x, self.sample_y)).T)
 
-    sample_x, sample_y = sample_points(start_x, start_y, goal_x, goal_y,
-                                       robot_radius,
-                                       obstacle_x_list, obstacle_y_list,
-                                       obstacle_kd_tree, rng)
-    if show_animation:
-        plt.plot(sample_x, sample_y, ".b")
+        # Generate road map
+        self.road_map = self.generate_road_map()
 
-    road_map = generate_road_map(sample_x, sample_y,
-                                 robot_radius, obstacle_kd_tree)
+    def plan(self, start: list[float], goal: list[float],
+             animation: bool = True) -> (Optional[list[list[float]]], float):
+        """
+        Plans the route using PRM.
 
-    rx, ry = dijkstra_planning(
-        start_x, start_y, goal_x, goal_y, road_map, sample_x, sample_y)
+        :param start: starting position for the problem
+        :param goal: goal position for the problem
+        :param animation: enables animation or not
+        :return: found feasible path as an ordered list of 2D points, or None if not found + path cost
+        """
+        if animation:
+            self.draw_graph(start=start, goal=goal,
+                            sample_point_x_list=self.sample_x, sample_point_y_list=self.sample_y,
+                            road_map=self.road_map)
 
-    return rx, ry
+        start_sample_id = self.get_nearest_feasible_sample_point_id(point_x=start[0], point_y=start[1], from_point=True)
+        end_sample_id = self.get_nearest_feasible_sample_point_id(point_x=goal[0], point_y=goal[1], from_point=False)
 
+        path, cost = dijkstra(sample_x=self.sample_x, sample_y=self.sample_y, road_map=self.road_map,
+                              start_id=start_sample_id, end_id=end_sample_id, animation=animation)
 
-def is_collision(sx, sy, gx, gy, rr, obstacle_kd_tree):
-    x = sx
-    y = sy
-    dx = gx - sx
-    dy = gy - sy
-    yaw = math.atan2(gy - sy, gx - sx)
-    d = math.hypot(dx, dy)
+        if path is None:
+            return None, -1
 
-    if d >= MAX_EDGE_LEN:
-        return True
+        # Add paths and costs between the real start & end/goal point and the nearest feasible sample points
+        path = [start] + path + [goal]
+        cost += self.cal_dist_n_angle(from_x=start[0], from_y=start[1],
+                                      to_x=self.sample_x[start_sample_id], to_y=self.sample_y[start_sample_id])[0]
+        cost += self.cal_dist_n_angle(from_x=self.sample_x[end_sample_id], from_y=self.sample_y[end_sample_id],
+                                      to_x=goal[0], to_y=goal[1])[0]
 
-    D = rr
-    n_step = round(d / D)
+        return path, cost
 
-    for i in range(n_step):
-        dist, _ = obstacle_kd_tree.query([x, y])
-        if dist <= rr:
-            return True  # collision
-        x += D * math.cos(yaw)
-        y += D * math.sin(yaw)
+    def get_nearest_feasible_sample_point_id(self, point_x: float, point_y: float, from_point: bool) -> int:
+        """
+        Finds the index of nearest feasible sample point from the given point. Feasibility indicates that
+        :param point_x: x coordinate of the given point
+        :param point_y: y coordinate of the given point
+        :param from_point: specifies the direction (if True, from this point to sample point; otherwise reverse)
+        :return: id of the nearest feasible sample point
+        """
+        # sort distances from near to far
+        dists, indices = self.sample_kd_tree.query([point_x, point_y], k=self.n_samples)
+        for cur_sample_id in indices:
+            cur_sample_x = self.sample_x[cur_sample_id]
+            cur_sample_y = self.sample_y[cur_sample_id]
 
-    # goal point check
-    dist, _ = obstacle_kd_tree.query([gx, gy])
-    if dist <= rr:
-        return True  # collision
-
-    return False  # OK
-
-
-def generate_road_map(sample_x, sample_y, rr, obstacle_kd_tree):
-    """
-    Road map generation
-
-    sample_x: [m] x positions of sampled points
-    sample_y: [m] y positions of sampled points
-    robot_radius: Robot Radius[m]
-    obstacle_kd_tree: KDTree object of obstacles
-    """
-
-    road_map = []
-    n_sample = len(sample_x)
-    sample_kd_tree = KDTree(np.vstack((sample_x, sample_y)).T)
-
-    for (i, ix, iy) in zip(range(n_sample), sample_x, sample_y):
-
-        dists, indexes = sample_kd_tree.query([ix, iy], k=n_sample)
-        edge_id = []
-
-        for ii in range(1, len(indexes)):
-            nx = sample_x[indexes[ii]]
-            ny = sample_y[indexes[ii]]
-
-            if not is_collision(ix, iy, nx, ny, rr, obstacle_kd_tree):
-                edge_id.append(indexes[ii])
-
-            if len(edge_id) >= N_KNN:
-                break
-
-        road_map.append(edge_id)
-
-    #  plot_road_map(road_map, sample_x, sample_y)
-
-    return road_map
-
-
-def dijkstra_planning(sx, sy, gx, gy, road_map, sample_x, sample_y):
-    """
-    s_x: start x position [m]
-    s_y: start y position [m]
-    goal_x: goal x position [m]
-    goal_y: goal y position [m]
-    obstacle_x_list: x position list of Obstacles [m]
-    obstacle_y_list: y position list of Obstacles [m]
-    robot_radius: robot radius [m]
-    road_map: ??? [m]
-    sample_x: ??? [m]
-    sample_y: ??? [m]
-
-    @return: Two lists of path coordinates ([x1, x2, ...], [y1, y2, ...]), empty list when no path was found
-    """
-
-    start_node = Node(sx, sy, 0.0, -1)
-    goal_node = Node(gx, gy, 0.0, -1)
-
-    open_set, closed_set = dict(), dict()
-    open_set[len(road_map) - 2] = start_node
-
-    path_found = True
-
-    while True:
-        if not open_set:
-            print("Cannot find path")
-            path_found = False
-            break
-
-        c_id = min(open_set, key=lambda o: open_set[o].cost)
-        current = open_set[c_id]
-
-        # show graph
-        if show_animation and len(closed_set.keys()) % 2 == 0:
-            # for stopping simulation with the esc key.
-            plt.gcf().canvas.mpl_connect(
-                'key_release_event',
-                lambda event: [exit(0) if event.key == 'escape' else None])
-            plt.plot(current.x, current.y, "xg")
-            plt.pause(0.001)
-
-        if c_id == (len(road_map) - 1):
-            print("goal is found!")
-            goal_node.parent_index = current.parent_index
-            goal_node.cost = current.cost
-            break
-
-        # Remove the item from the open set
-        del open_set[c_id]
-        # Add it to the closed set
-        closed_set[c_id] = current
-
-        # expand search grid based on motion model
-        for i in range(len(road_map[c_id])):
-            n_id = road_map[c_id][i]
-            dx = sample_x[n_id] - current.x
-            dy = sample_y[n_id] - current.y
-            d = math.hypot(dx, dy)
-            node = Node(sample_x[n_id], sample_y[n_id],
-                        current.cost + d, c_id)
-
-            if n_id in closed_set:
-                continue
-            # Otherwise if it is already in the open set
-            if n_id in open_set:
-                if open_set[n_id].cost > node.cost:
-                    open_set[n_id].cost = node.cost
-                    open_set[n_id].parent_index = c_id
+            if from_point:
+                from_x, from_y = point_x, point_y
+                to_x, to_y = cur_sample_x, cur_sample_y
             else:
-                open_set[n_id] = node
+                from_x, from_y = cur_sample_x, cur_sample_y
+                to_x, to_y = point_x, point_y
+            d, _ = self.cal_dist_n_angle(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y)
+            if (d <= self.max_edge_len) and self.pass_collision_check(from_x=from_x, from_y=from_y,
+                                                                      to_x=to_x, to_y=to_y):
+                # found nearest feasible sample point
+                return cur_sample_id
 
-    if path_found is False:
-        return [], []
+    def sample_points(self) -> (list[float], list[float]):
+        """
+        Samples n feasible points that do not collide with the obstacles
+        :return: x coordinate list & y coordinate list of n sampled points
+        """
+        sample_x, sample_y = [], []
+        rng = np.random.default_rng() if self.rng is None else self.rng
+        while len(sample_x) < self.n_samples:
+            tx = self.map_min + (rng.random() * (self.map_max - self.map_min))
+            ty = self.map_min + (rng.random() * (self.map_max - self.map_min))
 
-    # generate final course
-    rx, ry = [goal_node.x], [goal_node.y]
-    parent_index = goal_node.parent_index
-    while parent_index != -1:
-        n = closed_set[parent_index]
-        rx.append(n.x)
-        ry.append(n.y)
-        parent_index = n.parent_index
+            dist, _ = self.obstacle_kd_tree.query([tx, ty])
+            if dist > self.robot_radius:
+                # will not collide with the nearest obstacle -> feasible sample point
+                sample_x.append(tx)
+                sample_y.append(ty)
 
-    return rx, ry
+        return sample_x, sample_y
 
+    def draw_graph(self,
+                   start: list[float] = None, goal: list[float] = None,
+                   sample_point_x_list: list[float] = None, sample_point_y_list: list[float] = None,
+                   road_map: list[list[int]] = None,
+                   path: list[list[float]] = None,
+                   padding: float = 3) -> None:
+        """
+        Draws the graph. More details:
 
-def plot_road_map(road_map, sample_x, sample_y):  # pragma: no cover
+        1. Obstacles: black points
 
-    for i, _ in enumerate(road_map):
-        for ii in range(len(road_map[i])):
-            ind = road_map[i][ii]
+        2. Starting point: red triangle
 
-            plt.plot([sample_x[i], sample_x[ind]],
-                     [sample_y[i], sample_y[ind]], "-k")
+        3. Goal point: red thin_diamond marker
 
+        4. Sample points: cyan points
 
-def sample_points(sx, sy, gx, gy, rr, ox, oy, obstacle_kd_tree, rng):
-    max_x = max(ox)
-    max_y = max(oy)
-    min_x = min(ox)
-    min_y = min(oy)
+        5. Specified path: magenta solid line
 
-    sample_x, sample_y = [], []
+        :param start: starting position of a query
+        :param goal: goal position of a query
+        :param sample_point_x_list: x coordinate list of the sample points
+        :param sample_point_y_list: y coordinate list of the sample points
+        :param road_map: the road map of the sample points
+        :param path: specified path
+        :param padding: padding of the plot around the map
+        """
+        plt.clf()
 
-    if rng is None:
-        rng = np.random.default_rng()
+        # set global map info
+        plt.axis('equal')
+        plt.xlim([self.map_min - padding, self.map_max + padding])
+        plt.ylim([self.map_min - padding, self.map_max + padding])
+        plt.grid(False)
 
-    while len(sample_x) <= N_SAMPLE:
-        tx = (rng.random() * (max_x - min_x)) + min_x
-        ty = (rng.random() * (max_y - min_y)) + min_y
+        # draw obstacles
+        plt.plot(self.obstacle_x_list, self.obstacle_y_list, '.k')  # .k = black points
 
-        dist, index = obstacle_kd_tree.query([tx, ty])
+        # draw road map
+        if road_map is not None:
+            for node_i in range(len(road_map)):
+                for node_j in road_map[node_i]:
+                    plt.plot([self.sample_x[node_i], self.sample_x[node_j]],
+                             [self.sample_y[node_i], self.sample_y[node_j]], '-y', alpha=0.2)  # -k = yellow solid line
 
-        if dist >= rr:
-            sample_x.append(tx)
-            sample_y.append(ty)
+        # draw sample points
+        if (sample_point_x_list is not None) and (sample_point_y_list is not None):
+            plt.plot(sample_point_x_list, sample_point_y_list, '.c')    # .c = cyan points
 
-    sample_x.append(sx)
-    sample_y.append(sy)
-    sample_x.append(gx)
-    sample_y.append(gy)
+        if path is not None:
+            self.draw_path(path=path)
 
-    return sample_x, sample_y
+        # draw start & goal
+        if (start is not None) and (goal is not None):
+            plt.plot(start[0], start[1], '^r')  # ^r = red triangle
+            plt.plot(goal[0], goal[1], 'dr')    # dr = red thin_diamond marker
 
-
-def main(rng=None):
-    print(__file__ + " start!!")
-
-    # start and goal position
-    sx = 10.0  # [m]
-    sy = 10.0  # [m]
-    gx = 50.0  # [m]
-    gy = 50.0  # [m]
-    robot_size = 5.0  # [m]
-
-    ox = []
-    oy = []
-
-    for i in range(60):
-        ox.append(i)
-        oy.append(0.0)
-    for i in range(60):
-        ox.append(60.0)
-        oy.append(i)
-    for i in range(61):
-        ox.append(i)
-        oy.append(60.0)
-    for i in range(61):
-        ox.append(0.0)
-        oy.append(i)
-    for i in range(40):
-        ox.append(20.0)
-        oy.append(i)
-    for i in range(40):
-        ox.append(40.0)
-        oy.append(60.0 - i)
-
-    if show_animation:
-        plt.plot(ox, oy, ".k")
-        plt.plot(sx, sy, "^r")
-        plt.plot(gx, gy, "^c")
-        plt.grid(True)
-        plt.axis("equal")
-
-    rx, ry = prm_planning(sx, sy, gx, gy, ox, oy, robot_size, rng=rng)
-
-    assert rx, 'Cannot found path'
-
-    if show_animation:
-        plt.plot(rx, ry, "-r")
         plt.pause(0.001)
-        plt.show()
 
+    @staticmethod
+    def draw_path(path: list[list[float]]) -> None:
+        """
+        Draws the path as magenta solid line.
+        :param path: specified path
+        """
+        plt.plot([x for (x, _) in path], [y for (_, y) in path], '-m')  # -m = magenta solid line
+        plt.pause(0.001)
 
-if __name__ == '__main__':
-    main()
+    @staticmethod
+    def cal_dist_n_angle(from_x: float, from_y: float,
+                         to_x: float, to_y: float) -> (float, float):
+        """
+        Calculates the distance and angle from one node to the other.
+        :param from_x: x coordinate of the `from_node`
+        :param from_y: y coordinate of the `from_node`
+        :param to_x: x coordinate of the `to_node`
+        :param to_y: y coordinate of the `to_node`
+        :return: `d` as distance, `theta` as angle
+        """
+        dx = to_x - from_x
+        dy = to_y - from_y
+        d = math.hypot(dx, dy)
+        theta = math.atan2(dy, dx)
+        return d, theta
+
+    def generate_road_map(self) -> list[list[int]]:
+        """
+        Generates the road map using the sample points
+        :return: generated road map, with each item storing the edges it connects to other nodes
+        """
+        road_map = []
+        for (i, ix, iy) in zip(range(self.n_samples), self.sample_x, self.sample_y):
+            # sort distances from near to far
+            dists, indices = self.sample_kd_tree.query([ix, iy], k=self.n_samples)
+            edge_id_list = []
+
+            # starting from 1: ignore myself
+            for ii in range(1, len(indices)):
+                nx = self.sample_x[indices[ii]]
+                ny = self.sample_y[indices[ii]]
+
+                d, _ = self.cal_dist_n_angle(from_x=ix, from_y=iy, to_x=nx, to_y=ny)
+                if (d <= self.max_edge_len) and self.pass_collision_check(from_x=ix, from_y=iy, to_x=nx, to_y=ny):
+                    edge_id_list.append(indices[ii])
+
+                if len(edge_id_list) >= self.n_neighbors:
+                    break
+
+            road_map.append(edge_id_list)
+
+        return road_map
+
+    def pass_collision_check(self,
+                             from_x: float, from_y: float,
+                             to_x: float, to_y: float) -> bool:
+        """
+        Checks whether the robot will bump into an obstacle when she travels from one given point to the other given
+        point. If collision check passes, return True!
+        :param from_x: x coordinate of the `from_node`
+        :param from_y: y coordinate of the `from_node`
+        :param to_x: x coordinate of the `to_node`
+        :param to_y: y coordinate of the `to_node`
+        :return: collision check passes or not
+        """
+        d, theta = self.cal_dist_n_angle(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y)
+        path_resolution = self.robot_radius
+        n_steps = round(d / path_resolution)
+
+        cur_x = from_x
+        cur_y = from_y
+        for _ in range(n_steps):
+            dist, _ = self.obstacle_kd_tree.query([cur_x, cur_y])
+            if dist <= self.robot_radius:
+                # collide
+                return False
+
+            cur_x += path_resolution * math.cos(theta)
+            cur_y += path_resolution * math.sin(theta)
+
+        if (cur_x != to_x) or (cur_y != to_y):
+            # `!(cur_x == to_x and cur_y == to_y)`
+            # currently not reaching `to_node`, should also check `to_node` (TODO: maybe not since it is a sample point)
+            dist, _ = self.obstacle_kd_tree.query([to_x, to_y])
+            if dist <= self.robot_radius:
+                # collide
+                return False
+
+        return True
