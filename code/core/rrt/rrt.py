@@ -257,7 +257,7 @@ class Rrt:
 
         # draw global map info & query info
         plt.plot(self.start.x, self.start.y, 'xr')  # xr = blue x marker
-        plt.plot(self.goal.x, self.goal.y, 'dr')  # xb = blue thin_diamond marker
+        plt.plot(self.goal.x, self.goal.y, 'dr')  # dr = blue thin_diamond marker
         plt.axis('equal')
         plt.xlim([self.map_min, self.map_max])
         plt.ylim([self.map_min, self.map_max])
