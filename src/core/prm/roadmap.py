@@ -106,7 +106,7 @@ class RoadMap:
         self.get()[to_uid].from_node_uid_set.remove(from_uid)
         self._modified = True
 
-    def _update_coordinate_lists(self) -> None:
+    def _update_dependent_vars(self) -> None:
         """
         Updates the coordinate lists `sample_x` and `sample_y`.
         """
@@ -122,7 +122,7 @@ class RoadMap:
         :return: x coordinate ordered list of the sample points
         """
         if self._modified:
-            self._update_coordinate_lists()
+            self._update_dependent_vars()
         return self._sample_x
 
     def sample_y(self) -> list[float]:
@@ -131,7 +131,7 @@ class RoadMap:
         :return: y coordinate ordered list of the sample points
         """
         if self._modified:
-            self._update_coordinate_lists()
+            self._update_dependent_vars()
         return self._sample_y
 
     def sample_uid(self) -> list[str]:
@@ -140,7 +140,7 @@ class RoadMap:
         :return: node uid ordered list of the sample points
         """
         if self._modified:
-            self._update_coordinate_lists()
+            self._update_dependent_vars()
         return self._sample_uid
 
     def kd_tree(self) -> KDTree:
@@ -149,7 +149,7 @@ class RoadMap:
         :return: sample KD Tree
         """
         if self._modified:
-            self._update_coordinate_lists()
+            self._update_dependent_vars()
         return self._kd_tree
 
     def __len__(self):
