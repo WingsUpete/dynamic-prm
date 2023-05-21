@@ -63,8 +63,8 @@ def gen_map_edge_obstacles(map_range: list[float], robot_radius: float,
 def get_test_problem():
     cur_map_range = [0, 60]
     cur_robot_radius = 2
-    # cur_seed = 666666
     cur_seed = None
+    cur_seed = 666666
     if cur_seed:
         random.seed(cur_seed)
     max_or = 6
@@ -134,7 +134,6 @@ def test_prm(show_map=False, animation=True):
         # draw path
         if animation:
             my_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
-                              sample_point_x_list=my_prm.sample_x, sample_point_y_list=my_prm.sample_y,
                               road_map=my_prm.road_map, path=my_path)
             plt.show()
 
