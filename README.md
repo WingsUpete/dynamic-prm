@@ -22,3 +22,11 @@ In detail, it examines the following problems:
 1. How to maintain PRM when new obstacles are added to the map, blocking several existing edges.
 2. How to maintain PRM when existing obstacles are deleted from the map, sparing extra free space for motion planning.
 3. (Optional) How to build a road map (like the one in PRM) in an online fashion, in order to amortize the setup time.
+
+## Dynamic PRM
+
+### BVH
+
+Now that obstacles are rounds rather than points, a simple obstacle KD Tree does not give the actual nearest obstacle.
+To avoid brute force collision checking, other data structures should be considered. Here, we choose BVH (Bounding
+Volume Hierarchy).

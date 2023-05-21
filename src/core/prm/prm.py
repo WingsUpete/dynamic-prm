@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial import KDTree
 
 from .shortest_path import dijkstra
+from core.util import plot_circle
 
 __all__ = ['Prm']
 
@@ -17,15 +18,17 @@ class Prm:
     Reference: https://github.com/AtsushiSakai/PythonRobotics/blob/master/PathPlanning/ProbabilisticRoadMap/probabilistic_road_map.py#L195
     """
     def __init__(self,
-                 map_range: list[float], obstacle_xs: list[float], obstacle_ys: list[float],
+                 map_range: list[float],
+                 obstacle_xs: list[float], obstacle_ys: list[float], obstacle_rs: list[float],
                  robot_radius: float,
                  n_samples: int = 500, n_neighbors: int = 10, max_edge_len: float = 30.0,
                  rnd_seed: int = None, rng=None):
         """
         Creates a PRM Solver for a robot to solve path-planning problems.
         :param map_range: the range of the map, as `[min, max]` for both `x` and `y`
-        :param obstacle_xs: list of x coordinates of the point obstacles
-        :param obstacle_ys: list of y coordinates of the point obstacles
+        :param obstacle_xs: list of x coordinates of the round obstacles
+        :param obstacle_ys: list of y coordinates of the round obstacles
+        :param obstacle_rs: list of r as radii of the round obstacles
         :param robot_radius: radius of the circle robot
         :param n_samples: number of points to sample
         :param n_neighbors: number of edges one sample point has
@@ -36,6 +39,7 @@ class Prm:
         self.map_min, self.map_max = map_range
         self.obstacle_x_list = obstacle_xs
         self.obstacle_y_list = obstacle_ys
+        self.obstacle_r_list = obstacle_rs
 
         self.robot_radius = robot_radius
 
@@ -47,8 +51,8 @@ class Prm:
         np.random.seed(self.rnd_seed)
         self.rng = rng
 
-        # kd-tree for obstacles
-        self.obstacle_kd_tree = KDTree(np.vstack((self.obstacle_x_list, self.obstacle_y_list)).T)
+        # # kd-tree for obstacles
+        # self.obstacle_kd_tree = KDTree(np.vstack((self.obstacle_x_list, self.obstacle_y_list)).T)
 
         # sample n points
         self.sample_x, self.sample_y = self.sample_points()
@@ -127,11 +131,15 @@ class Prm:
             tx = self.map_min + (rng.random() * (self.map_max - self.map_min))
             ty = self.map_min + (rng.random() * (self.map_max - self.map_min))
 
-            dist, _ = self.obstacle_kd_tree.query([tx, ty])
-            if dist > self.robot_radius:
-                # will not collide with the nearest obstacle -> feasible sample point
+            if not self.point_collides(x=tx, y=ty):
                 sample_x.append(tx)
                 sample_y.append(ty)
+
+            # dist, _ = self.obstacle_kd_tree.query([tx, ty])
+            # if dist > self.robot_radius:
+            #     # will not collide with the nearest obstacle -> feasible sample point
+            #     sample_x.append(tx)
+            #     sample_y.append(ty)
 
         return sample_x, sample_y
 
@@ -180,7 +188,13 @@ class Prm:
         plt.plot(map_vx_list, map_vy_list, '-k')    # -k = black solid line
 
         # draw obstacles
-        plt.plot(self.obstacle_x_list, self.obstacle_y_list, '.k')  # .k = black points
+        obstacle_color = 'k'   # k = black
+        for oi in range(len(self.obstacle_x_list)):
+            if self.obstacle_r_list[oi] > 0.0:
+                plot_circle(x=self.obstacle_x_list[oi], y=self.obstacle_y_list[oi], r=self.obstacle_r_list[oi],
+                            c=obstacle_color, fill=True)
+            else:
+                plt.plot([self.obstacle_x_list[oi]], [self.obstacle_y_list[oi]], f'.{obstacle_color}')  # . = point
 
         # draw road map
         if road_map is not None:
@@ -275,10 +289,13 @@ class Prm:
         cur_x = from_x
         cur_y = from_y
         for _ in range(n_steps):
-            dist, _ = self.obstacle_kd_tree.query([cur_x, cur_y])
-            if dist <= self.robot_radius:
-                # collide
+            if self.point_collides(x=cur_x, y=cur_y):
                 return False
+
+            # dist, _ = self.obstacle_kd_tree.query([cur_x, cur_y])
+            # if dist <= self.robot_radius:
+            #     # collide
+            #     return False
 
             cur_x += path_resolution * math.cos(theta)
             cur_y += path_resolution * math.sin(theta)
@@ -286,9 +303,28 @@ class Prm:
         if (cur_x != to_x) or (cur_y != to_y):
             # `!(cur_x == to_x and cur_y == to_y)`
             # currently not reaching `to_node`, should also check `to_node` (TODO: maybe not since it is a sample point)
-            dist, _ = self.obstacle_kd_tree.query([to_x, to_y])
-            if dist <= self.robot_radius:
-                # collide
+            if self.point_collides(x=to_x, y=to_y):
                 return False
 
+            # dist, _ = self.obstacle_kd_tree.query([to_x, to_y])
+            # if dist <= self.robot_radius:
+            #     # collide
+            #     return False
+
         return True
+
+    def point_collides(self, x: float, y: float) -> bool:
+        """
+        Checks whether a point collides with any obstacle
+        :param x: x coordinate of the point
+        :param y: y coordinate of the point
+        :return: whether collision happens, return True upon collision
+        """
+        for oi in range(len(self.obstacle_x_list)):
+            cur_ox, cur_oy, cur_or = self.obstacle_x_list[oi], self.obstacle_y_list[oi], self.obstacle_r_list[oi]
+            cur_d, _ = self.cal_dist_n_angle(from_x=x, from_y=y, to_x=cur_ox, to_y=cur_oy)
+            if cur_d <= self.robot_radius + cur_or:
+                # collision!
+                return True
+
+        return False

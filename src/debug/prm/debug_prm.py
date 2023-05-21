@@ -15,9 +15,9 @@ from core.prm import *
 
 
 def gen_map_edge_obstacles(map_range: list[float], robot_radius: float,
-                           shrink_factor: float = 0.9) -> (list[float], list[float]):
+                           shrink_factor: float = 0.9) -> (list[float], list[float], list[float]):
     """
-    Generates obstacles at the edge of the map, ensuring that the robot cannot leave the map.
+    Generates point obstacles at the edge of the map, ensuring that the robot cannot leave the map.
 
     Suppose the obstacle interval (distance between two consecutive obstacles) is `d`, then it requires that `d < 2r`.
     Using a shrink factor `0 << t < 1`, we can write `d <= 2tr`. Now suppose the map range is of `l` length, then the
@@ -25,7 +25,7 @@ def gen_map_edge_obstacles(map_range: list[float], robot_radius: float,
     :param map_range: the range of the map, as `[min, max]` for both `x` and `y` (`max - min = l`)
     :param robot_radius: the radius `r` of the round robot
     :param shrink_factor: how much should the obstacle interval instance be shrunk (`t`) to avoid the robot through
-    :return: generated obstacles as an x coordinate list + a y coordinate list
+    :return: generated obstacles as an x coordinate list + a y coordinate list + a radius list (for all: `r = 0`)
     """
     map_min, map_max = map_range[0], map_range[1]
     map_range_len = map_max - map_min   # l
@@ -56,30 +56,35 @@ def gen_map_edge_obstacles(map_range: list[float], robot_radius: float,
         obstacle_x_list.append(map_min + d_real * i)
         obstacle_y_list.append(map_max)
 
-    return obstacle_x_list, obstacle_y_list
+    return obstacle_x_list, obstacle_y_list, [0 for _ in range(len(obstacle_x_list))]
 
 
 def get_test_problem():
     cur_map_range = [0, 60]
-    cur_robot_radius = 5
+    cur_robot_radius = 3
 
     # obstacles
     mox = []
     moy = []
+    mor = []
     for i in range(40):
         mox.append(20.0)
         moy.append(i)
+        mor.append(2.0)
     for i in range(40):
         mox.append(40.0)
         moy.append(60.0 - i)
-    mrx, mry = gen_map_edge_obstacles(map_range=cur_map_range, robot_radius=cur_robot_radius)
+        mor.append(1.0)
+    mrx, mry, mrr = gen_map_edge_obstacles(map_range=cur_map_range, robot_radius=cur_robot_radius)
     ox = mox + mrx
     oy = moy + mry
+    ors = mor + mrr
 
     return {
         'map_range': cur_map_range,
         'obstacle_xs': ox,
         'obstacle_ys': oy,
+        'obstacle_rs': ors,
         'robot_radius': cur_robot_radius,
         # DEBUG
         # 'rnd_seed': 66666,

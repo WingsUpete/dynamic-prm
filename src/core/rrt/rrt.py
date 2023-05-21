@@ -4,10 +4,8 @@ import time
 from typing import Optional
 
 import matplotlib.pyplot as plt
-from matplotlib.patches import Circle
-import numpy as np
 
-from core.util import Node2D
+from core.util import Node2D, plot_circle
 
 __all__ = ['Rrt', 'RrtNode']
 
@@ -263,7 +261,7 @@ class Rrt:
 
         # draw all obstacles
         for (ox, oy, o_radius) in self.obstacles:
-            self.plot_circle(ox, oy, o_radius, 'k', fill=True)    # -k = black solid line ---> a big black circle
+            plot_circle(ox, oy, o_radius, 'k', fill=True)    # -k = black solid line ---> a big black circle
 
         # draw all paths for nodes in the node list
         for node in self.node_list:
@@ -274,7 +272,7 @@ class Rrt:
         if rnd_node is not None and new_node is not None:
             plt.plot(rnd_node.x, rnd_node.y, '^c')  # ^c = cyan triangle
             if self.robot_radius > 0.0:
-                self.plot_circle(new_node.x, new_node.y, self.robot_radius, 'm', fill=False)   # m = magenta
+                plot_circle(new_node.x, new_node.y, self.robot_radius, 'm', fill=False)   # m = magenta
 
         # draw the specified path
         if path:
@@ -285,23 +283,3 @@ class Rrt:
         plt.plot(self.goal.x, self.goal.y, 'dr')  # dr = red thin_diamond marker
 
         plt.pause(0.01)
-
-    @staticmethod
-    def plot_circle(x: float, y: float, r: float, c: str = 'b', fill: bool = True) -> None:
-        """
-        Draw a large circle of given color.
-        :param x: x position of the circle
-        :param y: y position of the circle
-        :param r: radius of the circle
-        :param c: color
-        :param fill: fill the circle
-        """
-        if fill:
-            filled_circle = Circle((x, y), radius=r, color=c)
-            plt.gca().add_patch(filled_circle)
-        else:
-            deg_list = list(range(0, 360, 5))
-            deg_list.append(0)
-            x_list = [x + r * math.cos(np.deg2rad(d)) for d in deg_list]
-            y_list = [y + r * math.sin(np.deg2rad(d)) for d in deg_list]
-            plt.plot(x_list, y_list, f'-{c}')
