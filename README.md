@@ -25,8 +25,16 @@ In detail, it examines the following problems:
 
 ## Dynamic PRM
 
-### BVH
+### Collision Checking: BVH
 
 Now that obstacles are rounds rather than points, a simple obstacle KD Tree does not give the actual nearest obstacle.
 To avoid brute force collision checking, other data structures should be considered. Here, we choose BVH (Bounding
 Volume Hierarchy).
+
+### New Obstacles Blocking Existing Edges
+
+xxx
+
+### Existing Obstacles Deleted
+
+xxx

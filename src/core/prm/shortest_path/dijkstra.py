@@ -22,12 +22,6 @@ class DijkstraNode(Node2D):
         self.cost = cost
         self.parent_id = parent_id
 
-    def __str__(self):
-        return f'({self.x}, {self.y}, p={self.parent_id})'
-
-    def __repr__(self):
-        return f'<{self.__class__.__name__} {self.node_id}: ({self.x}, {self.y}, p={self.parent_id})>'
-
 
 def dijkstra(sample_x: list[float], sample_y: list[float], road_map: list[list[int]],
              start_id: int, end_id: int,
