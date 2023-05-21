@@ -41,12 +41,6 @@ class Node2D:
     def euclidean_distance(self, other: Node2D) -> float:
         return self.euclidean_squared_distance(other=other)**0.5
 
-    def __eq__(self, other):
-        if (self.x == other.x) and (self.y == other.y):
-            return True
-        else:
-            return False
-
     def __str__(self):
         return f'({self.x}, {self.y})'
 
