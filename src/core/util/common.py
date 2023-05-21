@@ -185,3 +185,6 @@ class ObstacleDict:
 
     def __str__(self):
         return self._o_dict.__str__()
+
+    def __repr__(self):
+        return self._o_dict.__repr__()
