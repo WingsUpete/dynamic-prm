@@ -1,5 +1,6 @@
 import math
 from typing import Optional
+import time
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -36,6 +37,18 @@ class Prm:
         :param rnd_seed: random seed for sampler
         :param rng: specifies a random generator to use
         """
+        # global timer: sec (unit)
+        self.global_timer = {
+            'sampling': 0.0,
+            'edge_construction': 0.0,
+            'collision_checking': {
+                'n': 0,
+                'total': 0.0,
+                'max': float('-inf')
+            },
+        }
+        self.query_timer: Optional[dict] = None
+
         self.map_min, self.map_max = map_range
         self.obstacle_x_list = obstacle_xs
         self.obstacle_y_list = obstacle_ys
@@ -57,6 +70,46 @@ class Prm:
         # construct edges for road map
         self.construct_road_map_edges()
 
+        # timer info
+        self.postproc_timers()
+
+    def reset_query_timer(self) -> None:
+        """
+        Resets the timer for a specific query
+        :return:
+        """
+        self.query_timer = {
+            'shortest_path': 0.0,
+        }
+
+    @staticmethod
+    def record_time(timer: dict, metric: str, val: float) -> None:
+        """
+        Records measured time in the timer
+        :param timer: global timer or query timer
+        :param metric: metric as key to record this value
+        :param val: the value to be recorded
+        """
+        if timer is None:
+            return
+        if metric in {'collision_checking'}:
+            timer[metric]['n'] += 1
+            timer[metric]['total'] += val
+            timer[metric]['max'] = max(timer[metric]['max'], val)
+        else:
+            timer[metric] = val
+
+    def postproc_timers(self) -> None:
+        """
+        Postprocesses timer info, like calculating average.
+        """
+        for timer in [self.global_timer, self.query_timer]:
+            if timer is None:
+                continue
+            for metric in timer:
+                if metric in {'collision_checking'}:
+                    timer[metric]['avg'] = timer[metric]['total'] / timer[metric]['n']
+
     def plan(self, start: list[float], goal: list[float],
              animation: bool = True) -> (Optional[list[list[float]]], float):
         """
@@ -67,41 +120,47 @@ class Prm:
         :param animation: enables animation or not
         :return: found feasible path as an ordered list of 2D points, or None if not found + path cost
         """
-        if animation:
-            # for stopping simulation with the esc key.
-            plt.gcf().canvas.mpl_connect(
-                'key_release_event',
-                lambda event: [exit(0) if event.key == 'escape' else None]
-            )
-            self.draw_graph(start=start, goal=goal, road_map=self.road_map)
+        self.reset_query_timer()
+        try:
+            if animation:
+                # for stopping simulation with the esc key.
+                plt.gcf().canvas.mpl_connect(
+                    'key_release_event',
+                    lambda event: [exit(0) if event.key == 'escape' else None]
+                )
+                self.draw_graph(start=start, goal=goal, road_map=self.road_map)
 
-        if self.point_collides(x=start[0], y=start[1]) or self.point_collides(x=goal[0], y=goal[1]):
-            # query points collide! No solution
-            return None, -1
+            if self.point_collides(x=start[0], y=start[1]) or self.point_collides(x=goal[0], y=goal[1]):
+                # query points collide! No solution
+                return None, -1
 
-        start_sample_node = self.get_nearest_feasible_sample_node(point_x=start[0], point_y=start[1], from_point=True)
-        if start_sample_node is None:
-            return None, -1
+            start_sample_node = self.get_nearest_feasible_sample_node(point_x=start[0], point_y=start[1], from_point=True)
+            if start_sample_node is None:
+                return None, -1
 
-        end_sample_node = self.get_nearest_feasible_sample_node(point_x=goal[0], point_y=goal[1], from_point=False)
-        if end_sample_node is None:
-            return None, -1
+            end_sample_node = self.get_nearest_feasible_sample_node(point_x=goal[0], point_y=goal[1], from_point=False)
+            if end_sample_node is None:
+                return None, -1
 
-        path, cost = dijkstra(road_map=self.road_map,
-                              start_uid=start_sample_node.node_uid, end_uid=end_sample_node.node_uid,
-                              animation=animation)
+            t0 = time.time()
+            path, cost = dijkstra(road_map=self.road_map,
+                                  start_uid=start_sample_node.node_uid, end_uid=end_sample_node.node_uid,
+                                  animation=animation)
+            self.record_time(timer=self.query_timer, metric='shortest_path', val=(time.time() - t0))
 
-        if path is None:
-            return None, -1
+            if path is None:
+                return None, -1
 
-        # Add paths and costs between the real start & end/goal point and the nearest feasible sample points
-        path = [start] + path + [goal]
-        cost += self.cal_dist_n_angle(from_x=start[0], from_y=start[1],
-                                      to_x=start_sample_node.x, to_y=start_sample_node.y)[0]
-        cost += self.cal_dist_n_angle(from_x=end_sample_node.x, from_y=end_sample_node.y,
-                                      to_x=goal[0], to_y=goal[1])[0]
+            # Add paths and costs between the real start & end/goal point and the nearest feasible sample points
+            path = [start] + path + [goal]
+            cost += self.cal_dist_n_angle(from_x=start[0], from_y=start[1],
+                                          to_x=start_sample_node.x, to_y=start_sample_node.y)[0]
+            cost += self.cal_dist_n_angle(from_x=end_sample_node.x, from_y=end_sample_node.y,
+                                          to_x=goal[0], to_y=goal[1])[0]
 
-        return path, cost
+            return path, cost
+        finally:
+            self.postproc_timers()
 
     def get_nearest_feasible_sample_node(self, point_x: float, point_y: float,
                                          from_point: bool) -> Optional[RoadMapNode]:
@@ -138,6 +197,7 @@ class Prm:
         Samples n feasible points that do not collide with the obstacles
         :return: an initialized road map as ordered dictionary, storing the coordinates of all sampled points
         """
+        t0 = time.time()
         rmp = RoadMap()
         rng = np.random.default_rng() if self.rng is None else self.rng
         while len(rmp) != self.n_samples:
@@ -148,6 +208,7 @@ class Prm:
                 t_node = RoadMapNode(x=tx, y=ty)
                 rmp.add_node(node=t_node)
 
+        self.record_time(timer=self.global_timer, metric='sampling', val=(time.time() - t0))
         return rmp
 
     def draw_graph(self,
@@ -251,6 +312,7 @@ class Prm:
         """
         Constructs edges for the road map using the sample points
         """
+        t0 = time.time()
         for (ix, iy, i_uid) in zip(self.road_map.sample_x(), self.road_map.sample_y(), self.road_map.sample_uid()):
             # sort distances from near to far
             _, indices = self.road_map.get_knn(point=[ix, iy], k=len(self.road_map))
@@ -270,6 +332,8 @@ class Prm:
                     n_new_edges_added += 1
                     if n_new_edges_added == self.n_neighbors:
                         break
+
+        self.record_time(timer=self.global_timer, metric='edge_construction', val=(time.time() - t0))
 
     def pass_collision_check(self,
                              from_x: float, from_y: float,
@@ -311,11 +375,16 @@ class Prm:
         :param y: y coordinate of the point
         :return: whether collision happens, return True upon collision
         """
-        for oi in range(len(self.obstacle_x_list)):
-            cur_ox, cur_oy, cur_or = self.obstacle_x_list[oi], self.obstacle_y_list[oi], self.obstacle_r_list[oi]
-            cur_d, _ = self.cal_dist_n_angle(from_x=x, from_y=y, to_x=cur_ox, to_y=cur_oy)
-            if cur_d <= self.robot_radius + cur_or:
-                # collision!
-                return True
+        t0 = time.time()
+        try:
+            for oi in range(len(self.obstacle_x_list)):
+                cur_ox, cur_oy, cur_or = self.obstacle_x_list[oi], self.obstacle_y_list[oi], self.obstacle_r_list[oi]
+                cur_d, _ = self.cal_dist_n_angle(from_x=x, from_y=y, to_x=cur_ox, to_y=cur_oy)
+                if cur_d <= self.robot_radius + cur_or:
+                    # collision!
+                    return True
 
-        return False
+            return False
+        finally:
+            delta_t = time.time() - t0
+            self.record_time(timer=self.global_timer, metric='collision_checking', val=delta_t)
