@@ -72,12 +72,26 @@ class Prm:
         :return: found feasible path as an ordered list of 2D points, or None if not found + path cost
         """
         if animation:
+            # for stopping simulation with the esc key.
+            plt.gcf().canvas.mpl_connect(
+                'key_release_event',
+                lambda event: [exit(0) if event.key == 'escape' else None]
+            )
             self.draw_graph(start=start, goal=goal,
                             sample_point_x_list=self.sample_x, sample_point_y_list=self.sample_y,
                             road_map=self.road_map)
 
+        if self.point_collides(x=start[0], y=start[1]) or self.point_collides(x=goal[0], y=goal[1]):
+            # query points collide! No solution
+            return None, -1
+
         start_sample_id = self.get_nearest_feasible_sample_point_id(point_x=start[0], point_y=start[1], from_point=True)
+        if start_sample_id == -1:
+            return None, -1
+
         end_sample_id = self.get_nearest_feasible_sample_point_id(point_x=goal[0], point_y=goal[1], from_point=False)
+        if end_sample_id == -1:
+            return None, -1
 
         path, cost = dijkstra(sample_x=self.sample_x, sample_y=self.sample_y, road_map=self.road_map,
                               start_id=start_sample_id, end_id=end_sample_id, animation=animation)
@@ -100,7 +114,7 @@ class Prm:
         :param point_x: x coordinate of the given point
         :param point_y: y coordinate of the given point
         :param from_point: specifies the direction (if True, from this point to sample point; otherwise reverse)
-        :return: id of the nearest feasible sample point
+        :return: id of the nearest feasible sample point, or -1 if not found
         """
         # sort distances from near to far
         dists, indices = self.sample_kd_tree.query([point_x, point_y], k=self.n_samples)
@@ -119,6 +133,9 @@ class Prm:
                                                                       to_x=to_x, to_y=to_y):
                 # found nearest feasible sample point
                 return cur_sample_id
+
+        # no feasible sample point
+        return -1
 
     def sample_points(self) -> (list[float], list[float]):
         """

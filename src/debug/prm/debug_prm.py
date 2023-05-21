@@ -2,6 +2,7 @@ import os
 import sys
 sys.path.append(os.path.join(os.getcwd(), '../../'))  # load core
 import math
+import random
 
 import logging
 
@@ -61,7 +62,12 @@ def gen_map_edge_obstacles(map_range: list[float], robot_radius: float,
 
 def get_test_problem():
     cur_map_range = [0, 60]
-    cur_robot_radius = 3
+    cur_robot_radius = 2
+    # cur_seed = 666666
+    cur_seed = None
+    if cur_seed:
+        random.seed(cur_seed)
+    max_or = 6
 
     # obstacles
     mox = []
@@ -70,11 +76,11 @@ def get_test_problem():
     for i in range(40):
         mox.append(20.0)
         moy.append(i)
-        mor.append(2.0)
+        mor.append(random.uniform(0, max_or))
     for i in range(40):
         mox.append(40.0)
         moy.append(60.0 - i)
-        mor.append(1.0)
+        mor.append(random.uniform(0, max_or))
     mrx, mry, mrr = gen_map_edge_obstacles(map_range=cur_map_range, robot_radius=cur_robot_radius)
     ox = mox + mrx
     oy = moy + mry
@@ -87,7 +93,7 @@ def get_test_problem():
         'obstacle_rs': ors,
         'robot_radius': cur_robot_radius,
         # DEBUG
-        # 'rnd_seed': 66666,
+        'rnd_seed': cur_seed,
         # 'n_samples': 100
     }, {
         'start': [10, 10],
@@ -118,6 +124,9 @@ def test_prm(show_map=False, animation=True):
 
     if my_path is None:
         logger.info('Cannot find path.')
+        # see what happens
+        if animation:
+            plt.show()
     else:
         logger.info('Found path! Path cost = %.4f' % my_path_cost)
         logger.info('Path is as follows:\n%s' % my_path)
