@@ -65,7 +65,7 @@ def get_test_problem():
     cur_map_range = [0, 60]
     cur_robot_radius = 2
     cur_seed = None
-    cur_seed = 666666
+    # cur_seed = 666666
     random.seed(cur_seed)
     max_or = 6
 
