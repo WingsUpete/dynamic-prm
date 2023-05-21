@@ -108,7 +108,7 @@ class RoadMap:
 
     def _update_dependent_vars(self) -> None:
         """
-        Updates the coordinate lists `sample_x` and `sample_y`.
+        Updates the variables dependent on the road map.
         """
         self._sample_x = [node.x for node in self.get().values()]
         self._sample_y = [node.y for node in self.get().values()]
