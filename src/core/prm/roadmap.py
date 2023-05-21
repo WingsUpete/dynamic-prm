@@ -46,7 +46,7 @@ class RoadMap:
         # kd tree for sample points
         self._kd_tree: Optional[KDTree] = None
 
-        # if road map modified, need to update `sample_uid`, `sample_x` and `sample_y`
+        # if road map modified, need to update other variables
         self._modified = True
 
     def get(self):
