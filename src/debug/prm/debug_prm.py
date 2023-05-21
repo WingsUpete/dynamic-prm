@@ -3,6 +3,7 @@ import sys
 sys.path.append(os.path.join(os.getcwd(), '../../'))  # load core
 import math
 import random
+import time
 
 import logging
 
@@ -63,10 +64,9 @@ def gen_map_edge_obstacles(map_range: list[float], robot_radius: float,
 def get_test_problem():
     cur_map_range = [0, 60]
     cur_robot_radius = 2
-    # cur_seed = 666666
     cur_seed = None
-    if cur_seed:
-        random.seed(cur_seed)
+    # cur_seed = 666666
+    random.seed(cur_seed)
     max_or = 6
 
     # obstacles
@@ -109,7 +109,9 @@ def test_prm(show_map=False, animation=True):
 
     # Create the RRT solver
     logger.info('Initializing the PRM solver...')
+    t0 = time.time()
     my_prm = Prm(**test_problem)
+    logger.info('PRM setup uses %f sec.' % (time.time() - t0))
 
     # print map
     if show_map:
@@ -119,8 +121,13 @@ def test_prm(show_map=False, animation=True):
     # Solve the problem
     logger.info('Start planning...')
     test_query['animation'] = animation
+    t1 = time.time()
     my_path, my_path_cost = my_prm.plan(**test_query)
-    logger.info('Finish planning.')
+    logger.info('Finish planning using %f sec.' % (time.time() - t1))
+
+    # Timer info
+    logger.info('Global PRM timer:\n%s' % my_prm.global_timer)
+    logger.info('Query timer:\n%s' % my_prm.query_timer)
 
     if my_path is None:
         logger.info('Cannot find path.')
@@ -134,7 +141,6 @@ def test_prm(show_map=False, animation=True):
         # draw path
         if animation:
             my_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
-                              sample_point_x_list=my_prm.sample_x, sample_point_y_list=my_prm.sample_y,
                               road_map=my_prm.road_map, path=my_path)
             plt.show()
 

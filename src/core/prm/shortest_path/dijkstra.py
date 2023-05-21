@@ -2,6 +2,7 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 
+from core.prm import RoadMap
 from core.util import Node2D
 
 __all__ = ['dijkstra']
@@ -9,33 +10,29 @@ __all__ = ['dijkstra']
 
 class DijkstraNode(Node2D):
     """ Node class for Dijkstra """
-    def __init__(self, x: float, y: float, cost: float = 0, parent_id: int = -1):
+    def __init__(self, x: float, y: float, cost: float = 0, parent_uid: str = None):
         """
         Node class for Dijkstra.
         :param x: x coordinate
         :param y: y coordinate
         :param cost: cost from start to here
-        :param parent_id: ID of parent node
+        :param parent_uid: uid of parent node
         """
-        # 2D Coordinates (float) & My Node ID (str)
         super().__init__(x=x, y=y)
         self.cost = cost
-        self.parent_id = parent_id
+        self.parent_uid = parent_uid
 
 
-def dijkstra(sample_x: list[float], sample_y: list[float], road_map: list[list[int]],
-             start_id: int, end_id: int,
+def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
              animation: bool = True, animate_interval: int = 2) -> (Optional[list[list[float]]], float):
     """
     Runs Dijkstra algorithm to find the shortest path from starting point to end point, given the sample points + road
     map from PRM solver. Note that both starting point and end point are sample points.
 
     Reference: https://github.com/AtsushiSakai/PythonRobotics/blob/master/PathPlanning/ProbabilisticRoadMap/probabilistic_road_map.py#L136
-    :param sample_x: x coordinate list of the sample points
-    :param sample_y: y coordinate list of the sample points
     :param road_map: road map specifying the edges formed among the sample points
-    :param start_id: id of the starting sample point
-    :param end_id: id of the end sample point
+    :param start_uid: uid of the starting sample point
+    :param end_uid: uid of the end sample point
     :param animation: enables animation or not
     :param animate_interval: specifies how frequent (every x new points added to closed set) should the searched
     points be rendered
@@ -48,18 +45,19 @@ def dijkstra(sample_x: list[float], sample_y: list[float], road_map: list[list[i
             lambda event: [exit(0) if event.key == 'escape' else None]
         )
 
-    start_node = DijkstraNode(x=sample_x[start_id], y=sample_y[start_id], cost=0)
+    start_road_map_node = road_map.get()[start_uid]
+    start_node = DijkstraNode(x=start_road_map_node.x, y=start_road_map_node.y, cost=0)
 
     open_set, closed_set = {}, {}
-    open_set[start_id] = start_node     # id -> node
+    open_set[start_uid] = start_node     # uid -> node
 
     while True:
         if not open_set:
             return None, -1
 
         # pick the node from the open set with the smallest cost
-        cur_node_id: int = min(open_set, key=lambda nid: open_set[nid].cost)
-        current_node = open_set[cur_node_id]
+        cur_node_uid: str = min(open_set, key=lambda n_uid: open_set[n_uid].cost)
+        current_node = open_set[cur_node_uid]
 
         # animate searched points
         if animation and len(closed_set) % animate_interval == 0:
@@ -67,17 +65,17 @@ def dijkstra(sample_x: list[float], sample_y: list[float], road_map: list[list[i
             plt.pause(0.001)
 
         # goal check
-        if cur_node_id == end_id:
+        if cur_node_uid == end_uid:
             # Get final path and calculate cost
             path = []
             cost = 0.0
             cur_node: DijkstraNode = current_node
             while True:
                 path.append([cur_node.x, cur_node.y])
-                if cur_node.parent_id == -1:
+                if cur_node.parent_uid is None:
                     break
 
-                parent_node: DijkstraNode = closed_set[cur_node.parent_id]
+                parent_node: DijkstraNode = closed_set[cur_node.parent_uid]
                 cost += parent_node.euclidean_distance(other=cur_node)
                 cur_node = parent_node
 
@@ -85,26 +83,27 @@ def dijkstra(sample_x: list[float], sample_y: list[float], road_map: list[list[i
             return path, cost
 
         # Move current node from open set to closed set
-        del open_set[cur_node_id]
-        closed_set[cur_node_id] = current_node
+        del open_set[cur_node_uid]
+        closed_set[cur_node_uid] = current_node
 
-        # Search and update neighbors
-        for neighbor_node_id in road_map[cur_node_id]:
-            if neighbor_node_id in closed_set:
+        # Search and update neighbors=
+        for neighbor_node_uid in road_map.get()[cur_node_uid].to_node_uid_set:
+            if neighbor_node_uid in closed_set:
                 # already examined, skip
                 continue
 
-            neighbor_node = DijkstraNode(x=sample_x[neighbor_node_id], y=sample_y[neighbor_node_id])
+            neighbor_road_map_node = road_map.get()[neighbor_node_uid]
+            neighbor_node = DijkstraNode(x=neighbor_road_map_node.x, y=neighbor_road_map_node.y)
             d = current_node.euclidean_distance(other=neighbor_node)
             neighbor_node.cost = current_node.cost + d
-            neighbor_node.parent_id = cur_node_id
+            neighbor_node.parent_uid = cur_node_uid
 
-            if neighbor_node_id in open_set:
+            if neighbor_node_uid in open_set:
                 # already visited but not yet examined
-                if neighbor_node.cost < open_set[neighbor_node_id].cost:
+                if neighbor_node.cost < open_set[neighbor_node_uid].cost:
                     # smaller cost, replace the cost of that node in the open set
-                    open_set[neighbor_node_id].cost = neighbor_node.cost
-                    open_set[neighbor_node_id].parent_id = cur_node_id
+                    open_set[neighbor_node_uid].cost = neighbor_node.cost
+                    open_set[neighbor_node_uid].parent_uid = neighbor_node.parent_uid
             else:
                 # not yet visited, add it to the open set
-                open_set[neighbor_node_id] = neighbor_node
+                open_set[neighbor_node_uid] = neighbor_node
