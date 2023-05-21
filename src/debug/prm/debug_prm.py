@@ -4,6 +4,7 @@ sys.path.append(os.path.join(os.getcwd(), '../../'))  # load core
 import math
 import random
 import time
+from typing import Optional
 
 import logging
 
@@ -14,10 +15,12 @@ logger.info('Initializing...')
 import matplotlib.pyplot as plt
 
 from core.prm import *
+from core.util import *
 
 
 def gen_map_edge_obstacles(map_range: list[float], robot_radius: float,
-                           shrink_factor: float = 0.9) -> (list[float], list[float], list[float]):
+                           obstacle_dict: Optional[ObstacleDict] = None,
+                           shrink_factor: float = 0.9) -> ObstacleDict:
     """
     Generates point obstacles at the edge of the map, ensuring that the robot cannot leave the map.
 
@@ -26,39 +29,43 @@ def gen_map_edge_obstacles(map_range: list[float], robot_radius: float,
     number of obstacles we have to place is `n = l/d + 1 >= l/2tr + 1`, which leads to `n = ceil(l/2tr) + 1`.
     :param map_range: the range of the map, as `[min, max]` for both `x` and `y` (`max - min = l`)
     :param robot_radius: the radius `r` of the round robot
+    :param obstacle_dict: obstacle dict to append obstacles to (if None, create an obstacle dict from scratch)
     :param shrink_factor: how much should the obstacle interval instance be shrunk (`t`) to avoid the robot through
     :return: generated obstacles as an x coordinate list + a y coordinate list + a radius list (for all: `r = 0`)
     """
+    if obstacle_dict is None:
+        obstacle_dict = ObstacleDict()
+
+    uid_prefix = 'map_edge'
+    o_r = 0
+
     map_min, map_max = map_range[0], map_range[1]
     map_range_len = map_max - map_min   # l
     n_gaps = math.ceil(map_range_len / (2 * shrink_factor * robot_radius))
     d_real = map_range_len / n_gaps
     n_obstacles = n_gaps + 1
 
-    obstacle_x_list = []
-    obstacle_y_list = []
-
     # bottem edge
     for i in range(n_obstacles):
-        obstacle_x_list.append(map_min + d_real * i)
-        obstacle_y_list.append(map_min)
+        cur_o = RoundObstacle(x=map_min + d_real * i, y=map_min, r=o_r, obstacle_type=ObstacleType.MAP_EDGE)
+        obstacle_dict.add_obstacle(obstacle=cur_o)
 
     # left edge: bottom one already added, so skip it
     for i in range(1, n_obstacles):
-        obstacle_x_list.append(map_min)
-        obstacle_y_list.append(map_min + d_real * i)
+        cur_o = RoundObstacle(x=map_min, y=map_min + d_real * i, r=o_r, obstacle_type=ObstacleType.MAP_EDGE)
+        obstacle_dict.add_obstacle(obstacle=cur_o)
 
     # right edge: bottom one already added, so skip it
     for i in range(1, n_obstacles):
-        obstacle_x_list.append(map_max)
-        obstacle_y_list.append(map_min + d_real * i)
+        cur_o = RoundObstacle(x=map_max, y=map_min + d_real * i, r=o_r, obstacle_type=ObstacleType.MAP_EDGE)
+        obstacle_dict.add_obstacle(obstacle=cur_o)
 
     # top edge: left & right ones already added, so skip both of them
     for i in range(1, n_obstacles - 1):
-        obstacle_x_list.append(map_min + d_real * i)
-        obstacle_y_list.append(map_max)
+        cur_o = RoundObstacle(x=map_min + d_real * i, y=map_max, r=o_r, obstacle_type=ObstacleType.MAP_EDGE)
+        obstacle_dict.add_obstacle(obstacle=cur_o)
 
-    return obstacle_x_list, obstacle_y_list, [0 for _ in range(len(obstacle_x_list))]
+    return obstacle_dict
 
 
 def get_test_problem():
@@ -70,27 +77,17 @@ def get_test_problem():
     max_or = 6
 
     # obstacles
-    mox = []
-    moy = []
-    mor = []
+    o_dict = gen_map_edge_obstacles(map_range=cur_map_range, robot_radius=cur_robot_radius)
     for i in range(40):
-        mox.append(20.0)
-        moy.append(i)
-        mor.append(random.uniform(0, max_or))
+        cur_o = RoundObstacle(x=20.0, y=i, r=random.uniform(0, max_or), obstacle_type=ObstacleType.NORMAL)
+        o_dict.add_obstacle(obstacle=cur_o)
     for i in range(40):
-        mox.append(40.0)
-        moy.append(60.0 - i)
-        mor.append(random.uniform(0, max_or))
-    mrx, mry, mrr = gen_map_edge_obstacles(map_range=cur_map_range, robot_radius=cur_robot_radius)
-    ox = mox + mrx
-    oy = moy + mry
-    ors = mor + mrr
+        cur_o = RoundObstacle(x=40.0, y=60.0 - i, r=random.uniform(0, max_or), obstacle_type=ObstacleType.NORMAL)
+        o_dict.add_obstacle(obstacle=cur_o)
 
     return {
         'map_range': cur_map_range,
-        'obstacle_xs': ox,
-        'obstacle_ys': oy,
-        'obstacle_rs': ors,
+        'obstacles': o_dict,
         'robot_radius': cur_robot_radius,
         # DEBUG
         'rnd_seed': cur_seed,

@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from .roadmap import RoadMapNode, RoadMap
 from .shortest_path import dijkstra
-from core.util import plot_circle
+from core.util import plot_circle, ObstacleDict
 
 __all__ = ['Prm']
 
@@ -20,16 +20,14 @@ class Prm:
     """
     def __init__(self,
                  map_range: list[float],
-                 obstacle_xs: list[float], obstacle_ys: list[float], obstacle_rs: list[float],
+                 obstacles: ObstacleDict,
                  robot_radius: float,
                  init_n_samples: int = 500, init_n_neighbors: int = 10, max_edge_len: float = 30.0,
                  rnd_seed: int = None, rng=None):
         """
         Creates a PRM Solver for a robot to solve path-planning problems.
         :param map_range: the range of the map, as `[min, max]` for both `x` and `y`
-        :param obstacle_xs: list of x coordinates of the round obstacles
-        :param obstacle_ys: list of y coordinates of the round obstacles
-        :param obstacle_rs: list of r as radii of the round obstacles
+        :param obstacles: ordered dict of round obstacles
         :param robot_radius: radius of the circle robot
         :param init_n_samples: initial number of points to sample
         :param init_n_neighbors: initial number of edges one sample point has
@@ -50,9 +48,7 @@ class Prm:
         self.query_timer: Optional[dict] = None
 
         self.map_min, self.map_max = map_range
-        self.obstacle_x_list = obstacle_xs
-        self.obstacle_y_list = obstacle_ys
-        self.obstacle_r_list = obstacle_rs
+        self.obstacles = obstacles
 
         self.robot_radius = robot_radius
 
@@ -251,12 +247,11 @@ class Prm:
 
         # draw obstacles
         obstacle_color = 'k'   # k = black
-        for oi in range(len(self.obstacle_x_list)):
-            if self.obstacle_r_list[oi] > 0.0:
-                plot_circle(x=self.obstacle_x_list[oi], y=self.obstacle_y_list[oi], r=self.obstacle_r_list[oi],
-                            c=obstacle_color, fill=True)
+        for (ox, oy, o_radius) in zip(self.obstacles.o_x(), self.obstacles.o_y(), self.obstacles.o_r()):
+            if o_radius > 0.0:
+                plot_circle(x=ox, y=oy, r=o_radius, c=obstacle_color, fill=True)
             else:
-                plt.plot([self.obstacle_x_list[oi]], [self.obstacle_y_list[oi]], f'.{obstacle_color}')  # . = point
+                plt.plot([ox], [oy], f'.{obstacle_color}')  # . = point
 
         # draw road map
         if road_map is not None:
@@ -347,10 +342,9 @@ class Prm:
         """
         t0 = time.time()
         try:
-            for oi in range(len(self.obstacle_x_list)):
-                cur_ox, cur_oy, cur_or = self.obstacle_x_list[oi], self.obstacle_y_list[oi], self.obstacle_r_list[oi]
-                cur_d, _ = self._cal_dist_n_angle(from_x=x, from_y=y, to_x=cur_ox, to_y=cur_oy)
-                if cur_d <= self.robot_radius + cur_or:
+            for (ox, oy, o_radius) in zip(self.obstacles.o_x(), self.obstacles.o_y(), self.obstacles.o_r()):
+                cur_d, _ = self._cal_dist_n_angle(from_x=x, from_y=y, to_x=ox, to_y=oy)
+                if cur_d <= self.robot_radius + o_radius:
                     # collision!
                     return True
 
