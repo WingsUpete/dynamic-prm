@@ -1,4 +1,23 @@
-# prm-rrt-upgrade
-Enhancing existing sampling-based motion planning methods, specifically PRM and RRT.
+# An Exploration into PRM Maintenance in Dynamic 2D Environment
+Studies how to maintain PRM algorithm in dynamic 2D (two-dimensional) environment, where obstacles 
+occasionally get added to/deleted from the map.
 
-More details go in later.
+This is a course project (_EE5058 - Introduction to Information Technology_) in SUSTech, which features on enhancing 
+existing sampling-based motion planning methods, specifically PRM and RRT. The author is purely a rookie in the area
+of Sampling-based Motion Planning. Therefore, it is suggested to carefully examine the content and code before using.
+
+## Introduction
+
+### Assumption
+
+This project assumes the following statements:
+1. The robot operates on a 2D rectangle map, and is not expected to leave the map range.
+2. This project utilizes _[PythonRobotics](https://github.com/AtsushiSakai/PythonRobotics)_ and considers the robot 
+as well as the obstacles as rounds (represented as `(x, y, r)`).
+
+### Problems to Examine
+
+In detail, it examines the following problems:
+1. How to maintain PRM when new obstacles are added to the map, blocking several existing edges.
+2. How to maintain PRM when existing obstacles are deleted from the map, sparing extra free space for motion planning.
+3. (Optional) How to build a road map (like the one in PRM) in an online fashion, in order to amortize the setup time.
