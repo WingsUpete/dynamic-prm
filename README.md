@@ -11,7 +11,8 @@ of Sampling-based Motion Planning. Therefore, it is suggested to carefully exami
 ### Assumption
 
 This project assumes the following statements:
-1. The robot operates on a 2D rectangle map, and is not expected to leave the map range.
+1. The robot operates on a 2D rectangle map, and is not expected to leave the map range. To simplify, the edge of the
+map is surrounded by 1-unit point obstacles.
 2. This project utilizes _[PythonRobotics](https://github.com/AtsushiSakai/PythonRobotics)_ and considers the robot 
 as well as the obstacles as rounds (represented as `(x, y, r)`).
 

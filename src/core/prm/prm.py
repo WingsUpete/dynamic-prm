@@ -146,13 +146,15 @@ class Prm:
 
         1. Obstacles: black points
 
-        2. Starting point: red triangle
+        2. Map range: black lines
 
-        3. Goal point: red thin_diamond marker
+        3. Starting point: red triangle
 
-        4. Sample points: cyan points
+        4. Goal point: red thin_diamond marker
 
-        5. Specified path: magenta solid line
+        5. Sample points: cyan points
+
+        6. Specified path: magenta solid line
 
         :param start: starting position of a query
         :param goal: goal position of a query
@@ -169,6 +171,13 @@ class Prm:
         plt.xlim([self.map_min - padding, self.map_max + padding])
         plt.ylim([self.map_min - padding, self.map_max + padding])
         plt.grid(False)
+
+        # draw map range: starting from left bottom, go counter-clockwise
+        map_vx_list = [self.map_min, self.map_max, self.map_max, self.map_min]
+        map_vy_list = [self.map_min, self.map_min, self.map_max, self.map_max]
+        map_vx_list.append(map_vx_list[0])
+        map_vy_list.append(map_vy_list[0])
+        plt.plot(map_vx_list, map_vy_list, '-k')    # -k = black solid line
 
         # draw obstacles
         plt.plot(self.obstacle_x_list, self.obstacle_y_list, '.k')  # .k = black points
