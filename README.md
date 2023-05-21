@@ -2,7 +2,7 @@
 Studies how to maintain PRM algorithm in dynamic 2D (two-dimensional) environment, where obstacles 
 occasionally get added to/deleted from the map.
 
-This is a course project (_EE5058 - Introduction to Information Technology_) in SUSTech, which features on enhancing 
+This is a course project (_EE5058 - Introduction to Information Technology, Spring 2023_) in SUSTech, which features on enhancing 
 existing sampling-based motion planning methods, specifically PRM and RRT. The author is purely a rookie in the area
 of Sampling-based Motion Planning. Therefore, it is suggested to carefully examine the content and code before using.
 
