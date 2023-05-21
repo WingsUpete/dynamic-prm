@@ -22,7 +22,7 @@ class Prm:
                  map_range: list[float],
                  obstacle_xs: list[float], obstacle_ys: list[float], obstacle_rs: list[float],
                  robot_radius: float,
-                 n_samples: int = 500, n_neighbors: int = 10, max_edge_len: float = 30.0,
+                 init_n_samples: int = 500, init_n_neighbors: int = 10, max_edge_len: float = 30.0,
                  rnd_seed: int = None, rng=None):
         """
         Creates a PRM Solver for a robot to solve path-planning problems.
@@ -31,8 +31,8 @@ class Prm:
         :param obstacle_ys: list of y coordinates of the round obstacles
         :param obstacle_rs: list of r as radii of the round obstacles
         :param robot_radius: radius of the circle robot
-        :param n_samples: number of points to sample
-        :param n_neighbors: number of edges one sample point has
+        :param init_n_samples: initial number of points to sample
+        :param init_n_neighbors: initial number of edges one sample point has
         :param max_edge_len: maximum edge length
         :param rnd_seed: random seed for sampler
         :param rng: specifies a random generator to use
@@ -56,8 +56,6 @@ class Prm:
 
         self.robot_radius = robot_radius
 
-        self.n_samples = n_samples
-        self.n_neighbors = n_neighbors
         self.max_edge_len = max_edge_len
 
         self.rnd_seed = rnd_seed
@@ -66,7 +64,7 @@ class Prm:
 
         # build road map
         self.road_map: Optional[RoadMap] = None
-        self._construct_road_map()
+        self._construct_road_map(n_samples=init_n_samples, n_neighbors=init_n_neighbors)
 
         # timer info
         self._postproc_timers()
@@ -153,21 +151,25 @@ class Prm:
         # no feasible sample point
         return None
 
-    def _construct_road_map(self):
+    def _construct_road_map(self, n_samples: int, n_neighbors: int):
         """
         Constructs the road map (nodes + edges).
+        :param n_samples: initial number of points to sample
+        :param n_neighbors: initial number of edges one sample point has
         """
-        self._sample_points()
-        self._construct_road_map_edges()
+        self._sample_points(n_samples=n_samples)
+        self._construct_road_map_edges(n_neighbors=n_neighbors)
 
-    def _sample_points(self) -> None:
+    def _sample_points(self, n_samples: int) -> None:
         """
-        Samples n feasible points that do not collide with the obstacles, stores into a road map
+        Samples n feasible points that do not collide with the obstacles, stores into a road map.
+        :param n_samples: number of points to sample
+        :return:
         """
         t0 = time.time()
         rmp = RoadMap()
         rng = np.random.default_rng() if self.rng is None else self.rng
-        while len(rmp) != self.n_samples:
+        while len(rmp) != n_samples:
             tx = self.map_min + (rng.random() * (self.map_max - self.map_min))
             ty = self.map_min + (rng.random() * (self.map_max - self.map_min))
 
@@ -178,9 +180,10 @@ class Prm:
         self._record_time(timer=self.global_timer, metric='sampling', val=(time.time() - t0))
         self.road_map = rmp
 
-    def _construct_road_map_edges(self) -> None:
+    def _construct_road_map_edges(self, n_neighbors: int) -> None:
         """
         Constructs edges for the road map using the sample points
+        :param n_neighbors: initial number of edges one sample point has
         """
         t0 = time.time()
         for (ix, iy, i_uid) in zip(self.road_map.sample_x(), self.road_map.sample_y(), self.road_map.sample_uid()):
@@ -200,7 +203,7 @@ class Prm:
                 if (d <= self.max_edge_len) and self._pass_collision_check(from_x=ix, from_y=iy, to_x=nx, to_y=ny):
                     self.road_map.add_edge(from_uid=i_uid, to_uid=n_uid)
                     n_new_edges_added += 1
-                    if n_new_edges_added == self.n_neighbors:
+                    if n_new_edges_added == n_neighbors:
                         break
 
         self._record_time(timer=self.global_timer, metric='edge_construction', val=(time.time() - t0))
