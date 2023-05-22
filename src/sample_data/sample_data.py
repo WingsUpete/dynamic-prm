@@ -5,7 +5,12 @@ import random
 from typing import Optional
 import pickle
 
+import matplotlib.pyplot as plt
+
 from core.util import ObstacleDict, RoundObstacle, ObstacleType
+from core.prm import Prm
+
+img_dpi = 300
 
 
 def get_test_problem(cur_seed: Optional[int] = None, init_n_samples: Optional[int] = None) -> (dict, dict):
@@ -73,6 +78,19 @@ def store_test_problem(folder: str = './test_problem/') -> None:
     for (f_name, cur_item) in to_files:
         with open(f_name, 'wb') as f:
             pickle.dump(cur_item, f)
+
+    # save a map figure
+    o_dict: ObstacleDict = test_map['obstacles']
+    o_dict.draw_map_edge_n_obstacles()
+    plt.savefig(os.path.join(folder, 'map.png'), dpi=img_dpi)
+
+    # save queries figures
+    for q_id in range(len(test_queries)):
+        cur_prm = Prm(**test_map)
+        cur_path, _ = cur_prm.plan(animation=False, **test_queries[q_id])
+        cur_prm.draw_graph(start=test_queries[q_id]['start'], goal=test_queries[q_id]['goal'],
+                           road_map=cur_prm.road_map, path=cur_path, pause=False)
+        plt.savefig(os.path.join(folder, f'query_{q_id}.png'), dpi=img_dpi)
 
 
 if __name__ == '__main__':
