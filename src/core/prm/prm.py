@@ -80,7 +80,6 @@ class Prm:
         try:
             if animation:
                 self.draw_graph(start=start, goal=goal, road_map=self.road_map)
-                plt.pause(0.001)
 
             if self._point_collides(x=start[0], y=start[1]) or self._point_collides(x=goal[0], y=goal[1]):
                 # query points collide! No solution
@@ -202,7 +201,8 @@ class Prm:
     def draw_graph(self,
                    start: list[float] = None, goal: list[float] = None,
                    road_map: Optional[RoadMap] = None,
-                   path: list[list[float]] = None) -> None:
+                   path: list[list[float]] = None,
+                   pause: bool = True) -> None:
         """
         Draws the graph. More details:
 
@@ -222,6 +222,7 @@ class Prm:
         :param goal: goal position of a query
         :param road_map: the road map of the sample points
         :param path: specified path
+        :param pause: specifies whether to pause and display the graph
         """
         plt.clf()
 
@@ -238,6 +239,9 @@ class Prm:
         # draw start & goal
         if (start is not None) and (goal is not None):
             draw_query_points(start=start, goal=goal)
+
+        if pause:
+            plt.pause(0.001)
 
     def _reachable_without_collision(self,
                                      from_x: float, from_y: float,
