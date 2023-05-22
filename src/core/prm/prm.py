@@ -23,7 +23,7 @@ class Prm:
                  map_range: list[float],
                  obstacles: ObstacleDict,
                  robot_radius: float,
-                 init_n_samples: int = 500, init_n_neighbors: int = 10, max_edge_len: float = 30.0,
+                 init_n_samples: int = 300, init_n_neighbors: int = 10, max_edge_len: float = 30.0,
                  rnd_seed: int = None, rng=None):
         """
         Creates a PRM Solver for a robot to solve path-planning problems.
