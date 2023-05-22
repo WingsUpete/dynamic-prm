@@ -25,7 +25,9 @@ It is worth noting that PRM has the following two important features:
 
 Below shows an example about how PRM operates in an environment and solves queries:
 
+<p align="center">
 <img src="src/sample_data/test_problem/query_0.png" alt="PRM Example" width=60% style="display:block;margin:auto">
+</p>
 
 The red triangle and red diamond represents the starting point and the goal point, respectively. The black parts 
 represent the obstacles. The road map constructed by PRM is represented as cyan points (nodes) and yellow solid lines
