@@ -33,6 +33,8 @@ def test_prm(show_map=False, animation=True):
         test_queries = pickle.load(f)
     test_query = test_queries[0]
 
+    logger.info('Seed: %d' % test_map['rnd_seed'])
+
     # Create the RRT solver
     logger.info('Initializing the PRM solver...')
     t0 = time.time()

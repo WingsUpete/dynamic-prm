@@ -1,8 +1,8 @@
 import time
 from typing import Optional
+import random
 
 import matplotlib.pyplot as plt
-import numpy as np
 
 from core.util.common import *
 from core.util.graph import ObstacleDict
@@ -24,7 +24,7 @@ class Prm:
                  obstacles: ObstacleDict,
                  robot_radius: float,
                  init_n_samples: int = 300, init_n_neighbors: int = 10, max_edge_len: float = 30.0,
-                 rnd_seed: int = None, rng=None):
+                 rnd_seed: int = None):
         """
         Creates a PRM Solver for a robot to solve path-planning problems.
         :param map_range: the range of the map, as `[min, max]` for both `x` and `y`
@@ -34,7 +34,6 @@ class Prm:
         :param init_n_neighbors: initial number of edges one sample point has
         :param max_edge_len: maximum edge length
         :param rnd_seed: random seed for sampler
-        :param rng: specifies a random generator to use
         """
         # global timer: sec (unit)
         self.global_timer = {
@@ -56,8 +55,7 @@ class Prm:
         self.max_edge_len = max_edge_len
 
         self.rnd_seed = rnd_seed
-        np.random.seed(self.rnd_seed)
-        self.rng = rng
+        random.seed(self.rnd_seed)
 
         # build road map
         self.road_map: Optional[RoadMap] = None
@@ -158,10 +156,9 @@ class Prm:
         """
         t0 = time.time()
         rmp = RoadMap()
-        rng = np.random.default_rng() if self.rng is None else self.rng
         while len(rmp) != n_samples:
-            tx = self.map_min + (rng.random() * (self.map_max - self.map_min))
-            ty = self.map_min + (rng.random() * (self.map_max - self.map_min))
+            tx = random.uniform(self.map_min, self.map_max)
+            ty = random.uniform(self.map_min, self.map_max)
 
             if not self._point_collides(x=tx, y=ty):
                 t_node = RoadMapNode(x=tx, y=ty)
