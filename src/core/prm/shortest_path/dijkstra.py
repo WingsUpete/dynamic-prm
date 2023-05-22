@@ -24,7 +24,7 @@ class DijkstraNode(Node2D):
 
 
 def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
-             animation: bool = True, animate_interval: int = 2) -> (Optional[list[list[float]]], float):
+             animation: bool = True, animate_interval: int = 5) -> (Optional[list[list[float]]], float):
     """
     Runs Dijkstra algorithm to find the shortest path from starting point to end point, given the sample points + road
     map from PRM solver. Note that both starting point and end point are sample points.
