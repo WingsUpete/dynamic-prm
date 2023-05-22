@@ -1,3 +1,4 @@
+import math
 import time
 from typing import Optional
 import random
@@ -6,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from core.util.common import *
 from core.util.graph import ObstacleDict
-from core.util.plot import draw_path, draw_query_points
+from core.util.plot import draw_path, draw_query_points, plot_circle
 from .roadmap import RoadMapNode, RoadMap
 from .shortest_path import dijkstra
 
@@ -24,6 +25,7 @@ class Prm:
                  obstacles: ObstacleDict,
                  robot_radius: float,
                  init_n_samples: int = 300, init_n_neighbors: int = 10, max_edge_len: float = 30.0,
+                 rrt_max_iter: int = 500, rrt_goal_sample_rate: float = 0.05,
                  rnd_seed: int = None):
         """
         Creates a PRM Solver for a robot to solve path-planning problems.
@@ -33,6 +35,8 @@ class Prm:
         :param init_n_samples: initial number of points to sample
         :param init_n_neighbors: initial number of edges one sample point has
         :param max_edge_len: maximum edge length
+        :param rrt_max_iter: maximum number of iterations for the RRT algorithm
+        :param rrt_goal_sample_rate: specifies how frequent should RRT sample the goal point for analysis
         :param rnd_seed: random seed for sampler
         """
         # global timer: sec (unit)
@@ -54,6 +58,9 @@ class Prm:
 
         self.max_edge_len = max_edge_len
 
+        self.rrt_max_iter = rrt_max_iter
+        self.rrt_goal_sample_rate = rrt_goal_sample_rate
+
         self.rnd_seed = rnd_seed
         random.seed(self.rnd_seed)
 
@@ -74,20 +81,20 @@ class Prm:
         :param animation: enables animation or not
         :return: found feasible path as an ordered list of 2D points, or None if not found + path cost
         """
+        if animation:
+            self.draw_graph(start=start, goal=goal, road_map=self.road_map)
+
         self._reset_query_timer()
         try:
-            if animation:
-                self.draw_graph(start=start, goal=goal, road_map=self.road_map)
-
             if self._point_collides(x=start[0], y=start[1]) or self._point_collides(x=goal[0], y=goal[1]):
                 # query points collide! No solution
                 return None, -1
 
-            start_sample_node = self.get_nearest_feasible_sample_node(point_x=start[0], point_y=start[1], from_point=True)
+            start_sample_node = self._get_nearest_feasible_sample_node(point_x=start[0], point_y=start[1], from_point=True)
             if start_sample_node is None:
                 return None, -1
 
-            end_sample_node = self.get_nearest_feasible_sample_node(point_x=goal[0], point_y=goal[1], from_point=False)
+            end_sample_node = self._get_nearest_feasible_sample_node(point_x=goal[0], point_y=goal[1], from_point=False)
             if end_sample_node is None:
                 return None, -1
 
@@ -109,20 +116,168 @@ class Prm:
         finally:
             self._postproc_timers()
 
-    def get_nearest_feasible_sample_node(self, point_x: float, point_y: float,
-                                         from_point: bool) -> Optional[RoadMapNode]:
+    def plan_rrt(self, start: list[float], goal: list[float],
+                 animation: bool = True, animate_interval: int = 5) -> (Optional[list[list[float]]],
+                                                                        float,
+                                                                        Optional[RoadMap]):
         """
-        Finds the index of nearest feasible sample point from the given point. Feasibility indicates that
+        Plans the route using RRT.
+
+        :param start: starting position for the problem
+        :param goal: goal position for the problem
+        :param animation: enables animation or not
+        :param animate_interval: specifies how frequent (every x steps) should the graph be rendered
+        :return: found feasible path as an ordered list of 2D points, or None if not found + path cost +
+        explored road map
+        """
+        if animation:
+            self.draw_graph(start=start, goal=goal)
+
+        self._reset_query_timer()
+        t0 = time.time()
+        try:
+            if self._point_collides(x=start[0], y=start[1]) or self._point_collides(x=goal[0], y=goal[1]):
+                # query points collide! No solution
+                return None, -1, None
+
+            # create RRT Nodes for starting/goal points
+            start_node = RoadMapNode(x=start[0], y=start[1])
+            goal_node = RoadMapNode(x=goal[0], y=goal[1])
+
+            new_road_map = RoadMap(enable_kd_tree=False)
+            new_road_map.add_node(node=start_node)
+            for i in range(self.rrt_max_iter):
+                # sample one node on the map
+                rnd_node = self._get_rrt_rand_node(goal_node=goal_node)
+                # get nearest neighbor of the sampled node
+                nearest_node_ind = new_road_map.get_nearest_neighbor(point=[rnd_node.x, rnd_node.y])
+                nearest_node = new_road_map.get_node_by_index(index=nearest_node_ind)
+
+                # get the expected new node to reach
+                new_node = self._steer_rrt(from_node=nearest_node, to_node=rnd_node)
+
+                # check if `nearest_node` can reach `new_node` (collision check)
+                if self.obstacles.reachable_without_collision(from_x=nearest_node.x, from_y=nearest_node.y,
+                                                              to_x=new_node.x, to_y=new_node.y):
+                    # add new node and form edge
+                    new_road_map.add_node(node=new_node)
+                    new_road_map.add_edge(from_uid=nearest_node.node_uid, to_uid=new_node.node_uid)
+                    # goal check
+                    if new_node.euclidean_distance(goal_node) <= self.max_edge_len:
+                        final_node = self._steer_rrt(from_node=new_node, to_node=goal_node)
+                        if self.obstacles.reachable_without_collision(from_x=new_node.x, from_y=new_node.y,
+                                                                      to_x=final_node.x, to_y=final_node.y):
+                            # add final node and form edge
+                            new_road_map.add_node(node=final_node)
+                            new_road_map.add_edge(from_uid=new_node.node_uid, to_uid=final_node.node_uid)
+                            # calculate final path and cost
+                            path, cost = self._get_rrt_path_with_cost(road_map=new_road_map, final_node=final_node)
+                            return path, cost, new_road_map
+
+                # render graph
+                if animation and i % animate_interval == 0:
+                    self.draw_graph(start=start, goal=goal, road_map=new_road_map, pause=False)
+                    # render `rnd_node` and `new_node`
+                    plt.plot(rnd_node.x, rnd_node.y, '^c')  # ^c = cyan triangle
+                    if self.robot_radius > 0.0:
+                        plot_circle(new_node.x, new_node.y, self.robot_radius, 'm', fill=False)  # m = magenta
+                    plt.pause(0.001)
+
+            return None, -1, None
+        finally:
+            self._record_time(timer=self.query_timer, metric='rrt', val=(time.time() - t0))
+            self._postproc_timers()
+
+    def _get_rrt_rand_node(self, goal_node: RoadMapNode) -> RoadMapNode:
+        """
+        Generates an RRT Node.
+        :param goal_node: goal node for this query
+        :return:
+        """
+        if random.uniform(0, 1) <= self.rrt_goal_sample_rate:
+            # sample goal point
+            rnd = RoadMapNode(x=goal_node.x, y=goal_node.y)
+        else:
+            # sample random point on map
+            rnd_c = self._sample_point()
+            rnd = RoadMapNode(x=rnd_c[0], y=rnd_c[1])
+        return rnd
+
+    def _steer_rrt(self, from_node: RoadMapNode, to_node: RoadMapNode) -> RoadMapNode:
+        """
+        Steers the path from one node to the other, and retrieves a new node to replace the `to_node`. Essentially, it
+        tries to reach from `from_node` and see how far it can reach along the direction to the `to_node`, given a
+        maximum edge length.
+        :param from_node: from this node
+        :param to_node: to this node
+        :return: a new node provided by the steering function to replace the `to_node`
+        """
+        d, theta = cal_dist_n_angle(from_x=from_node.x, from_y=from_node.y, to_x=to_node.x, to_y=to_node.y)
+        extend_length = self.max_edge_len if self.max_edge_len <= d else d
+        new_node = RoadMapNode(x=(from_node.x + extend_length * math.cos(theta)),
+                               y=(from_node.y + extend_length * math.sin(theta)))
+        return new_node
+
+    @staticmethod
+    def _get_rrt_path_with_cost(road_map: RoadMap, final_node: RoadMapNode) -> (list[list[float]], float):
+        """
+        Gets the path to the final node, along with its cost.
+        :param road_map: give road map to operate on
+        :param final_node: the final node of the path
+        :return: the calculated path + cost
+        """
+        path = []
+        cost = 0.0
+        cur_node = final_node
+        while True:
+            path.append([cur_node.x, cur_node.y])
+            if len(cur_node.from_node_uid_set) == 0:
+                # no parent
+                break
+
+            # Abnormal case coverage
+            if len(cur_node.from_node_uid_set) > 1:
+                raise Exception('Why does your RRT path have node with more than 1 parents???')
+
+            parent_uid = list(cur_node.from_node_uid_set)[0]
+            parent_node = road_map.get()[parent_uid]
+            cost += parent_node.euclidean_distance(other=cur_node)
+            cur_node = parent_node
+
+        path.reverse()
+        return path, cost
+
+    def _get_nearest_feasible_sample_node(self, point_x: float, point_y: float,
+                                          from_point: bool) -> Optional[RoadMapNode]:
+        """
+        Finds the index of nearest feasible sample point from the given point. Feasibility indicates that the distance
+        between two points is smaller than preset maximum, and going straight between two points do not collide with
+        any obstacle.
         :param point_x: x coordinate of the given point
         :param point_y: y coordinate of the given point
         :param from_point: specifies the direction (if True, from this point to sample point; otherwise reverse)
         :return: the nearest feasible sample node, or None if not found
         """
+        return self._get_nearest_feasible_roadmap_node(point_x=point_x, point_y=point_y, from_point=from_point,
+                                                       road_map=self.road_map)
+
+    def _get_nearest_feasible_roadmap_node(self, point_x: float, point_y: float,
+                                           from_point: bool, road_map: RoadMap) -> Optional[RoadMapNode]:
+        """
+        Finds the index of nearest feasible node on the road map from the given point. Feasibility indicates that the
+        distance between two points is smaller than preset maximum, and going straight between two points do not
+        collide with any obstacle.
+        :param point_x: x coordinate of the given point
+        :param point_y: y coordinate of the given point
+        :param from_point: specifies the direction (if True, from this point to sample point; otherwise reverse)
+        :param road_map: the road map to search from
+        :return: the nearest feasible sample node, or None if not found
+        """
         # sort distances from near to far
-        _, indices = self.road_map.get_knn(point=[point_x, point_y], k=len(self.road_map))
+        _, indices = road_map.get_knn(point=[point_x, point_y], k=len(road_map))
         for cur_sample_id in indices:
-            cur_sample_x = self.road_map.sample_x()[cur_sample_id]
-            cur_sample_y = self.road_map.sample_y()[cur_sample_id]
+            cur_sample_x = road_map.sample_x()[cur_sample_id]
+            cur_sample_y = road_map.sample_y()[cur_sample_id]
 
             if from_point:
                 from_x, from_y = point_x, point_y
@@ -134,7 +289,7 @@ class Prm:
             if (d <= self.max_edge_len) and self._reachable_without_collision(from_x=from_x, from_y=from_y,
                                                                               to_x=to_x, to_y=to_y):
                 # found nearest feasible sample point
-                return self.road_map.get_node_by_index(index=cur_sample_id)
+                return road_map.get_node_by_index(index=cur_sample_id)
 
         # no feasible sample point
         return None
@@ -157,8 +312,8 @@ class Prm:
         t0 = time.time()
         rmp = RoadMap()
         while len(rmp) != n_samples:
-            tx = random.uniform(self.map_min, self.map_max)
-            ty = random.uniform(self.map_min, self.map_max)
+            tc = self._sample_point()
+            tx, ty = tc[0], tc[1]
 
             if not self._point_collides(x=tx, y=ty):
                 t_node = RoadMapNode(x=tx, y=ty)
@@ -166,6 +321,16 @@ class Prm:
 
         self._record_time(timer=self.global_timer, metric='sampling', val=(time.time() - t0))
         self.road_map = rmp
+
+    def _sample_point(self) -> list[float]:
+        """
+        Uniformly samples a point on the map.
+        :return: coordinates of the point as a list
+        """
+        return [
+            random.uniform(self.map_min, self.map_max),
+            random.uniform(self.map_min, self.map_max),
+        ]
 
     def _construct_road_map_edges(self, n_neighbors: int) -> None:
         """
@@ -228,7 +393,7 @@ class Prm:
 
         # draw road map
         if road_map is not None:
-            self.road_map.draw_road_map()
+            road_map.draw_road_map()
 
         if path is not None:
             draw_path(path=path)
@@ -276,6 +441,7 @@ class Prm:
         """
         self.query_timer = {
             'shortest_path': 0.0,
+            'rrt': 0.0
         }
 
     @staticmethod

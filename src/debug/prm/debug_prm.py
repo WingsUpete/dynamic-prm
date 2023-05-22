@@ -15,15 +15,14 @@ import matplotlib.pyplot as plt
 from core.prm import *
 
 
-def test_prm(show_map=False, animation=True):
+def test_prm(use_rrt=False, show_map=False, animation=True):
     logger.info('Start PRM program.')
 
     # For stopping simulation with the esc key.
-    if animation:
-        plt.gcf().canvas.mpl_connect(
-            'key_release_event',
-            lambda event: [exit(0) if event.key == 'escape' else None]
-        )
+    plt.gcf().canvas.mpl_connect(
+        'key_release_event',
+        lambda event: [exit(0) if event.key == 'escape' else None]
+    )
 
     # Load the sample problem
     test_problem_folder = '../../sample_data/test_problem/'
@@ -50,7 +49,11 @@ def test_prm(show_map=False, animation=True):
     logger.info('Start planning...')
     test_query['animation'] = animation
     t1 = time.time()
-    my_path, my_path_cost = my_prm.plan(**test_query)
+    rrt_road_map = None
+    if use_rrt:
+        my_path, my_path_cost, rrt_road_map = my_prm.plan_rrt(**test_query)
+    else:
+        my_path, my_path_cost = my_prm.plan(**test_query)
     logger.info('Finish planning using %f sec.' % (time.time() - t1))
 
     # Timer info
@@ -60,18 +63,21 @@ def test_prm(show_map=False, animation=True):
     if my_path is None:
         logger.info('Cannot find path.')
         # see what happens
-        if animation:
-            plt.show()
+        plt.show()
     else:
         logger.info('Found path! Path cost = %.4f' % my_path_cost)
         logger.info('Path is as follows:\n%s' % my_path)
 
         # draw path
-        if animation:
-            my_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
-                              road_map=my_prm.road_map, path=my_path)
-            plt.show()
+        my_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
+                          road_map=rrt_road_map if use_rrt else my_prm.road_map,
+                          path=my_path)
+        plt.show()
 
 
 if __name__ == '__main__':
-    test_prm()
+    test_prm(
+        # use_rrt=True,
+        # show_map=True,
+        # animation=False
+    )

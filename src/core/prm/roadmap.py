@@ -5,7 +5,8 @@ import numpy as np
 from scipy.spatial import KDTree
 import matplotlib.pyplot as plt
 
-from core.util import Node2D
+from core.util.common import *
+from core.util.graph import Node2D
 
 __all__ = ['RoadMapNode', 'RoadMap']
 
@@ -30,9 +31,10 @@ class RoadMapNode(Node2D):
 
 class RoadMap:
     """ Road Map """
-    def __init__(self):
+    def __init__(self, enable_kd_tree: bool = True):
         """
         Creates a Road Map that stores the sample point graph as well as a KD Tree for sample points.
+        :param enable_kd_tree: specifies whether to enable KD Tree.
         """
         # node_uid -> node
         self._road_map: OrderedDict[str, RoadMapNode] = OrderedDict()
@@ -45,6 +47,7 @@ class RoadMap:
         self._sample_uid: list[str] = []
 
         # kd tree for sample points
+        self._enable_kd_tree = enable_kd_tree
         self._kd_tree: Optional[KDTree] = None
 
         # if road map modified, need to update other variables
@@ -66,10 +69,32 @@ class RoadMap:
         return self.get()[self.sample_uid()[index]]
 
     def get_knn(self, point: list[float], k: int) -> (list[float], list[int]):
+        """
+        Gets `k` nearest neighbors using KD Tree. Returns nothing if KD Tree is disabled.
+        :param point: given point to be examined
+        :param k: number of nearest neighbors to get
+        :return: `k` nearest neighbors (distances, indices of neighbor nodes), or nothing if KD Tree is disabled
+        """
+        if not self._enable_kd_tree:
+            return [], []
         dists, indices = self.kd_tree().query(point, k=k)
         dists = [dists] if type(dists) == float else dists
         indices = [indices] if type(indices) == int else indices
         return dists, indices
+
+    def get_nearest_neighbor(self, point: list[float]) -> (float, int):
+        """
+        Gets the nearest neighbor (TO the point). Uses KD Tree by default, otherwise use brute force.
+        :param point: give point to be examined
+        :return: the nearest neighbor (distance to it, index of it in the road map as ordered list)
+        """
+        if self._enable_kd_tree:
+            return self.kd_tree().query(point)
+        else:
+            dist_list = [cal_dist(from_x=cur_node.x, from_y=cur_node.y,
+                                  to_x=point[0], to_y=point[1]) for cur_node in self.get().values()]
+            nearest_ind = dist_list.index(min(dist_list))
+            return nearest_ind
 
     def add_node(self, node: RoadMapNode) -> None:
         """
@@ -131,6 +156,19 @@ class RoadMap:
         self.get()[to_uid].from_node_uid_set.remove(from_uid)
         self._modified = True
 
+    def enable_kd_tree(self) -> None:
+        """
+        Enables the KD Tree.
+        """
+        self._enable_kd_tree = True
+        self._modified = True
+
+    def disable_kd_tree(self) -> None:
+        """
+        Disables the KD Tree.
+        """
+        self._enable_kd_tree = False
+
     def _update_dependent_vars(self) -> None:
         """
         Updates the variables dependent on the road map.
@@ -138,7 +176,8 @@ class RoadMap:
         self._sample_x = [node.x for node in self.get().values()]
         self._sample_y = [node.y for node in self.get().values()]
         self._sample_uid = [node.node_uid for node in self.get().values()]
-        self._kd_tree = KDTree(np.vstack((self._sample_x, self._sample_y)).T)
+        if self._enable_kd_tree:
+            self._kd_tree = KDTree(np.vstack((self._sample_x, self._sample_y)).T)
         self._modified = False
 
     def sample_x(self) -> list[float]:
@@ -168,11 +207,20 @@ class RoadMap:
             self._update_dependent_vars()
         return self._sample_uid
 
-    def kd_tree(self) -> KDTree:
+    def kd_tree_enabled(self) -> bool:
+        """
+        Checks whether KD Tree is enabled.
+        :return: True if enabled
+        """
+        return self._enable_kd_tree
+
+    def kd_tree(self) -> Optional[KDTree]:
         """
         Gets KD Tree for the sample points.
         :return: sample KD Tree
         """
+        if not self._enable_kd_tree:
+            return None
         if self._modified:
             self._update_dependent_vars()
         return self._kd_tree
