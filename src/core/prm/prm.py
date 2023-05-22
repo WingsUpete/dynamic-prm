@@ -225,25 +225,18 @@ class Prm:
         plt.clf()
 
         # draw map edge and obstacles
-        self.obstacles.draw_map_edge_n_obstacles()
+        self.obstacles.draw_map_edge_n_obstacles(pause=False)
 
         # draw road map
         if road_map is not None:
-            # edges
-            for (ix, iy, i_uid) in zip(road_map.sample_x(), road_map.sample_y(), road_map.sample_uid()):
-                for j_uid in road_map.get()[i_uid].to_node_uid_set:
-                    j_node = road_map.get()[j_uid]
-                    plt.plot([ix, j_node.x],
-                             [iy, j_node.y], '-y', alpha=0.2)  # -k = yellow solid line
-            # nodes
-            plt.plot(road_map.sample_x(), road_map.sample_y(), '.c')  # .c = cyan points
+            self.road_map.draw_road_map(pause=False)
 
         if path is not None:
-            draw_path(path=path)
+            draw_path(path=path, pause=False)
 
         # draw start & goal
         if (start is not None) and (goal is not None):
-            draw_query_points(start=start, goal=goal)
+            draw_query_points(start=start, goal=goal, pause=False)
 
         plt.pause(0.001)
 

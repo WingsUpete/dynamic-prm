@@ -3,6 +3,7 @@ from typing import Optional
 
 import numpy as np
 from scipy.spatial import KDTree
+import matplotlib.pyplot as plt
 
 from core.util import Node2D
 
@@ -175,6 +176,23 @@ class RoadMap:
         if self._modified:
             self._update_dependent_vars()
         return self._kd_tree
+
+    def draw_road_map(self, pause: bool = True) -> None:
+        """
+        Draws the nodes and edges of the road map.
+        :param pause: whether to pause `plt` a bit for rendering
+        """
+        # edges
+        for (ix, iy, i_uid) in zip(self.sample_x(), self.sample_y(), self.sample_uid()):
+            for j_uid in self.get()[i_uid].to_node_uid_set:
+                j_node = self.get()[j_uid]
+                plt.plot([ix, j_node.x],
+                         [iy, j_node.y], '-y', alpha=0.2)  # -k = yellow solid line
+        # nodes
+        plt.plot(self.sample_x(), self.sample_y(), '.c')  # .c = cyan points
+
+        if pause:
+            plt.pause(0.001)
 
     def __len__(self):
         return len(self._road_map)
