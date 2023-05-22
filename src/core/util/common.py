@@ -4,6 +4,7 @@ from datetime import datetime
 from hashlib import sha256
 from collections import OrderedDict
 from enum import IntEnum
+import math
 
 __all__ = ['Node2D', 'RoundObstacle', 'ObstacleDict', 'ObstacleType']
 
@@ -85,10 +86,15 @@ class RoundObstacle(Node2D):
 
 class ObstacleDict:
     """ Obstacle Dictionary """
-    def __init__(self):
+    def __init__(self, map_range: list[float], robot_radius: float):
         """
         Creates an Obstacle Dictionary that stores the obstacles in the environment.
+        :param map_range: the range of the map, as `[min, max]` for both `x` and `y`
+        :param robot_radius: radius of the circle robot
         """
+        self.map_min, self.map_max = map_range
+        self.robot_radius = robot_radius
+
         # obstacle_uid -> obstacle
         self._o_dict: OrderedDict[str, RoundObstacle] = OrderedDict()
 
@@ -102,6 +108,9 @@ class ObstacleDict:
 
         # if road map modified, need to update other variables
         self._modified = True
+
+        # Generates map edge point obstacles to restrict the robot within the map
+        self._gen_map_edge_obstacles()
 
     def get(self):
         """
@@ -133,6 +142,54 @@ class ObstacleDict:
         """
         del self.get()[obstacle_uid]
         self._modified = True
+
+    def _gen_map_edge_obstacles(self, shrink_factor: float = 0.9):
+        """
+        Generates point obstacles at the edge of the map, ensuring that the robot cannot leave the map. Adds these
+        obstacles to the dict.
+
+        Suppose the obstacle interval (distance between two consecutive obstacles) is `d`, then it requires that
+        `d < 2r`. Using a shrink factor `0 << t < 1`, we can write `d <= 2tr`. Now suppose the map range is of `l`
+        length, then the number of obstacles we have to place is `n = l/d + 1 >= l/2tr + 1`, which leads to
+        `n = ceil(l/2tr) + 1`.
+        :param shrink_factor: how much should the obstacle interval instance be shrunk (`t`) to avoid the robot through
+        """
+        map_range_len = self.map_max - self.map_min  # l
+        n_gaps = math.ceil(map_range_len / (2 * shrink_factor * self.robot_radius))
+        d_real = map_range_len / n_gaps
+        n_obstacles = n_gaps + 1
+
+        gen_ref_dict = {
+            'bottom': {
+                'range': [0, n_obstacles],
+                'fx': lambda oi: self.map_min + d_real * oi,
+                'fy': lambda _: self.map_min
+            },
+            'left': {
+                # bottom one already added, so skip it
+                'range': [1, n_obstacles],
+                'fx': lambda _: self.map_min,
+                'fy': lambda oi: self.map_min + d_real * oi
+            },
+            'right': {
+                # bottom one already added, so skip it
+                'range': [1, n_obstacles],
+                'fx': lambda _: self.map_max,
+                'fy': lambda oi: self.map_min + d_real * oi
+            },
+            'top': {
+                # left & right ones already added, so skip both of them
+                'range': [1, n_obstacles - 1],
+                'fx': lambda oi: self.map_min + d_real * oi,
+                'fy': lambda _: self.map_max
+            }
+        }
+
+        for cur_config in gen_ref_dict.values():
+            for i in range(*cur_config['range']):
+                cur_o = RoundObstacle(x=cur_config['fx'](i), y=cur_config['fy'](i), r=0,
+                                      obstacle_type=ObstacleType.MAP_EDGE)
+                self.add_obstacle(obstacle=cur_o)
 
     def _update_dependent_vars(self) -> None:
         """
