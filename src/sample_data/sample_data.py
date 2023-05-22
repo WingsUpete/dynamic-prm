@@ -52,7 +52,7 @@ def get_test_problem(cur_seed: Optional[int] = None, init_n_samples: Optional[in
     return test_map, test_queries
 
 
-def store_test_problem(folder: str = './test_problem') -> None:
+def store_test_problem(folder: str = './test_problem/') -> None:
     """
     Stores the test problem to local by dumping the problem.
     :param folder: specifies where to store the problem
