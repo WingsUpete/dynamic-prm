@@ -323,13 +323,7 @@ class Prm:
         """
         t0 = time.time()
         try:
-            for (ox, oy, o_radius) in zip(self.obstacles.o_x(), self.obstacles.o_y(), self.obstacles.o_r()):
-                cur_d = cal_dist(from_x=x, from_y=y, to_x=ox, to_y=oy)
-                if cur_d <= self.robot_radius + o_radius:
-                    # collision!
-                    return True
-
-            return False
+            return self.obstacles.point_collides(x=x, y=y)
         finally:
             delta_t = time.time() - t0
             self._record_time(timer=self.global_timer, metric='collision_checking', val=delta_t)

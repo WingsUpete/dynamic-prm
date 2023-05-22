@@ -6,6 +6,8 @@ from collections import OrderedDict
 from enum import IntEnum
 import math
 
+from core.util import cal_dist
+
 __all__ = ['Node2D', 'RoundObstacle', 'ObstacleDict', 'ObstacleType']
 
 
@@ -246,6 +248,21 @@ class ObstacleDict:
         if self._modified:
             self._update_dependent_vars()
         return self._o_uid
+
+    def point_collides(self, x: float, y: float) -> bool:
+        """
+        Checks whether a point collides with any obstacle.
+        :param x: x coordinate of the point
+        :param y: y coordinate of the point
+        :return: whether collision happens, return True upon collision
+        """
+        for (ox, oy, o_radius) in zip(self.o_x(), self.o_y(), self.o_r()):
+            cur_d = cal_dist(from_x=x, from_y=y, to_x=ox, to_y=oy)
+            if cur_d <= self.robot_radius + o_radius:
+                # collision!
+                return True
+
+        return False
 
     def __len__(self):
         return len(self._o_dict)
