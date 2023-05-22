@@ -80,6 +80,7 @@ class Prm:
         try:
             if animation:
                 self.draw_graph(start=start, goal=goal, road_map=self.road_map)
+                plt.pause(0.001)
 
             if self._point_collides(x=start[0], y=start[1]) or self._point_collides(x=goal[0], y=goal[1]):
                 # query points collide! No solution
@@ -237,8 +238,6 @@ class Prm:
         # draw start & goal
         if (start is not None) and (goal is not None):
             draw_query_points(start=start, goal=goal)
-
-        plt.pause(0.001)
 
     def _reachable_without_collision(self,
                                      from_x: float, from_y: float,
