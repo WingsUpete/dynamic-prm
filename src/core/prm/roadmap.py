@@ -1,6 +1,5 @@
 from collections import OrderedDict
 from typing import Optional
-from collections import deque
 
 import numpy as np
 from scipy.spatial import KDTree
