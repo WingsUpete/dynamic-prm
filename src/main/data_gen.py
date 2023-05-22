@@ -209,6 +209,9 @@ def gen_problems_to_local(output_folder: str = DATA_DIR_DEFAULT,
     logger.info('Start generating problems...')
     for i in tqdm(range(n_problems)):
         cur_sample_folder = os.path.join(output_folder, str(i))
+        if os.path.isdir(cur_sample_folder):
+            # only generate data for missing indices
+            continue
         cur_map, cur_queries = gen_problem(robot_radius=robot_radius, n_queries=n_queries)
         store_problem(problem_folder=cur_sample_folder, problem_map=cur_map, problem_queries=cur_queries)
 
