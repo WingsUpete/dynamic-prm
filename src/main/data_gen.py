@@ -23,14 +23,14 @@ DATA_DIR_DEFAULT = './data/'
 N_PROB_DEFAULT = 100
 N_QUERIES_DEFAULT = 3
 SEED_DEFAULT = None
-ROBOT_RADIUS_DEFAULT = 2
+ROBOT_RADIUS_DEFAULT = 1
 
-map_len_range = [50, 500]
-size_obstacle_to_robot_ratio = 2  # r_obstacle : r_robot = 2
-obstacle_coverage = 0.2  # obstacles cover at most 20% of the map
+map_len_range = [50, 100]
+size_obstacle_to_robot_ratio = [0.5, 5]  # 0.5 < r_obstacle : r_robot <= 5
+obstacle_coverage = 0.1  # obstacles cover at most 10% of the map
 max_n_sample_point_attempt = 20  # sample at most 20 starting/goal points, until finding one feasible point
 n_single_query_test = 3  # use PRM to test each query 3 times (need to succeed in all tests)
-query_success_rate_threshold = 0.8  # 80% of the sampled queries should have feasible paths; otherwise discard this map
+query_success_rate_threshold = 0.5  # 50% of the sampled queries should have feasible paths; otherwise discard this map
 
 img_dpi = 200
 
@@ -115,8 +115,9 @@ def gen_problem(robot_radius: float = ROBOT_RADIUS_DEFAULT, n_queries: int = N_Q
     map_len = random.randint(*map_len_range)
     map_range = [0, float(map_len)]
 
-    # maximum allowed obstacle radius
-    max_or = size_obstacle_to_robot_ratio * robot_radius
+    # allowed obstacle radius
+    min_or = size_obstacle_to_robot_ratio[0] * robot_radius
+    max_or = size_obstacle_to_robot_ratio[1] * robot_radius
 
     # number of obstacles: avg_or = max_or / 2 -> n * pi * avg_or^2 / L^2 = 0.2, L is map length
     n_obstacles: int = math.floor(obstacle_coverage * map_len ** 2 / (math.pi * (max_or / 2) ** 2))
@@ -129,7 +130,7 @@ def gen_problem(robot_radius: float = ROBOT_RADIUS_DEFAULT, n_queries: int = N_Q
         for i in range(n_obstacles):
             cur_ox = random.uniform(*map_range)
             cur_oy = random.uniform(*map_range)
-            cur_or = random.uniform(0, max_or)
+            cur_or = random.uniform(min_or, max_or)
             cur_o = RoundObstacle(x=cur_ox, y=cur_oy, r=cur_or, obstacle_type=ObstacleType.NORMAL)
             o_dict.add_obstacle(obstacle=cur_o)
 
