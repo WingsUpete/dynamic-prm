@@ -25,7 +25,7 @@ N_QUERIES_DEFAULT = 3
 SEED_DEFAULT = None
 ROBOT_RADIUS_DEFAULT = 2
 
-map_len_range = [20, 100]
+map_len_range = [50, 500]
 size_obstacle_to_robot_ratio = 2  # r_obstacle : r_robot = 2
 obstacle_coverage = 0.2  # obstacles cover at most 20% of the map
 max_n_sample_point_attempt = 20  # sample at most 20 starting/goal points, until finding one feasible point
