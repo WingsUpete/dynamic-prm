@@ -19,8 +19,8 @@ class RrtNode(Node2D):
 
     def get_path_with_cost(self) -> (list[list[float]], float):
         """
-        Gets the path to current node
-        :return: path
+        Gets the path to current node, along with its cost.
+        :return: path + cost
         """
         path = []
         cost = 0.0
@@ -152,7 +152,7 @@ class Rrt:
 
     def steer(self, from_node: RrtNode, to_node: RrtNode) -> RrtNode:
         """
-        Steers the path from one node to the other, and retrieve a new node to replace the `to_node`. Intuitively, it
+        Steers the path from one node to the other, and retrieves a new node to replace the `to_node`. Intuitively, it
         tries to start from `from_node` and see how far it can reach along the direction to the `to_node`, given a
         maximum `expand_dis` (expand distance) and the path resolution (how long a maximum unit-path is).
         :param from_node: from this node
