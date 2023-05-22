@@ -110,7 +110,7 @@ class ObstacleDict:
         self._modified = True
 
         # Generates map edge point obstacles to restrict the robot within the map
-        self._gen_map_edge_obstacles()
+        self.n_map_edge_obstacles = self._gen_map_edge_obstacles()
 
     def get(self):
         """
@@ -126,6 +126,13 @@ class ObstacleDict:
         :return: the corresponding node
         """
         return self.get()[self.o_uid()[index]]
+
+    def get_n_normal_obstacles(self) -> int:
+        """
+        Retrieves the number of normal obstacles (that are not map edge point obstacles)
+        :return: the number as int
+        """
+        return len(self._o_dict) - self.n_map_edge_obstacles
 
     def add_obstacle(self, obstacle: RoundObstacle) -> None:
         """
@@ -143,7 +150,7 @@ class ObstacleDict:
         del self.get()[obstacle_uid]
         self._modified = True
 
-    def _gen_map_edge_obstacles(self, shrink_factor: float = 0.9):
+    def _gen_map_edge_obstacles(self, shrink_factor: float = 0.9) -> int:
         """
         Generates point obstacles at the edge of the map, ensuring that the robot cannot leave the map. Adds these
         obstacles to the dict.
@@ -153,6 +160,7 @@ class ObstacleDict:
         length, then the number of obstacles we have to place is `n = l/d + 1 >= l/2tr + 1`, which leads to
         `n = ceil(l/2tr) + 1`.
         :param shrink_factor: how much should the obstacle interval instance be shrunk (`t`) to avoid the robot through
+        :return: number of map edge obstacles: `4n - 4` for `n` obstacles on each edge
         """
         map_range_len = self.map_max - self.map_min  # l
         n_gaps = math.ceil(map_range_len / (2 * shrink_factor * self.robot_radius))
@@ -190,6 +198,8 @@ class ObstacleDict:
                 cur_o = RoundObstacle(x=cur_config['fx'](i), y=cur_config['fy'](i), r=0,
                                       obstacle_type=ObstacleType.MAP_EDGE)
                 self.add_obstacle(obstacle=cur_o)
+
+        return 4 * n_obstacles - 4
 
     def _update_dependent_vars(self) -> None:
         """

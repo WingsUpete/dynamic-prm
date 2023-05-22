@@ -61,7 +61,7 @@ def store_test_problem(folder: str = './test_problem/') -> None:
         os.mkdir(folder)
 
     test_map, test_queries = get_test_problem(
-        # cur_seed=666666,
+        cur_seed=666666,
         # init_n_samples=100
     )
 
