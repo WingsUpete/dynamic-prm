@@ -5,8 +5,9 @@ from hashlib import sha256
 from collections import OrderedDict
 from enum import IntEnum
 import math
+from typing import Callable
 
-from core.util import cal_dist
+from core.util.common import *
 
 __all__ = ['Node2D', 'RoundObstacle', 'ObstacleDict', 'ObstacleType']
 
@@ -263,6 +264,41 @@ class ObstacleDict:
                 return True
 
         return False
+
+    def reachable_without_collision(self,
+                                    from_x: float, from_y: float,
+                                    to_x: float, to_y: float,
+                                    collision_checking_func: Callable = point_collides) -> bool:
+        """
+        Checks whether the robot will bump into an obstacle when she travels from one given point to the other given
+        point. If collision check passes, return True!
+        :param from_x: x coordinate of the `from_node`
+        :param from_y: y coordinate of the `from_node`
+        :param to_x: x coordinate of the `to_node`
+        :param to_y: y coordinate of the `to_node`
+        :param collision_checking_func: specifies a collision_checking_function (default to my own)
+        :return: collision check passes or not
+        """
+        d, theta = cal_dist_n_angle(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y)
+        path_resolution = self.robot_radius
+        n_steps = round(d / path_resolution)
+
+        cur_x = from_x
+        cur_y = from_y
+        for _ in range(n_steps):
+            if collision_checking_func(x=cur_x, y=cur_y):
+                return False
+
+            cur_x += path_resolution * math.cos(theta)
+            cur_y += path_resolution * math.sin(theta)
+
+        if (cur_x != to_x) or (cur_y != to_y):
+            # `!(cur_x == to_x and cur_y == to_y)`
+            # currently not reaching `to_node`, should also check `to_node`
+            if collision_checking_func(x=to_x, y=to_y):
+                return False
+
+        return True
 
     def __len__(self):
         return len(self._o_dict)

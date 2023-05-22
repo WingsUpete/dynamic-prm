@@ -1,15 +1,14 @@
-import math
-from typing import Optional
 import time
+from typing import Optional
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-from .roadmap import RoadMapNode, RoadMap
-from .shortest_path import dijkstra
-from core.util.common import cal_dist_n_angle, cal_dist
+from core.util.common import cal_dist
 from core.util.graph import ObstacleDict
 from core.util.plot import plot_circle, draw_path
+from .roadmap import RoadMapNode, RoadMap
+from .shortest_path import dijkstra
 
 __all__ = ['Prm']
 
@@ -139,8 +138,8 @@ class Prm:
                 from_x, from_y = cur_sample_x, cur_sample_y
                 to_x, to_y = point_x, point_y
             d = cal_dist(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y)
-            if (d <= self.max_edge_len) and self._pass_collision_check(from_x=from_x, from_y=from_y,
-                                                                       to_x=to_x, to_y=to_y):
+            if (d <= self.max_edge_len) and self._reachable_without_collision(from_x=from_x, from_y=from_y,
+                                                                              to_x=to_x, to_y=to_y):
                 # found nearest feasible sample point
                 return self.road_map.get_node_by_index(index=cur_sample_id)
 
@@ -196,7 +195,7 @@ class Prm:
 
                 # current examined node -> potential neighbor
                 d = cal_dist(from_x=ix, from_y=iy, to_x=nx, to_y=ny)
-                if (d <= self.max_edge_len) and self._pass_collision_check(from_x=ix, from_y=iy, to_x=nx, to_y=ny):
+                if (d <= self.max_edge_len) and self._reachable_without_collision(from_x=ix, from_y=iy, to_x=nx, to_y=ny):
                     self.road_map.add_edge(from_uid=i_uid, to_uid=n_uid)
                     n_new_edges_added += 1
                     if n_new_edges_added == n_neighbors:
@@ -274,9 +273,9 @@ class Prm:
 
         plt.pause(0.001)
 
-    def _pass_collision_check(self,
-                              from_x: float, from_y: float,
-                              to_x: float, to_y: float) -> bool:
+    def _reachable_without_collision(self,
+                                     from_x: float, from_y: float,
+                                     to_x: float, to_y: float) -> bool:
         """
         Checks whether the robot will bump into an obstacle when she travels from one given point to the other given
         point. If collision check passes, return True!
@@ -286,26 +285,8 @@ class Prm:
         :param to_y: y coordinate of the `to_node`
         :return: collision check passes or not
         """
-        d, theta = cal_dist_n_angle(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y)
-        path_resolution = self.robot_radius
-        n_steps = round(d / path_resolution)
-
-        cur_x = from_x
-        cur_y = from_y
-        for _ in range(n_steps):
-            if self._point_collides(x=cur_x, y=cur_y):
-                return False
-
-            cur_x += path_resolution * math.cos(theta)
-            cur_y += path_resolution * math.sin(theta)
-
-        if (cur_x != to_x) or (cur_y != to_y):
-            # `!(cur_x == to_x and cur_y == to_y)`
-            # currently not reaching `to_node`, should also check `to_node`
-            if self._point_collides(x=to_x, y=to_y):
-                return False
-
-        return True
+        return self.obstacles.reachable_without_collision(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y,
+                                                          collision_checking_func=self._point_collides)
 
     def _point_collides(self, x: float, y: float) -> bool:
         """
