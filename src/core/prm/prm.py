@@ -225,18 +225,18 @@ class Prm:
         plt.clf()
 
         # draw map edge and obstacles
-        self.obstacles.draw_map_edge_n_obstacles(pause=False)
+        self.obstacles.draw_map_edge_n_obstacles()
 
         # draw road map
         if road_map is not None:
-            self.road_map.draw_road_map(pause=False)
+            self.road_map.draw_road_map()
 
         if path is not None:
-            draw_path(path=path, pause=False)
+            draw_path(path=path)
 
         # draw start & goal
         if (start is not None) and (goal is not None):
-            draw_query_points(start=start, goal=goal, pause=False)
+            draw_query_points(start=start, goal=goal)
 
         plt.pause(0.001)
 

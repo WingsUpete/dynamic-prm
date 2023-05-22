@@ -303,12 +303,11 @@ class ObstacleDict:
 
         return True
 
-    def draw_map_edge_n_obstacles(self, c: str = 'k', padding: float = 3, pause: bool = True) -> None:
+    def draw_map_edge_n_obstacles(self, c: str = 'k', padding: float = 3) -> None:
         """
         Draws the map edge and obstacles with the specified color.
         :param c: specified color
         :param padding: padding of the plot around the map
-        :param pause: whether to pause `plt` a bit for rendering
         """
         plt.clf()
 
@@ -328,12 +327,9 @@ class ObstacleDict:
         # draw obstacles
         for (ox, oy, o_radius) in zip(self.o_x(), self.o_y(), self.o_r()):
             if o_radius > 0.0:
-                plot_circle(x=ox, y=oy, r=o_radius, c=c, fill=True, pause=False)
+                plot_circle(x=ox, y=oy, r=o_radius, c=c, fill=True)
             else:
                 plt.plot([ox], [oy], f'.{c}')  # . = point
-
-        if pause:
-            plt.pause(0.001)
 
     def __len__(self):
         return len(self._o_dict)
