@@ -24,7 +24,7 @@ class DijkstraNode(Node2D):
 
 
 def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
-             animation: bool = True, animate_interval: int = 5) -> (Optional[list[list[float]]], float):
+             animation: bool = True, animate_interval: int = 10) -> (Optional[list[list[float]]], float):
     """
     Runs Dijkstra algorithm to find the shortest path from starting point to end point, given the sample points + road
     map from PRM solver. Note that both starting point and end point are sample points.
@@ -46,6 +46,8 @@ def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
 
     while True:
         if not open_set:
+            if animation:
+                plt.pause(0.001)
             return None, -1
 
         # pick the node from the open set with the smallest cost
@@ -53,9 +55,10 @@ def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
         current_node = open_set[cur_node_uid]
 
         # animate searched points
-        if animation and len(closed_set) % animate_interval == 0:
+        if animation:
             plt.plot(current_node.x, current_node.y, 'xg')  # xg = green x marker
-            plt.pause(0.001)
+            if len(closed_set) % animate_interval == 0:
+                plt.pause(0.001)
 
         # goal check
         if cur_node_uid == end_uid:
@@ -73,6 +76,8 @@ def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
                 cur_node = parent_node
 
             path.reverse()
+            if animation:
+                plt.pause(0.001)
             return path, cost
 
         # Move current node from open set to closed set
