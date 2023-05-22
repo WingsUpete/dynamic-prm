@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from typing import Optional
+from collections import deque
 
 import numpy as np
 from scipy.spatial import KDTree
@@ -78,11 +79,27 @@ class RoadMap:
         self.get()[node.node_uid] = node
         self._modified = True
 
+    def add_nodes(self, nodes: list[RoadMapNode]) -> None:
+        """
+        Adds a list of nodes to the road map.
+        :param nodes: given list of nodes to be added
+        """
+        for node in nodes:
+            self.add_node(node=node)
+
     def remove_node(self, node_uid: str) -> None:
         """
         Removes a node from the road map
         :param node_uid: uid of the node to be removed
         """
+        # first delete edges
+        for to_uid in self.get()[node_uid].to_node_uid_set:
+            # delete (node -> other)
+            self.get()[to_uid].from_node_uid_set.remove(node_uid)
+        for from_uid in self.get()[node_uid].from_node_uid_set:
+            # delete (other -> node)
+            self.get()[from_uid].to_node_uid_set.remove(node_uid)
+        # then delete node
         del self.get()[node_uid]
         self._modified = True
 
@@ -95,6 +112,14 @@ class RoadMap:
         self.get()[from_uid].to_node_uid_set.add(to_uid)
         self.get()[to_uid].from_node_uid_set.add(from_uid)
         self._modified = True
+
+    def add_edges(self, edges: list[list[str]]) -> None:
+        """
+        Adds a list of edges.
+        :param edges: a list of edges, with each edge represented as `[from_uid, to_uid]`
+        """
+        for (from_uid, to_uid) in edges:
+            self.add_edge(from_uid=from_uid, to_uid=to_uid)
 
     def remove_edge(self, from_uid: str, to_uid: str) -> None:
         """
