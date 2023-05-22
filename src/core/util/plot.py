@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 
-__all__ = ['plot_circle']
+__all__ = ['plot_circle', 'draw_path']
 
 
 def plot_circle(x: float, y: float, r: float, c: str = 'b', fill: bool = True) -> None:
@@ -25,3 +25,13 @@ def plot_circle(x: float, y: float, r: float, c: str = 'b', fill: bool = True) -
         x_list = [x + r * math.cos(np.deg2rad(d)) for d in deg_list]
         y_list = [y + r * math.sin(np.deg2rad(d)) for d in deg_list]
         plt.plot(x_list, y_list, f'-{c}')
+
+
+def draw_path(path: list[list[float]], c: str = 'm') -> None:
+    """
+    Draws the path as solid line with specified color.
+    :param path: specified path
+    :param c: specified color (magenta by default)
+    """
+    plt.plot([x for (x, _) in path], [y for (_, y) in path], f'-{c}')  # - = solid line
+    plt.pause(0.001)

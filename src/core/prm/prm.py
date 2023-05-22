@@ -7,7 +7,9 @@ import matplotlib.pyplot as plt
 
 from .roadmap import RoadMapNode, RoadMap
 from .shortest_path import dijkstra
-from core.util import plot_circle, ObstacleDict, cal_dist_n_angle, cal_dist
+from core.util.common import cal_dist_n_angle, cal_dist
+from core.util.graph import ObstacleDict
+from core.util.plot import plot_circle, draw_path
 
 __all__ = ['Prm']
 
@@ -263,22 +265,13 @@ class Prm:
             plt.plot(road_map.sample_x(), road_map.sample_y(), '.c')  # .c = cyan points
 
         if path is not None:
-            self.draw_path(path=path)
+            draw_path(path=path)
 
         # draw start & goal
         if (start is not None) and (goal is not None):
             plt.plot(start[0], start[1], '^r')  # ^r = red triangle
             plt.plot(goal[0], goal[1], 'dr')    # dr = red thin_diamond marker
 
-        plt.pause(0.001)
-
-    @staticmethod
-    def draw_path(path: list[list[float]]) -> None:
-        """
-        Draws the path as magenta solid line.
-        :param path: specified path
-        """
-        plt.plot([x for (x, _) in path], [y for (_, y) in path], '-m')  # -m = magenta solid line
         plt.pause(0.001)
 
     def _pass_collision_check(self,
@@ -308,7 +301,7 @@ class Prm:
 
         if (cur_x != to_x) or (cur_y != to_y):
             # `!(cur_x == to_x and cur_y == to_y)`
-            # currently not reaching `to_node`, should also check `to_node` (TODO: maybe not since it is a sample point)
+            # currently not reaching `to_node`, should also check `to_node`
             if self._point_collides(x=to_x, y=to_y):
                 return False
 
