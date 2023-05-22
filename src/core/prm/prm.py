@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from .roadmap import RoadMapNode, RoadMap
 from .shortest_path import dijkstra
-from core.util import plot_circle, ObstacleDict
+from core.util import plot_circle, ObstacleDict, cal_dist_n_angle, cal_dist
 
 __all__ = ['Prm']
 
@@ -108,10 +108,8 @@ class Prm:
 
             # Add paths and costs between the real start & end/goal point and the nearest feasible sample points
             path = [start] + path + [goal]
-            cost += self._cal_dist_n_angle(from_x=start[0], from_y=start[1],
-                                           to_x=start_sample_node.x, to_y=start_sample_node.y)[0]
-            cost += self._cal_dist_n_angle(from_x=end_sample_node.x, from_y=end_sample_node.y,
-                                           to_x=goal[0], to_y=goal[1])[0]
+            cost += cal_dist(from_x=start[0], from_y=start[1], to_x=start_sample_node.x, to_y=start_sample_node.y)
+            cost += cal_dist(from_x=end_sample_node.x, from_y=end_sample_node.y, to_x=goal[0], to_y=goal[1])
 
             return path, cost
         finally:
@@ -138,7 +136,7 @@ class Prm:
             else:
                 from_x, from_y = cur_sample_x, cur_sample_y
                 to_x, to_y = point_x, point_y
-            d, _ = self._cal_dist_n_angle(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y)
+            d = cal_dist(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y)
             if (d <= self.max_edge_len) and self._pass_collision_check(from_x=from_x, from_y=from_y,
                                                                        to_x=to_x, to_y=to_y):
                 # found nearest feasible sample point
@@ -195,7 +193,7 @@ class Prm:
                 n_uid = cur_n.node_uid
 
                 # current examined node -> potential neighbor
-                d, _ = self._cal_dist_n_angle(from_x=ix, from_y=iy, to_x=nx, to_y=ny)
+                d = cal_dist(from_x=ix, from_y=iy, to_x=nx, to_y=ny)
                 if (d <= self.max_edge_len) and self._pass_collision_check(from_x=ix, from_y=iy, to_x=nx, to_y=ny):
                     self.road_map.add_edge(from_uid=i_uid, to_uid=n_uid)
                     n_new_edges_added += 1
@@ -283,23 +281,6 @@ class Prm:
         plt.plot([x for (x, _) in path], [y for (_, y) in path], '-m')  # -m = magenta solid line
         plt.pause(0.001)
 
-    @staticmethod
-    def _cal_dist_n_angle(from_x: float, from_y: float,
-                          to_x: float, to_y: float) -> (float, float):
-        """
-        Calculates the distance and angle from one node to the other.
-        :param from_x: x coordinate of the `from_node`
-        :param from_y: y coordinate of the `from_node`
-        :param to_x: x coordinate of the `to_node`
-        :param to_y: y coordinate of the `to_node`
-        :return: `d` as distance, `theta` as angle
-        """
-        dx = to_x - from_x
-        dy = to_y - from_y
-        d = math.hypot(dx, dy)
-        theta = math.atan2(dy, dx)
-        return d, theta
-
     def _pass_collision_check(self,
                               from_x: float, from_y: float,
                               to_x: float, to_y: float) -> bool:
@@ -312,7 +293,7 @@ class Prm:
         :param to_y: y coordinate of the `to_node`
         :return: collision check passes or not
         """
-        d, theta = self._cal_dist_n_angle(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y)
+        d, theta = cal_dist_n_angle(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y)
         path_resolution = self.robot_radius
         n_steps = round(d / path_resolution)
 
@@ -343,7 +324,7 @@ class Prm:
         t0 = time.time()
         try:
             for (ox, oy, o_radius) in zip(self.obstacles.o_x(), self.obstacles.o_y(), self.obstacles.o_r()):
-                cur_d, _ = self._cal_dist_n_angle(from_x=x, from_y=y, to_x=ox, to_y=oy)
+                cur_d = cal_dist(from_x=x, from_y=y, to_x=ox, to_y=oy)
                 if cur_d <= self.robot_radius + o_radius:
                     # collision!
                     return True
