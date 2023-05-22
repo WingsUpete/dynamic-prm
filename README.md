@@ -23,6 +23,16 @@ It is worth noting that PRM has the following two important features:
 1. Builds the road map offline at the setup phase.
 2. Supports multi-query.
 
+Below shows an example about how PRM operates in an environment and solves queries:
+
+<p style="text-align: center;">
+<img src="src/sample_data/test_problem/query_0.png" alt="PRM Example" width=60%>
+</p>
+
+The red triangle and red diamond represents the starting point and the goal point, respectively. The black parts 
+represent the obstacles. The road map constructed by PRM is represented as cyan points (nodes) and yellow solid lines
+(edges). The purple lines represent the found feasible path for this query.
+
 ### Why Dynamic Environment Matters?
 In most real-world scenarios, the environment robots operate in is not static. Obstacles change over time. As an 
 example, in the mountains, there may be accidents that big rocks fall from the top and block the road. Such environment 
