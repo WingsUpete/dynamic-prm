@@ -38,13 +38,6 @@ def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
     points be rendered
     :return: found feasible path as an ordered list of 2D points, or None if not found + path cost
     """
-    if animation:
-        # for stopping simulation with the esc key.
-        plt.gcf().canvas.mpl_connect(
-            'key_release_event',
-            lambda event: [exit(0) if event.key == 'escape' else None]
-        )
-
     start_road_map_node = road_map.get()[start_uid]
     start_node = DijkstraNode(x=start_road_map_node.x, y=start_road_map_node.y, cost=0)
 

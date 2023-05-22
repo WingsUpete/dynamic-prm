@@ -18,6 +18,13 @@ from core.prm import *
 def test_prm(show_map=False, animation=True):
     logger.info('Start PRM program.')
 
+    # For stopping simulation with the esc key.
+    if animation:
+        plt.gcf().canvas.mpl_connect(
+            'key_release_event',
+            lambda event: [exit(0) if event.key == 'escape' else None]
+        )
+
     # Load the sample problem
     test_problem_folder = '../../sample_data/test_problem/'
     with open(os.path.join(test_problem_folder, 'map.pickle'), 'rb') as f:

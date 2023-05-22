@@ -79,11 +79,6 @@ class Prm:
         self._reset_query_timer()
         try:
             if animation:
-                # for stopping simulation with the esc key.
-                plt.gcf().canvas.mpl_connect(
-                    'key_release_event',
-                    lambda event: [exit(0) if event.key == 'escape' else None]
-                )
                 self.draw_graph(start=start, goal=goal, road_map=self.road_map)
 
             if self._point_collides(x=start[0], y=start[1]) or self._point_collides(x=goal[0], y=goal[1]):
