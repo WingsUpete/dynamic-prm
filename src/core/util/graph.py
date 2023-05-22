@@ -7,7 +7,10 @@ from enum import IntEnum
 import math
 from typing import Callable
 
+import matplotlib.pyplot as plt
+
 from core.util.common import *
+from core.util.plot import plot_circle
 
 __all__ = ['Node2D', 'RoundObstacle', 'ObstacleDict', 'ObstacleType']
 
@@ -299,6 +302,17 @@ class ObstacleDict:
                 return False
 
         return True
+
+    def draw_obstacles(self, c: str = 'k') -> None:
+        """
+        Draws the obstacles with the specified color.
+        :param c: specified color
+        """
+        for (ox, oy, o_radius) in zip(self.o_x(), self.o_y(), self.o_r()):
+            if o_radius > 0.0:
+                plot_circle(x=ox, y=oy, r=o_radius, c=c, fill=True)
+            else:
+                plt.plot([ox], [oy], f'.{c}')  # . = point
 
     def __len__(self):
         return len(self._o_dict)

@@ -6,7 +6,7 @@ import numpy as np
 
 from core.util.common import cal_dist
 from core.util.graph import ObstacleDict
-from core.util.plot import plot_circle, draw_path
+from core.util.plot import draw_path
 from .roadmap import RoadMapNode, RoadMap
 from .shortest_path import dijkstra
 
@@ -245,12 +245,7 @@ class Prm:
         plt.plot(map_vx_list, map_vy_list, '-k')    # -k = black solid line
 
         # draw obstacles
-        obstacle_color = 'k'   # k = black
-        for (ox, oy, o_radius) in zip(self.obstacles.o_x(), self.obstacles.o_y(), self.obstacles.o_r()):
-            if o_radius > 0.0:
-                plot_circle(x=ox, y=oy, r=o_radius, c=obstacle_color, fill=True)
-            else:
-                plt.plot([ox], [oy], f'.{obstacle_color}')  # . = point
+        self.obstacles.draw_obstacles()
 
         # draw road map
         if road_map is not None:
