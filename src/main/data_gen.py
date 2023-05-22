@@ -32,6 +32,8 @@ max_n_sample_point_attempt = 20  # sample at most 20 starting/goal points, until
 n_single_query_test = 3  # use PRM to test each query 3 times (need to succeed in all tests)
 query_success_rate_threshold = 0.8  # 80% of the sampled queries should have feasible paths; otherwise discard this map
 
+img_dpi = 200
+
 
 def store_problem(problem_folder: str, problem_map: dict, problem_queries: list[dict]) -> None:
     """
@@ -56,7 +58,7 @@ def store_problem(problem_folder: str, problem_map: dict, problem_queries: list[
     # save a map figure
     o_dict: ObstacleDict = problem_map['obstacles']
     o_dict.draw_map_edge_n_obstacles()
-    plt.savefig(os.path.join(problem_folder, 'map.png'))
+    plt.savefig(os.path.join(problem_folder, 'map.png'), dpi=img_dpi)
 
     # save queries figures
     query_fig_folder = os.path.join(problem_folder, 'query_fig/')
@@ -67,7 +69,7 @@ def store_problem(problem_folder: str, problem_map: dict, problem_queries: list[
         cur_path, _ = cur_prm.plan(animation=False, **problem_queries[q_id])
         cur_prm.draw_graph(start=problem_queries[q_id]['start'], goal=problem_queries[q_id]['goal'],
                            road_map=cur_prm.road_map, path=cur_path, pause=False)
-        plt.savefig(os.path.join(query_fig_folder, f'{q_id}.png'))
+        plt.savefig(os.path.join(query_fig_folder, f'{q_id}.png'), dpi=img_dpi)
 
 
 def sample_feasible_point(o_dict: ObstacleDict, map_range: list[float]) -> Optional[list[float]]:
