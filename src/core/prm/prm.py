@@ -206,8 +206,7 @@ class Prm:
     def draw_graph(self,
                    start: list[float] = None, goal: list[float] = None,
                    road_map: Optional[RoadMap] = None,
-                   path: list[list[float]] = None,
-                   padding: float = 3) -> None:
+                   path: list[list[float]] = None) -> None:
         """
         Draws the graph. More details:
 
@@ -227,25 +226,11 @@ class Prm:
         :param goal: goal position of a query
         :param road_map: the road map of the sample points
         :param path: specified path
-        :param padding: padding of the plot around the map
         """
         plt.clf()
 
-        # set global map info
-        plt.axis('equal')
-        plt.xlim([self.map_min - padding, self.map_max + padding])
-        plt.ylim([self.map_min - padding, self.map_max + padding])
-        plt.grid(False)
-
-        # draw map range: starting from left bottom, go counter-clockwise
-        map_vx_list = [self.map_min, self.map_max, self.map_max, self.map_min]
-        map_vy_list = [self.map_min, self.map_min, self.map_max, self.map_max]
-        map_vx_list.append(map_vx_list[0])
-        map_vy_list.append(map_vy_list[0])
-        plt.plot(map_vx_list, map_vy_list, '-k')    # -k = black solid line
-
-        # draw obstacles
-        self.obstacles.draw_obstacles()
+        # draw map edge and obstacles
+        self.obstacles.draw_map_edge_n_obstacles()
 
         # draw road map
         if road_map is not None:

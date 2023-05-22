@@ -303,11 +303,28 @@ class ObstacleDict:
 
         return True
 
-    def draw_obstacles(self, c: str = 'k') -> None:
+    def draw_map_edge_n_obstacles(self, c: str = 'k', padding: float = 3) -> None:
         """
-        Draws the obstacles with the specified color.
+        Draws the map edge and obstacles with the specified color.
         :param c: specified color
+        :param padding: padding of the plot around the map
         """
+        plt.clf()
+
+        # set global map info
+        plt.axis('equal')
+        plt.xlim([self.map_min - padding, self.map_max + padding])
+        plt.ylim([self.map_min - padding, self.map_max + padding])
+        plt.grid(False)
+
+        # draw map edge: starting from left bottom, go counter-clockwise
+        map_vx_list = [self.map_min, self.map_max, self.map_max, self.map_min]
+        map_vy_list = [self.map_min, self.map_min, self.map_max, self.map_max]
+        map_vx_list.append(map_vx_list[0])
+        map_vy_list.append(map_vy_list[0])
+        plt.plot(map_vx_list, map_vy_list, f'-{c}')    # - = solid line
+
+        # draw obstacles
         for (ox, oy, o_radius) in zip(self.o_x(), self.o_y(), self.o_r()):
             if o_radius > 0.0:
                 plot_circle(x=ox, y=oy, r=o_radius, c=c, fill=True)
