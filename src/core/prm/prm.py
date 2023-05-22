@@ -130,9 +130,6 @@ class Prm:
         :return: found feasible path as an ordered list of 2D points, or None if not found + path cost +
         explored road map
         """
-        if animation:
-            self.draw_graph(start=start, goal=goal)
-
         self._reset_query_timer()
         t0 = time.time()
         try:
@@ -144,49 +141,71 @@ class Prm:
             start_node = RoadMapNode(x=start[0], y=start[1])
             goal_node = RoadMapNode(x=goal[0], y=goal[1])
 
-            new_road_map = RoadMap(enable_kd_tree=False)
-            new_road_map.add_node(node=start_node)
-            for i in range(self.rrt_max_iter):
-                # sample one node on the map
-                rnd_node = self._get_rrt_rand_node(goal_node=goal_node)
-                # get nearest neighbor of the sampled node
-                nearest_node_ind = new_road_map.get_nearest_neighbor(point=[rnd_node.x, rnd_node.y])
-                nearest_node = new_road_map.get_node_by_index(index=nearest_node_ind)
-
-                # get the expected new node to reach
-                new_node = self._steer_rrt(from_node=nearest_node, to_node=rnd_node)
-
-                # check if `nearest_node` can reach `new_node` (collision check)
-                if self.obstacles.reachable_without_collision(from_x=nearest_node.x, from_y=nearest_node.y,
-                                                              to_x=new_node.x, to_y=new_node.y):
-                    # add new node and form edge
-                    new_road_map.add_node(node=new_node)
-                    new_road_map.add_edge(from_uid=nearest_node.node_uid, to_uid=new_node.node_uid)
-                    # goal check
-                    if new_node.euclidean_distance(goal_node) <= self.max_edge_len:
-                        final_node = self._steer_rrt(from_node=new_node, to_node=goal_node)
-                        if self.obstacles.reachable_without_collision(from_x=new_node.x, from_y=new_node.y,
-                                                                      to_x=final_node.x, to_y=final_node.y):
-                            # add final node and form edge
-                            new_road_map.add_node(node=final_node)
-                            new_road_map.add_edge(from_uid=new_node.node_uid, to_uid=final_node.node_uid)
-                            # calculate final path and cost
-                            path, cost = self._get_rrt_path_with_cost(road_map=new_road_map, final_node=final_node)
-                            return path, cost, new_road_map
-
-                # render graph
-                if animation and i % animate_interval == 0:
-                    self.draw_graph(start=start, goal=goal, road_map=new_road_map, pause=False)
-                    # render `rnd_node` and `new_node`
-                    plt.plot(rnd_node.x, rnd_node.y, '^c')  # ^c = cyan triangle
-                    if self.robot_radius > 0.0:
-                        plot_circle(new_node.x, new_node.y, self.robot_radius, 'm', fill=False)  # m = magenta
-                    plt.pause(0.001)
-
-            return None, -1, None
+            return self._rrt_base(start=start_node, goal=goal_node,
+                                  animation=animation, animate_interval=animate_interval)
         finally:
             self._record_time(timer=self.query_timer, metric='rrt', val=(time.time() - t0))
             self._postproc_timers()
+
+    def _rrt_base(self, start: RoadMapNode, goal: RoadMapNode,
+                  animation: bool = True, animate_interval: int = 5) -> (Optional[list[list[float]]],
+                                                                         float,
+                                                                         Optional[RoadMap]):
+        """
+        Plans the route using RRT. Compared to plan_rrt, the starting point and goal point are represented as road
+        map nodes. This is used to record the uid of the two nodes for postprocessing.
+
+        :param start: starting node
+        :param goal: goal node
+        :param animation: enables animation or not
+        :param animate_interval: specifies how frequent (every x steps) should the graph be rendered
+        :return: found feasible path as an ordered list of 2D points, or None if not found + path cost +
+        explored road map
+        """
+        # create RRT Nodes for starting/goal points
+        start_node = RoadMapNode(x=start.x, y=start.y, node_uid=start.node_uid)
+        goal_node = RoadMapNode(x=goal.x, y=goal.y, node_uid=goal.node_uid)
+
+        new_road_map = RoadMap(enable_kd_tree=False)
+        new_road_map.add_node(node=start_node)
+        for i in range(self.rrt_max_iter):
+            # sample one node on the map
+            rnd_node = self._get_rrt_rand_node(goal_node=goal_node)
+            # get nearest neighbor of the sampled node
+            nearest_node_ind = new_road_map.get_nearest_neighbor(point=[rnd_node.x, rnd_node.y])
+            nearest_node = new_road_map.get_node_by_index(index=nearest_node_ind)
+
+            # get the expected new node to reach
+            new_node = self._steer_rrt(from_node=nearest_node, to_node=rnd_node)
+
+            # check if `nearest_node` can reach `new_node` (collision check)
+            if self.obstacles.reachable_without_collision(from_x=nearest_node.x, from_y=nearest_node.y,
+                                                          to_x=new_node.x, to_y=new_node.y):
+                # add new node and form edge
+                new_road_map.add_node(node=new_node)
+                new_road_map.add_edge(from_uid=nearest_node.node_uid, to_uid=new_node.node_uid)
+                # goal check
+                if new_node.euclidean_distance(goal_node) <= self.max_edge_len:
+                    final_node = self._steer_rrt(from_node=new_node, to_node=goal_node)
+                    if self.obstacles.reachable_without_collision(from_x=new_node.x, from_y=new_node.y,
+                                                                  to_x=final_node.x, to_y=final_node.y):
+                        # add final node and form edge
+                        new_road_map.add_node(node=final_node)
+                        new_road_map.add_edge(from_uid=new_node.node_uid, to_uid=final_node.node_uid)
+                        # calculate final path and cost
+                        path, cost = self._get_rrt_path_with_cost(road_map=new_road_map, final_node=final_node)
+                        return path, cost, new_road_map
+
+            # render graph
+            if animation and i % animate_interval == 0:
+                self.draw_graph(start=[start.x, start.y], goal=[goal.x, goal.y], road_map=new_road_map, pause=False)
+                # render `rnd_node` and `new_node`
+                plt.plot(rnd_node.x, rnd_node.y, '^c')  # ^c = cyan triangle
+                if self.robot_radius > 0.0:
+                    plot_circle(new_node.x, new_node.y, self.robot_radius, 'm', fill=False)  # m = magenta
+                plt.pause(0.001)
+
+        return None, -1, None
 
     def _get_rrt_rand_node(self, goal_node: RoadMapNode) -> RoadMapNode:
         """
