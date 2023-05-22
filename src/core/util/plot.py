@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 
-__all__ = ['plot_circle', 'draw_path']
+__all__ = ['plot_circle', 'draw_path', 'draw_query_points']
 
 
 def plot_circle(x: float, y: float, r: float, c: str = 'b', fill: bool = True) -> None:
@@ -34,4 +34,15 @@ def draw_path(path: list[list[float]], c: str = 'm') -> None:
     :param c: specified color (magenta by default)
     """
     plt.plot([x for (x, _) in path], [y for (_, y) in path], f'-{c}')  # - = solid line
+    plt.pause(0.001)
+
+
+def draw_query_points(start: list[float], goal: list[float]) -> None:
+    """
+    Draws the starting point and the goal point for a query
+    :param start: coordinate list of the starting point
+    :param goal: coordinate list of the goal point
+    """
+    plt.plot(start[0], start[1], '^r')  # ^r = red triangle
+    plt.plot(goal[0], goal[1], 'dr')  # dr = red thin_diamond marker
     plt.pause(0.001)

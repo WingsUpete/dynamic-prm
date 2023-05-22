@@ -4,9 +4,9 @@ from typing import Optional
 import matplotlib.pyplot as plt
 import numpy as np
 
-from core.util.common import cal_dist
+from core.util.common import *
 from core.util.graph import ObstacleDict
-from core.util.plot import draw_path
+from core.util.plot import draw_path, draw_query_points
 from .roadmap import RoadMapNode, RoadMap
 from .shortest_path import dijkstra
 
@@ -248,8 +248,7 @@ class Prm:
 
         # draw start & goal
         if (start is not None) and (goal is not None):
-            plt.plot(start[0], start[1], '^r')  # ^r = red triangle
-            plt.plot(goal[0], goal[1], 'dr')    # dr = red thin_diamond marker
+            draw_query_points(start=start, goal=goal)
 
         plt.pause(0.001)
 

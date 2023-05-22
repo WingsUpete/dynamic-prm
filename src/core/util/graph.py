@@ -331,6 +331,8 @@ class ObstacleDict:
             else:
                 plt.plot([ox], [oy], f'.{c}')  # . = point
 
+        plt.pause(0.001)
+
     def __len__(self):
         return len(self._o_dict)
 
