@@ -5,7 +5,7 @@ from hashlib import sha256
 from collections import OrderedDict
 from enum import IntEnum
 import math
-from typing import Callable
+from typing import Callable, Optional
 
 import matplotlib.pyplot as plt
 
@@ -271,7 +271,7 @@ class ObstacleDict:
     def reachable_without_collision(self,
                                     from_x: float, from_y: float,
                                     to_x: float, to_y: float,
-                                    collision_checking_func: Callable = point_collides) -> bool:
+                                    collision_checking_func: Optional[Callable] = None) -> bool:
         """
         Checks whether the robot will bump into an obstacle when she travels from one given point to the other given
         point. If collision check passes, return True!
@@ -282,6 +282,8 @@ class ObstacleDict:
         :param collision_checking_func: specifies a collision_checking_function (default to my own)
         :return: collision check passes or not
         """
+        collision_checking_func = collision_checking_func if collision_checking_func else self.point_collides
+
         d, theta = cal_dist_n_angle(from_x=from_x, from_y=from_y, to_x=to_x, to_y=to_y)
         path_resolution = self.robot_radius
         n_steps = round(d / path_resolution)
