@@ -165,7 +165,7 @@ def gen_obstacle_addition_cases(output_folder: str = DATA_DIR_DEFAULT,
     summary_fn = os.path.join(output_folder, 'obstacle_addition_test_cases.json')
     if os.path.isfile(summary_fn):
         with open(summary_fn) as f:
-            test_cases = json.load(f)
+            test_cases = json.load(f)['test_cases']
     else:
         # {"map": "data/12", "query": 6, "case": "data/12/case_obstacle_uid/"}
         test_cases = []
@@ -175,6 +175,7 @@ def gen_obstacle_addition_cases(output_folder: str = DATA_DIR_DEFAULT,
     random.shuffle(dirs)
     logger.info('folders: %s' % dirs)
     pbar = tqdm(total=n_cases)
+    pbar.update(len(test_cases))
     for item in dirs:
         cur_folder = os.path.join(output_folder, item)
         if not os.path.isdir(cur_folder):
