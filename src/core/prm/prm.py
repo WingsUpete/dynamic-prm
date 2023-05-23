@@ -6,7 +6,7 @@ import random
 import matplotlib.pyplot as plt
 
 from core.util.common import *
-from core.util.graph import ObstacleDict
+from core.util.graph import ObstacleDict, RoundObstacle
 from core.util.plot import draw_path, draw_query_points, plot_circle
 from .roadmap import RoadMapNode, RoadMap
 from .shortest_path import dijkstra
@@ -146,6 +146,14 @@ class Prm:
         finally:
             self._record_time(timer=self.query_timer, metric='rrt', val=(time.time() - t0))
             self._postproc_timers()
+
+    def add_obstacle_to_environment(self, obstacle: RoundObstacle) -> None:
+        """
+        Adds the obstacle to the environment and handle road map nodes/edges that are blocked
+        :param obstacle: the obstacle to be added
+        """
+        self.obstacles.add_obstacle(obstacle=obstacle)
+
 
     def _rrt_base(self, start: RoadMapNode, goal: RoadMapNode,
                   animation: bool = True, animate_interval: int = 5) -> (Optional[list[list[float]]],
