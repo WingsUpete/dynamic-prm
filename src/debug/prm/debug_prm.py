@@ -27,11 +27,12 @@ def load_sample_problem(animation=True):
     test_problem_folder = '../../sample_data/test_problem/'
     with open(os.path.join(test_problem_folder, 'map.pickle'), 'rb') as f:
         test_map = pickle.load(f)
+        test_map['rnd_seed'] = None
     with open(os.path.join(test_problem_folder, 'queries.pickle'), 'rb') as f:
         test_queries = pickle.load(f)
     test_query = test_queries[0]
     test_query['animation'] = animation
-    logger.info('Seed: %d' % test_map['rnd_seed'])
+    logger.info('Seed: %s' % test_map['rnd_seed'])
     return test_map, test_query
 
 
