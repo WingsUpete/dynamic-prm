@@ -44,6 +44,9 @@ class RoadMap:
         # node_uid -> node
         self._road_map: OrderedDict[str, RoadMapNode] = OrderedDict()
 
+        # clear road map with no blocked nodes/edges
+        self._clear_roadmap: Optional[RoadMap] = None
+
         # ordered list of separated sample coordinates transformed from the road map
         self._sample_x: list[float] = []
         self._sample_y: list[float] = []
@@ -70,6 +73,14 @@ class RoadMap:
         Gets a new version of road map with all blocked nodes/edges deleted
         :return: a new road map
         """
+        if self._modified:
+            self._update_dependent_vars()
+        return self._clear_roadmap
+
+    def _update_clear_roadmap(self):
+        """
+        Gets a new version of road map with all blocked nodes/edges deleted
+        """
         new_road_map = RoadMap(enable_kd_tree=self.kd_tree_enabled())
 
         # add clear nodes
@@ -84,7 +95,7 @@ class RoadMap:
                 if to_able:
                     new_road_map.add_edge(from_uid=cur_uid, to_uid=to_uid)
 
-        return new_road_map
+        self._clear_roadmap = new_road_map
 
     def get_node_by_index(self, index: int) -> RoadMapNode:
         """
@@ -179,27 +190,27 @@ class RoadMap:
         for from_uid in self.get()[node_uid].from_node_uid_dict.keys():
             self.get()[node_uid].from_node_uid_dict[from_uid] = False
             self.get()[from_uid].to_node_uid_dict[node_uid] = False
-
         # block node
         self.get()[node_uid].clear = False
+        self._modified = True
 
-    def unblock_node(self, node_uid: str) -> None:
-        """
-        Unblocks a node due to removed obstacles. Note that all related edges should be checked for connectivity.
-
-        TODO: current implementation is not correct. Should move it to PRM later.
-        :param node_uid: uid of the node
-        """
-        # unblock edges
-        for to_uid in self.get()[node_uid].to_node_uid_dict.keys():
-            self.get()[node_uid].to_node_uid_dict[to_uid] = True
-            self.get()[to_uid].from_node_uid_dict[node_uid] = True
-        for from_uid in self.get()[node_uid].from_node_uid_dict.keys():
-            self.get()[node_uid].from_node_uid_dict[from_uid] = True
-            self.get()[from_uid].to_node_uid_dict[node_uid] = True
-
-        # unblock node
-        self.get()[node_uid].clear = True
+    # def unblock_node(self, node_uid: str) -> None:
+    #     """
+    #     Unblocks a node due to removed obstacles. Note that all related edges should be checked for connectivity.
+    #
+    #     TODO: current implementation is not correct. Should move it to PRM later.
+    #     :param node_uid: uid of the node
+    #     """
+    #     # unblock edges
+    #     for to_uid in self.get()[node_uid].to_node_uid_dict.keys():
+    #         self.get()[node_uid].to_node_uid_dict[to_uid] = True
+    #         self.get()[to_uid].from_node_uid_dict[node_uid] = True
+    #     for from_uid in self.get()[node_uid].from_node_uid_dict.keys():
+    #         self.get()[node_uid].from_node_uid_dict[from_uid] = True
+    #         self.get()[from_uid].to_node_uid_dict[node_uid] = True
+    #     # unblock node
+    #     self.get()[node_uid].clear = True
+    #     self._modified = True
 
     def add_edge(self, from_uid: str, to_uid: str) -> None:
         """
@@ -237,6 +248,7 @@ class RoadMap:
         """
         self.get()[from_uid].to_node_uid_dict[to_uid] = False
         self.get()[to_uid].from_node_uid_dict[from_uid] = False
+        self._modified = True
 
     def unblock_edge(self, from_uid: str, to_uid: str) -> None:
         """
@@ -246,6 +258,7 @@ class RoadMap:
         """
         self.get()[from_uid].to_node_uid_dict[to_uid] = True
         self.get()[to_uid].from_node_uid_dict[from_uid] = True
+        self._modified = True
 
     def enable_kd_tree(self) -> None:
         """
@@ -269,6 +282,7 @@ class RoadMap:
         self._sample_uid = [node.node_uid for node in self.get().values()]
         if self._enable_kd_tree:
             self._kd_tree = KDTree(np.vstack((self._sample_x, self._sample_y)).T)
+        self._update_clear_roadmap()
         self._modified = False
 
     def sample_x(self) -> list[float]:
