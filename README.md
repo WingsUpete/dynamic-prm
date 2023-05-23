@@ -56,11 +56,14 @@ In detail, it examines the following problems:
 
 ### Collision Checking: BVH
 Now that obstacles are rounds rather than points, a simple obstacle KD Tree does not give the actual nearest obstacle.
-To avoid brute force collision checking, other data structures should be considered. Here, we choose BVH (Bounding
-Volume Hierarchy).
+To avoid brute force collision checking, other data structures should be considered. Here, we plan to utilize BVH 
+(Bounding Volume Hierarchy).
 
 ### New Obstacles Blocking Existing Edges
-xxx
+To handle such scenario, the following steps should be followed:
+1. Detect the nodes + edges that are blocked, update the road map and obstacles respectively. Note that all nodes that
+fail the collision check should be identified (not necessarily sit within the new obstacle).
+2. For each blocked edge
 
 ### Existing Obstacles Deleted
 xxx
