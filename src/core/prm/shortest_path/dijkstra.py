@@ -2,7 +2,7 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 
-from core.prm import RoadMap
+from core.prm import RoadMap, RoadMapNode
 from core.util import Node2D
 
 __all__ = ['dijkstra']
@@ -10,21 +10,22 @@ __all__ = ['dijkstra']
 
 class DijkstraNode(Node2D):
     """ Node class for Dijkstra """
-    def __init__(self, x: float, y: float, cost: float = 0, parent_uid: str = None):
+    def __init__(self, x: float, y: float, node_uid: str = None, cost: float = 0, parent_uid: str = None):
         """
         Node class for Dijkstra.
         :param x: x coordinate
         :param y: y coordinate
+        :param node_uid: uid of the node (corresponding to the road map node)
         :param cost: cost from start to here
         :param parent_uid: uid of parent node
         """
-        super().__init__(x=x, y=y)
+        super().__init__(x=x, y=y, node_uid=node_uid)
         self.cost = cost
         self.parent_uid = parent_uid
 
 
 def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
-             animation: bool = True, animate_interval: int = 10) -> (Optional[list[list[float]]], float):
+             animation: bool = True, animate_interval: int = 10) -> (Optional[list[RoadMapNode]], float):
     """
     Runs Dijkstra algorithm to find the shortest path from starting point to end point, given the sample points + road
     map from PRM solver. Note that both starting point and end point are sample points.
@@ -39,7 +40,9 @@ def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
     :return: found feasible path as an ordered list of 2D points, or None if not found + path cost
     """
     start_road_map_node = road_map.get()[start_uid]
-    start_node = DijkstraNode(x=start_road_map_node.x, y=start_road_map_node.y, cost=0)
+    start_node = DijkstraNode(x=start_road_map_node.x, y=start_road_map_node.y,
+                              node_uid=start_road_map_node.node_uid,
+                              cost=0)
 
     open_set, closed_set = {}, {}
     open_set[start_uid] = start_node     # uid -> node
@@ -67,7 +70,7 @@ def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
             cost = 0.0
             cur_node: DijkstraNode = current_node
             while True:
-                path.append([cur_node.x, cur_node.y])
+                path.append(road_map.get()[cur_node.node_uid])
                 if cur_node.parent_uid is None:
                     break
 
@@ -91,7 +94,8 @@ def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
                 continue
 
             neighbor_road_map_node = road_map.get()[neighbor_node_uid]
-            neighbor_node = DijkstraNode(x=neighbor_road_map_node.x, y=neighbor_road_map_node.y)
+            neighbor_node = DijkstraNode(x=neighbor_road_map_node.x, y=neighbor_road_map_node.y,
+                                         node_uid=neighbor_road_map_node.node_uid)
             d = current_node.euclidean_distance(other=neighbor_node)
             neighbor_node.cost = current_node.cost + d
             neighbor_node.parent_uid = cur_node_uid

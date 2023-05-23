@@ -92,7 +92,12 @@ def analyze_path(my_prm: Prm, my_path: list[list[float]], my_path_cost: float, t
 
 
 def test_add_obstacle():
+    # fetch problem
     test_map, test_query = load_sample_problem(animation=True)
+    test_query['repair'] = False
+    logger.info('Using Naive PRM.')
+
+    # construct PRM solver
     my_prm = Prm(**test_map)
     logger.info('PRM solver constructed.')
     my_prm.draw_graph()
@@ -121,11 +126,19 @@ def test_add_obstacle():
     analyze_path(my_prm, my_path, my_path_cost, test_query)
     plt.waitforbuttonpress()
 
+    # USE repair, query 3rd time
+    test_query['repair'] = True
+    logger.info('Using Repair PRM.')
+    logger.info('3rd query.')
+    my_path, my_path_cost = my_prm.plan(**test_query)
+    analyze_path(my_prm, my_path, my_path_cost, test_query)
+    plt.waitforbuttonpress()
+
 
 if __name__ == '__main__':
-    # test_prm(
-    #     # use_rrt=True,
-    #     # show_map=True,
-    #     # animation=False
-    # )
-    test_add_obstacle()
+    test_prm(
+        # use_rrt=True,
+        # show_map=True,
+        # animation=False
+    )
+    # test_add_obstacle()

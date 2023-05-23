@@ -72,12 +72,14 @@ class Prm:
         self._postproc_timers()
 
     def plan(self, start: list[float], goal: list[float],
+             repair: bool = False,
              animation: bool = True) -> (Optional[list[list[float]]], float):
         """
         Plans the route using PRM.
 
         :param start: starting position for the problem
         :param goal: goal position for the problem
+        :param repair: specifies whether to repair PRM when new obstacles block the path that was feasible
         :param animation: enables animation or not
         :return: found feasible path as an ordered list of 2D points, or None if not found + path cost
         """
@@ -108,15 +110,36 @@ class Prm:
                                   animation=animation)
             self._record_time(timer=self.query_timer, metric='shortest_path', val=(time.time() - t0))
 
-            if path is None:
-                return None, -1
+            # found path, normally output
+            if path is not None:
+                # Add paths and costs between the real start & end/goal point and the nearest feasible sample points
+                path = [start] + [[cur_node.x, cur_node.y] for cur_node in path] + [goal]
+                cost += cal_dist(from_x=start[0], from_y=start[1], to_x=start_sample_node.x, to_y=start_sample_node.y)
+                cost += cal_dist(from_x=end_sample_node.x, from_y=end_sample_node.y, to_x=goal[0], to_y=goal[1])
+                return path, cost
 
-            # Add paths and costs between the real start & end/goal point and the nearest feasible sample points
-            path = [start] + path + [goal]
-            cost += cal_dist(from_x=start[0], from_y=start[1], to_x=start_sample_node.x, to_y=start_sample_node.y)
-            cost += cal_dist(from_x=end_sample_node.x, from_y=end_sample_node.y, to_x=goal[0], to_y=goal[1])
+            # path not found
+            if repair:
+                if animation:
+                    time.sleep(3)
+                    self.draw_graph(start=start, goal=goal, road_map=self.road_map)
 
-            return path, cost
+                t1 = time.time()
+                # Rerun Dijkstra on the general road map to check if previously there was a path
+                path, cost = dijkstra(road_map=self.road_map,
+                                      start_uid=start_sample_node.node_uid, end_uid=end_sample_node.node_uid,
+                                      animation=animation)
+                if path is None:
+                    # cannot find path even before nodes/edges are blocked, then nothing can be repaired.
+                    return None, -1
+
+                # otherwise: feasible path exists before
+                # try to sample a starting point on the first path segment & an ending point on the last path segment
+                # TODO
+                return 'hi'
+
+
+                self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
         finally:
             self._postproc_timers()
 
@@ -494,7 +517,8 @@ class Prm:
         """
         self.query_timer = {
             'shortest_path': 0.0,
-            'rrt': 0.0
+            'rrt': 0.0,
+            'repair': 0.0
         }
 
     @staticmethod
