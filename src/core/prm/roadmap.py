@@ -309,12 +309,17 @@ class RoadMap:
         """
         # edges
         for (ix, iy, i_uid) in zip(self.sample_x(), self.sample_y(), self.sample_uid()):
-            for j_uid in self.get()[i_uid].to_node_uid_dict.keys():
+            for (j_uid, ij_clear) in self.get()[i_uid].to_node_uid_dict.items():
                 j_node = self.get()[j_uid]
                 plt.plot([ix, j_node.x],
-                         [iy, j_node.y], '-y', alpha=0.2)  # -k = yellow solid line
+                         [iy, j_node.y],
+                         '-y' if ij_clear else '-r',
+                         alpha=0.2)  # -y = yellow solid line (-r = red solid line)
         # nodes
-        plt.plot(self.sample_x(), self.sample_y(), '.c')  # .c = cyan points
+        clear_node_coords = [(cur_node.x, cur_node.y) for cur_node in self.get().values() if cur_node.clear]
+        blocked_node_coords = [(cur_node.x, cur_node.y) for cur_node in self.get().values() if not cur_node.clear]
+        plt.plot([x for (x, _) in clear_node_coords], [y for (_, y) in clear_node_coords], '.c')  # .c = cyan points
+        plt.plot([x for (x, _) in blocked_node_coords], [y for (_, y) in blocked_node_coords], '.r')  # .r = red points
 
     def __len__(self):
         return len(self._road_map)

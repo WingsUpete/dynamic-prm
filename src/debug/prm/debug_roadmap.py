@@ -3,6 +3,8 @@ import sys
 sys.path.append(os.path.join(os.getcwd(), '../../'))  # load core
 from random import random
 
+import matplotlib.pyplot as plt
+
 from core.prm import *
 
 
@@ -59,17 +61,32 @@ def test_roadmap():
 def test_blocking():
     rmp = construct_roadmap()
     print_roadmap_with_to_edges(rmp)
+    rmp.draw_road_map()
+    plt.pause(0.001)
+    plt.waitforbuttonpress()
     print('---------------------------')
     print('Block "2 --> 4"')
     rmp.block_edge(from_uid='2', to_uid='4')
     print_roadmap_with_to_edges(rmp.get_clear_roadmap())
+    plt.clf()
+    rmp.draw_road_map()
+    plt.pause(0.001)
+    plt.waitforbuttonpress()
     print('Recover')
     rmp.unblock_edge(from_uid='2', to_uid='4')
     print_roadmap_with_to_edges(rmp.get_clear_roadmap())
+    plt.clf()
+    rmp.draw_road_map()
+    plt.pause(0.001)
+    plt.waitforbuttonpress()
     print('---------------------------')
     print('Block node 5')
     rmp.block_node(node_uid='5')
     print_roadmap_with_to_edges(rmp.get_clear_roadmap())
+    plt.clf()
+    rmp.draw_road_map()
+    plt.pause(0.001)
+    plt.waitforbuttonpress()
 
 
 if __name__ == '__main__':
