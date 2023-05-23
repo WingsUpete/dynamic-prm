@@ -141,11 +141,18 @@ class Prm:
             # try to sample a starting point on the first path segment & an ending point on the last path segment
             sel_start_node = None
             sel_start_freedom = float('-inf')
+            path_first = [path[0]]
+            cost_first = 0.0
             for i in range(len(path)):
                 cur_node: RoadMapNode = path[i]
-                if (i > 0) and (not cur_node.from_node_uid_dict[path[i - 1].node_uid]):
-                    # "pre --> cur" is blocked! -> break
-                    break
+                if i > 0:
+                    if not cur_node.from_node_uid_dict[path[i - 1].node_uid]:
+                        # "pre --> cur" is blocked! -> break
+                        break
+                    else:
+                        # otherwise, this edge is fine -> add & cost
+                        path_first.append(cur_node)
+                        cost_first += path[i - 1].euclidean_distance(other=cur_node)
                 if eval_freedom:
                     cur_freedom = self.calc_node_freedom(node=cur_node)
                     if cur_freedom >= sel_start_freedom:    # `=` means select as latter nodes as possible
@@ -157,11 +164,18 @@ class Prm:
 
             sel_end_node = None
             sel_end_freedom = float('-inf')
+            path_last = [path[-1]]
+            cost_last = 0.0
             for i in range(len(path)):
                 cur_node: RoadMapNode = path[len(path) - 1 - i]
-                if (i > 0) and (not cur_node.to_node_uid_dict[path[len(path) - i].node_uid]):
-                    # "cur --> next" is blocked! -> break
-                    break
+                if i > 0:
+                    if not cur_node.to_node_uid_dict[path[len(path) - i].node_uid]:
+                        # "cur --> next" is blocked! -> break
+                        break
+                    else:
+                        # otherwise, this edge is fine -> add node & cost
+                        path_last.append(cur_node)
+                        cost_last += cur_node.euclidean_distance(other=path[len(path) - i])
                 if eval_freedom:
                     cur_freedom = self.calc_node_freedom(node=cur_node)
                     if cur_freedom >= sel_end_freedom:  # `=` means select as former nodes as possible
@@ -170,19 +184,60 @@ class Prm:
                 else:
                     # simply select the first node
                     sel_end_node = cur_node
+            path_last.reverse()
 
             if animation:
                 # plot the selected start/end node
                 self.draw_graph(start=start, goal=goal, road_map=self.road_map,
                                 path=([start] + [[cur_node.x, cur_node.y] for cur_node in path] + [goal]),
                                 pause=False)
+                draw_path(path=([start] + [[cur_node.x, cur_node.y] for cur_node in path_first]), c='g')
+                draw_path(path=([[cur_node.x, cur_node.y] for cur_node in path_last] + [goal]), c='g')
+                draw_query_points(start=[sel_start_node.x, sel_start_node.y], goal=[sel_end_node.x, sel_end_node.y], c='b')
+                plt.pause(0.001)
+                plt.waitforbuttonpress()
+                self.draw_graph(start=start, goal=goal, road_map=self.road_map.get_clear_roadmap(), pause=False)
+                draw_path(path=([start] + [[cur_node.x, cur_node.y] for cur_node in path_first]), c='g')
+                draw_path(path=([[cur_node.x, cur_node.y] for cur_node in path_last] + [goal]), c='g')
                 draw_query_points(start=[sel_start_node.x, sel_start_node.y], goal=[sel_end_node.x, sel_end_node.y], c='b')
                 plt.pause(0.001)
                 plt.waitforbuttonpress()
 
-            # TODO: RRT now!
+            # RRT now!
+            rrt_path, rrt_cost, rrt_road_map = self._rrt_base(start=sel_start_node, goal=sel_end_node,
+                                                              animation=animation)
+            if rrt_path is None:
+                # RRT still cannot fix the problem
+                return None, -1
+
+            # otherwise, RRT found a path!
+            # append the RRT paths to the road map (only new nodes are appended, judging from uid)
+            for rrt_node in rrt_path:
+                if rrt_node.node_uid in self.road_map.get():
+                    continue
+                new_rrt_node = RoadMapNode(x=rrt_node.x, y=rrt_node.y, node_uid=rrt_node.node_uid)
+                self.road_map.add_node(node=new_rrt_node)
+            for i in range(len(rrt_path) - 1):
+                cur_rrt_node = rrt_path[i]
+                nxt_rrt_node = rrt_path[i + 1]
+                self.road_map.add_edge(from_uid=cur_rrt_node.node_uid, to_uid=nxt_rrt_node.node_uid)
+
+            # postprocess path
+            road_map_path = path_first + rrt_path + path_last
+            road_map_cost = cost_first + rrt_cost + cost_last
+            path, cost = self._postproc_path_with_cost(path=road_map_path, cost=road_map_cost,
+                                                       start=start, goal=goal,
+                                                       start_sample_node=start_sample_node,
+                                                       end_sample_node=end_sample_node)
+
+            if animation:
+                self.draw_graph(start=start, goal=goal, road_map=self.road_map.get_clear_roadmap(), path=path, pause=False)
+                draw_query_points(start=[sel_start_node.x, sel_start_node.y], goal=[sel_end_node.x, sel_end_node.y], c='b')
+                plt.pause(0.001)
+                plt.waitforbuttonpress()
 
             self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
+            return path, cost
         finally:
             self._postproc_timers()
 

@@ -110,7 +110,7 @@ def test_add_obstacle():
     plt.waitforbuttonpress()
 
     # add obstacle
-    add_obstacle = RoundObstacle(x=32, y=22, r=2, obstacle_type=ObstacleType.NORMAL, obstacle_uid='add')
+    add_obstacle = RoundObstacle(x=30, y=37, r=1, obstacle_type=ObstacleType.NORMAL, obstacle_uid='add')
     logger.info('Add one obstacle: %s' % add_obstacle)
     my_prm.add_obstacle_to_environment(obstacle=add_obstacle)
     my_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
@@ -135,11 +135,17 @@ def test_add_obstacle():
     analyze_path(my_prm, my_path, my_path_cost, test_query)
     plt.waitforbuttonpress()
 
+    # query 4th time
+    logger.info('4th query.')
+    my_path, my_path_cost = my_prm.plan(**test_query)
+    analyze_path(my_prm, my_path, my_path_cost, test_query)
+    plt.waitforbuttonpress()
+
 
 if __name__ == '__main__':
-    test_prm(
-        use_rrt=True,
-        # show_map=True,
-        # animation=False
-    )
-    # test_add_obstacle()
+    # test_prm(
+    #     use_rrt=True,
+    #     # show_map=True,
+    #     # animation=False
+    # )
+    test_add_obstacle()

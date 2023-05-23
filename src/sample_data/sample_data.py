@@ -23,8 +23,8 @@ def get_test_problem(cur_seed: Optional[int] = None, init_n_samples: Optional[in
     random.seed(cur_seed)
 
     cur_map_range = [0, 60]
-    cur_robot_radius = 2
-    max_or = 6
+    cur_robot_radius = 1
+    max_or = 5
 
     # obstacles
     o_dict = ObstacleDict(map_range=cur_map_range, robot_radius=cur_robot_radius)
