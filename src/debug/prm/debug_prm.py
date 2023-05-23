@@ -128,7 +128,8 @@ def test_add_obstacle():
 
     # USE repair, query 3rd time
     test_query['repair'] = True
-    logger.info('Using Repair PRM.')
+    test_query['eval_freedom'] = True
+    logger.info('Using Repair PRM with freedom evaluation.')
     logger.info('3rd query.')
     my_path, my_path_cost = my_prm.plan(**test_query)
     analyze_path(my_prm, my_path, my_path_cost, test_query)
@@ -136,9 +137,9 @@ def test_add_obstacle():
 
 
 if __name__ == '__main__':
-    test_prm(
-        # use_rrt=True,
-        # show_map=True,
-        # animation=False
-    )
-    # test_add_obstacle()
+    # test_prm(
+    #     # use_rrt=True,
+    #     # show_map=True,
+    #     # animation=False
+    # )
+    test_add_obstacle()

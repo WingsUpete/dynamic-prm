@@ -36,11 +36,12 @@ def draw_path(path: list[list[float]], c: str = 'm') -> None:
     plt.plot([x for (x, _) in path], [y for (_, y) in path], f'-{c}')  # - = solid line
 
 
-def draw_query_points(start: list[float], goal: list[float]) -> None:
+def draw_query_points(start: list[float], goal: list[float], c: str = 'r') -> None:
     """
     Draws the starting point and the goal point for a query
     :param start: coordinate list of the starting point
     :param goal: coordinate list of the goal point
+    :param c: color of the query points
     """
-    plt.plot(start[0], start[1], '^r')  # ^r = red triangle
-    plt.plot(goal[0], goal[1], 'dr')  # dr = red thin_diamond marker
+    plt.plot(start[0], start[1], f'^{c}')  # ^ = triangle
+    plt.plot(goal[0], goal[1], f'd{c}')  # d = thin_diamond marker

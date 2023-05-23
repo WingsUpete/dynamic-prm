@@ -72,7 +72,7 @@ class Prm:
         self._postproc_timers()
 
     def plan(self, start: list[float], goal: list[float],
-             repair: bool = False,
+             repair: bool = False, eval_freedom: bool = False,
              animation: bool = True) -> (Optional[list[list[float]]], float):
         """
         Plans the route using PRM.
@@ -80,6 +80,8 @@ class Prm:
         :param start: starting position for the problem
         :param goal: goal position for the problem
         :param repair: specifies whether to repair PRM when new obstacles block the path that was feasible
+        :param eval_freedom: specifies whether to evaluate and select nodes on the previous feasible path according
+        to their "freedom" (directions that it can span out) for repairing
         :param animation: enables animation or not
         :return: found feasible path as an ordered list of 2D points, or None if not found + path cost
         """
@@ -112,34 +114,75 @@ class Prm:
 
             # found path, normally output
             if path is not None:
-                # Add paths and costs between the real start & end/goal point and the nearest feasible sample points
-                path = [start] + [[cur_node.x, cur_node.y] for cur_node in path] + [goal]
-                cost += cal_dist(from_x=start[0], from_y=start[1], to_x=start_sample_node.x, to_y=start_sample_node.y)
-                cost += cal_dist(from_x=end_sample_node.x, from_y=end_sample_node.y, to_x=goal[0], to_y=goal[1])
+                path, cost = self._postproc_path_with_cost(path=path, cost=cost, start=start, goal=goal,
+                                                           start_sample_node=start_sample_node,
+                                                           end_sample_node=end_sample_node)
                 return path, cost
 
             # path not found
-            if repair:
-                if animation:
-                    time.sleep(3)
-                    self.draw_graph(start=start, goal=goal, road_map=self.road_map)
+            if not repair:
+                # do not repair, just leave me be.
+                return None, -1
 
-                t1 = time.time()
-                # Rerun Dijkstra on the general road map to check if previously there was a path
-                path, cost = dijkstra(road_map=self.road_map,
-                                      start_uid=start_sample_node.node_uid, end_uid=end_sample_node.node_uid,
-                                      animation=animation)
-                if path is None:
-                    # cannot find path even before nodes/edges are blocked, then nothing can be repaired.
-                    return None, -1
+            # otherwise: repair
+            if animation:
+                self.draw_graph(start=start, goal=goal, road_map=self.road_map)
 
-                # otherwise: feasible path exists before
-                # try to sample a starting point on the first path segment & an ending point on the last path segment
-                # TODO
-                return 'hi'
+            t1 = time.time()
+            # Rerun Dijkstra on the general road map to check if previously there was a path
+            path, cost = dijkstra(road_map=self.road_map,
+                                  start_uid=start_sample_node.node_uid, end_uid=end_sample_node.node_uid,
+                                  animation=animation)
+            if path is None:
+                # cannot find path even before nodes/edges are blocked, then nothing can be repaired.
+                return None, -1
 
+            # otherwise: feasible path exists before
+            # try to sample a starting point on the first path segment & an ending point on the last path segment
+            sel_start_node = None
+            sel_start_freedom = float('-inf')
+            for i in range(len(path)):
+                cur_node: RoadMapNode = path[i]
+                if (i > 0) and (not cur_node.from_node_uid_dict[path[i - 1].node_uid]):
+                    # "pre --> cur" is blocked! -> break
+                    break
+                if eval_freedom:
+                    cur_freedom = self.calc_node_freedom(node=cur_node)
+                    if cur_freedom >= sel_start_freedom:    # `=` means select as latter nodes as possible
+                        sel_start_node = cur_node
+                        sel_start_freedom = cur_freedom
+                else:
+                    # simply select the last node
+                    sel_start_node = cur_node
 
-                self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
+            sel_end_node = None
+            sel_end_freedom = float('-inf')
+            for i in range(len(path)):
+                cur_node: RoadMapNode = path[len(path) - 1 - i]
+                if (i > 0) and (not cur_node.to_node_uid_dict[path[len(path) - i].node_uid]):
+                    # "cur --> next" is blocked! -> break
+                    break
+                if eval_freedom:
+                    cur_freedom = self.calc_node_freedom(node=cur_node)
+                    if cur_freedom >= sel_end_freedom:  # `=` means select as former nodes as possible
+                        sel_end_node = cur_node
+                        sel_end_freedom = cur_freedom
+                else:
+                    # simply select the first node
+                    sel_end_node = cur_node
+
+            if animation:
+                # plot the selected start/end node
+                self.draw_graph(start=start, goal=goal, road_map=self.road_map,
+                                path=([start] + [[cur_node.x, cur_node.y] for cur_node in path] + [goal]),
+                                pause=False)
+                draw_query_points(start=[sel_start_node.x, sel_start_node.y], goal=[sel_end_node.x, sel_end_node.y], c='b')
+                plt.pause(0.001)
+                plt.waitforbuttonpress()
+
+            # TODO: RRT now!
+
+            self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
         finally:
             self._postproc_timers()
 
@@ -173,6 +216,49 @@ class Prm:
         finally:
             self._record_time(timer=self.query_timer, metric='rrt', val=(time.time() - t0))
             self._postproc_timers()
+
+    @staticmethod
+    def _postproc_path_with_cost(path: list[RoadMapNode], cost: float,
+                                 start: list[float], goal: list[float],
+                                 start_sample_node: RoadMapNode,
+                                 end_sample_node: RoadMapNode) -> (list[list[float]], float):
+        """
+        Postprocesses the path with cost by adding start & goal points into the result and transforming the path into
+        list of coordinate lists. Essentially, add paths and costs between the real start & end/goal point and the
+        nearest feasible sample points
+        :param path: path to be postprocessed
+        :param cost: cost to be postprocessed
+        :param start: the real starting point
+        :param goal: the real goal point
+        :param start_sample_node: the starting sample node on the road map
+        :param end_sample_node: the ending sample node on the road map
+        :return: the postprocessed path with cost
+        """
+        #
+        path = [start] + [[cur_node.x, cur_node.y] for cur_node in path] + [goal]
+        cost += cal_dist(from_x=start[0], from_y=start[1], to_x=start_sample_node.x, to_y=start_sample_node.y)
+        cost += cal_dist(from_x=end_sample_node.x, from_y=end_sample_node.y, to_x=goal[0], to_y=goal[1])
+        return path, cost
+
+    def calc_node_freedom(self, node: RoadMapNode) -> float:
+        """
+        Calculates the freedom ([0, 1]) of the node: how casual it can span out to other positions without colliding
+        with obstacles. This is accomplished simply by sampling several points around the node (`2r` distance away) and
+        perform collision check. The percentage of passing sample points is considered as the freedom of the node.
+        :param node: node to be evaluated
+        :return: the freedom
+        """
+        # test 10 positions
+        dist = 2 * self.robot_radius
+        n_total = 0
+        n_pass = 0
+        for deg in range(0, 360, 36):
+            n_total += 1
+            rad = math.radians(deg)
+            if not self.obstacles.point_collides(x=(node.x + dist * math.cos(rad)),
+                                                 y=(node.y + dist * math.sin(rad))):
+                n_pass += 1
+        return n_pass / n_total
 
     def add_obstacle_to_environment(self, obstacle: RoundObstacle) -> None:
         """
