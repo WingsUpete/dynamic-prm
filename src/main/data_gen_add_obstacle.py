@@ -61,7 +61,7 @@ def try_add_obstacle(cur_map: dict, cur_query: dict) -> (Optional[RoadMap], Opti
     selectable_nodes = cur_path[1:len(cur_path) - 1]
 
     # number of sample attempts = 3 * (num_selectable_nodes - 1)
-    n_sample_attempt = 3 * (len(selectable_nodes) - 1)
+    n_sample_attempt = 2 * (len(selectable_nodes) - 1)
     for _ in range(n_sample_attempt):
         # select one consecutive node pair (cur -> next) to block
         cur_ind = random.randint(0, len(selectable_nodes) - 2)
