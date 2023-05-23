@@ -171,20 +171,29 @@ def gen_obstacle_addition_cases(output_folder: str = DATA_DIR_DEFAULT,
         test_cases = []
 
     logger.info('Starting generating test cases...')
-    pbar = tqdm(total=n_cases)
     dirs = os.listdir(output_folder)
     random.shuffle(dirs)
+    logger.info('folders: %s' % dirs)
+    pbar = tqdm(total=n_cases)
     for item in dirs:
         cur_folder = os.path.join(output_folder, item)
         if not os.path.isdir(cur_folder):
             continue
-        pbar.set_description(cur_folder)
+        pbar.set_description(cur_folder, refresh=True)
         new_cases = handle_problem(problem_folder=cur_folder)
         test_cases += new_cases
         pbar.update(len(new_cases))
         if len(test_cases) > n_cases:
             test_cases = test_cases[:n_cases]
             break
+
+        summary = {
+            'folder': output_folder,
+            'n_cases': len(test_cases),
+            'test_cases': test_cases
+        }
+        with open(summary_fn, 'w') as f:
+            json.dump(summary, f)
     pbar.close()
     logger.info('%d test cases generated.' % len(test_cases))
 
