@@ -24,7 +24,10 @@ class RoadMapNode(Node2D):
         if not self.node_uid:
             self.node_uid = self.node_id
 
-        # storing neighbors
+        # node is clear (not blocked)
+        self.clear = True
+
+        # storing neighbors: uid -> road is clear (not blocked) for this edge
         self.from_node_uid_dict: dict[str, bool] = {}
         self.to_node_uid_dict: dict[str, bool] = {}
 
@@ -128,6 +131,40 @@ class RoadMap:
         del self.get()[node_uid]
         self._modified = True
 
+    def block_node(self, node_uid: str) -> None:
+        """
+        Blocks a node due to added obstacles. Note that all related edges are also blocked.
+        :param node_uid: uid of the node
+        """
+        # block edges
+        for to_uid in self.get()[node_uid].to_node_uid_dict.keys():
+            self.get()[node_uid].to_node_uid_dict[to_uid] = False
+            self.get()[to_uid].from_node_uid_dict[node_uid] = False
+        for from_uid in self.get()[node_uid].from_node_uid_dict.keys():
+            self.get()[node_uid].from_node_uid_dict[from_uid] = False
+            self.get()[from_uid].to_node_uid_dict[node_uid] = False
+
+        # block node
+        self.get()[node_uid].clear = False
+
+    def unblock_node(self, node_uid: str) -> None:
+        """
+        Unblocks a node due to removed obstacles. Note that all related edges should be checked for connectivity.
+
+        TODO: current implementation is not correct. Should move it to PRM later.
+        :param node_uid: uid of the node
+        """
+        # unblock edges
+        for to_uid in self.get()[node_uid].to_node_uid_dict.keys():
+            self.get()[node_uid].to_node_uid_dict[to_uid] = True
+            self.get()[to_uid].from_node_uid_dict[node_uid] = True
+        for from_uid in self.get()[node_uid].from_node_uid_dict.keys():
+            self.get()[node_uid].from_node_uid_dict[from_uid] = True
+            self.get()[from_uid].to_node_uid_dict[node_uid] = True
+
+        # unblock node
+        self.get()[node_uid].clear = True
+
     def add_edge(self, from_uid: str, to_uid: str) -> None:
         """
         Adds an edge from one node to the other.
@@ -155,6 +192,24 @@ class RoadMap:
         del self.get()[from_uid].to_node_uid_dict[to_uid]
         del self.get()[to_uid].from_node_uid_dict[from_uid]
         self._modified = True
+
+    def block_edge(self, from_uid: str, to_uid: str) -> None:
+        """
+        Blocks an edge due to added obstacles.
+        :param from_uid: uid of the source node
+        :param to_uid: uid of the destination node
+        """
+        self.get()[from_uid].to_node_uid_dict[to_uid] = False
+        self.get()[to_uid].from_node_uid_dict[from_uid] = False
+
+    def unblock_edge(self, from_uid: str, to_uid: str) -> None:
+        """
+        Unblocks an edge due to removed obstacles.
+        :param from_uid: uid of the source node
+        :param to_uid: uid of the destination node
+        """
+        self.get()[from_uid].to_node_uid_dict[to_uid] = True
+        self.get()[to_uid].from_node_uid_dict[from_uid] = True
 
     def enable_kd_tree(self) -> None:
         """
