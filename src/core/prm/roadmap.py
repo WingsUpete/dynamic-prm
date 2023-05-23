@@ -122,6 +122,19 @@ class RoadMap:
             nearest_ind = dist_list.index(min(dist_list))
             return nearest_ind
 
+    def find_points_within_r(self, point: list[float], r: float) -> list[int]:
+        """
+        Finds all points within distance `r` of the given point.
+        :param point: given point to be examined
+        :param r: radius `r`
+        :return: all satisfied points as a list of indices, or nothing if KD Tree is disabled
+        """
+        if not self._enable_kd_tree:
+            return []
+        indices = self.kd_tree().query_ball_point(point, r=r)
+        indices = [indices] if type(indices) == int else indices
+        return indices
+
     def add_node(self, node: RoadMapNode) -> None:
         """
         Adds a node to the road map.

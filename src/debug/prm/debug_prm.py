@@ -109,14 +109,17 @@ def test_add_obstacle():
     logger.info('Add one obstacle: %s' % add_obstacle)
     my_prm.add_obstacle_to_environment(obstacle=add_obstacle)
     my_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
-                      road_map=my_prm.road_map, path=my_path)
+                      road_map=my_prm.road_map, path=None)
+    plt.waitforbuttonpress()
+    my_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
+                      road_map=my_prm.road_map.get_clear_roadmap(), path=None)
     plt.waitforbuttonpress()
 
 
 if __name__ == '__main__':
-    test_prm(
-        # use_rrt=True,
-        # show_map=True,
-        # animation=False
-    )
-    # test_add_obstacle()
+    # test_prm(
+    #     # use_rrt=True,
+    #     # show_map=True,
+    #     # animation=False
+    # )
+    test_add_obstacle()

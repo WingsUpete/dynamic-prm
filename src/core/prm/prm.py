@@ -149,11 +149,47 @@ class Prm:
 
     def add_obstacle_to_environment(self, obstacle: RoundObstacle) -> None:
         """
-        Adds the obstacle to the environment and handle road map nodes/edges that are blocked
+        Adds the obstacle to the environment and handle road map nodes/edges that are blocked. More details:
+
+        1. Blocked nodes: distance to obstacle `d <= r + R`, where `r` is the robot radius and `R` is the obstacle
+        radius.
+
+        2. Extra blocked edges: all blocked nodes have their edges blocked. Moreover, need to check all nodes within
+        distance `d <= r + R + L`, where `L` is the maximum edge length. For all of these nodes that are not blocked,
+        check all of their edges: if they collide with the new obstacle, block this edge.
         :param obstacle: the obstacle to be added
         """
+        # add the obstacle
         self.obstacles.add_obstacle(obstacle=obstacle)
 
+        # mark all blocked points
+        block_node_indices = self.road_map.find_points_within_r(point=[obstacle.x, obstacle.y],
+                                                                r=(self.robot_radius + obstacle.r))
+        for node_ind in block_node_indices:
+            cur_node = self.road_map.get_node_by_index(index=node_ind)
+            self.road_map.block_node(node_uid=cur_node.node_uid)
+
+        # mark all blocked edges
+        tmp_o_dict = ObstacleDict(map_range=[self.map_min, self.map_max], robot_radius=self.robot_radius)
+        tmp_o_dict.add_obstacle(obstacle=obstacle)
+        search_node_indices = self.road_map.find_points_within_r(point=[obstacle.x, obstacle.y],
+                                                                 r=(self.robot_radius + obstacle.r + self.max_edge_len))
+        for node_ind in search_node_indices:
+            cur_node = self.road_map.get_node_by_index(index=node_ind)
+            # blocked node -> skip
+            if not cur_node.clear:
+                continue
+            # edge does not collide with new obstacle
+            for to_uid in cur_node.to_node_uid_dict.keys():
+                to_node = self.road_map.get()[to_uid]
+                if not tmp_o_dict.reachable_without_collision(from_x=cur_node.x, from_y=cur_node.y,
+                                                              to_x=to_node.x, to_y=to_node.y):
+                    self.road_map.block_edge(from_uid=cur_node.node_uid, to_uid=to_uid)
+            for from_uid in cur_node.from_node_uid_dict.keys():
+                from_node = self.road_map.get()[from_uid]
+                if not tmp_o_dict.reachable_without_collision(from_x=from_node.x, from_y=from_node.y,
+                                                              to_x=cur_node.x, to_y=cur_node.y):
+                    self.road_map.block_edge(from_uid=from_uid, to_uid=cur_node.node_uid)
 
     def _rrt_base(self, start: RoadMapNode, goal: RoadMapNode,
                   animation: bool = True, animate_interval: int = 5) -> (Optional[list[list[float]]],
