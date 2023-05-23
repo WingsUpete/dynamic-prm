@@ -36,6 +36,7 @@ def test_prm(use_rrt=False, show_map=False, animation=True):
 
     # Create the RRT solver
     logger.info('Initializing the PRM solver...')
+    test_map['init_n_samples'] = 20
     t0 = time.time()
     my_prm = Prm(**test_map)
     logger.info('PRM setup uses %f sec.' % (time.time() - t0))
@@ -77,7 +78,7 @@ def test_prm(use_rrt=False, show_map=False, animation=True):
 
 if __name__ == '__main__':
     test_prm(
-        # use_rrt=True,
+        use_rrt=True,
         # show_map=True,
         # animation=False
     )
