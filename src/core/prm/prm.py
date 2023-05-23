@@ -700,4 +700,5 @@ class Prm:
                 continue
             for metric in timer:
                 if metric in {'collision_checking'}:
-                    timer[metric]['avg'] = timer[metric]['total'] / timer[metric]['n']
+                    if timer[metric]['n'] > 0:
+                        timer[metric]['avg'] = timer[metric]['total'] / timer[metric]['n']
