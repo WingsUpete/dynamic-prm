@@ -258,15 +258,15 @@ class Prm:
         cur_node = final_node
         while True:
             path.append([cur_node.x, cur_node.y])
-            if len(cur_node.from_node_uid_set) == 0:
+            if len(cur_node.from_node_uid_dict) == 0:
                 # no parent
                 break
 
             # Abnormal case coverage
-            if len(cur_node.from_node_uid_set) > 1:
+            if len(cur_node.from_node_uid_dict) > 1:
                 raise Exception('Why does your RRT path have node with more than 1 parents???')
 
-            parent_uid = list(cur_node.from_node_uid_set)[0]
+            parent_uid = list(cur_node.from_node_uid_dict.keys())[0]
             parent_node = road_map.get()[parent_uid]
             cost += parent_node.euclidean_distance(other=cur_node)
             cur_node = parent_node

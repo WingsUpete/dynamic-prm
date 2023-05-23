@@ -84,8 +84,8 @@ def dijkstra(road_map: RoadMap, start_uid: str, end_uid: str,
         del open_set[cur_node_uid]
         closed_set[cur_node_uid] = current_node
 
-        # Search and update neighbors=
-        for neighbor_node_uid in road_map.get()[cur_node_uid].to_node_uid_set:
+        # Search and update neighbors
+        for neighbor_node_uid in road_map.get()[cur_node_uid].to_node_uid_dict.keys():
             if neighbor_node_uid in closed_set:
                 # already examined, skip
                 continue

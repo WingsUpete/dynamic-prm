@@ -40,6 +40,7 @@ def test_prm(use_rrt=False, show_map=False, animation=True):
 
     # Load the sample problem
     test_map, test_query = load_sample_problem(animation)
+    # test_map['init_n_samples'] = 200
 
     # Create the PRM solver
     logger.info('Initializing the PRM solver...')
@@ -114,7 +115,7 @@ def test_add_obstacle():
 
 if __name__ == '__main__':
     test_prm(
-        use_rrt=True,
+        # use_rrt=True,
         # show_map=True,
         # animation=False
     )

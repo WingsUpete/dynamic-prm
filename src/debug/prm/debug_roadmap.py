@@ -9,14 +9,14 @@ from core.prm import *
 def print_roadmap_with_from_edges(rmp: RoadMap) -> None:
     print(rmp.get().keys())
     for node in rmp.get().values():
-        for from_uid in node.from_node_uid_set:
+        for from_uid in node.from_node_uid_dict.keys():
             print(f'{from_uid} --> {node.node_uid}')
 
 
 def print_roadmap_with_to_edges(rmp: RoadMap) -> None:
     print(rmp.get().keys())
     for node in rmp.get().values():
-        for to_uid in node.to_node_uid_set:
+        for to_uid in node.to_node_uid_dict.keys():
             print(f'{node.node_uid} --> {to_uid}')
 
 

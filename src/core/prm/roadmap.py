@@ -25,8 +25,8 @@ class RoadMapNode(Node2D):
             self.node_uid = self.node_id
 
         # storing neighbors
-        self.from_node_uid_set: set[str] = set()
-        self.to_node_uid_set: set[str] = set()
+        self.from_node_uid_dict: dict[str, bool] = {}
+        self.to_node_uid_dict: dict[str, bool] = {}
 
 
 class RoadMap:
@@ -118,12 +118,12 @@ class RoadMap:
         :param node_uid: uid of the node to be removed
         """
         # first delete edges
-        for to_uid in self.get()[node_uid].to_node_uid_set:
+        for to_uid in self.get()[node_uid].to_node_uid_dict.keys():
             # delete (node -> other)
-            self.get()[to_uid].from_node_uid_set.remove(node_uid)
-        for from_uid in self.get()[node_uid].from_node_uid_set:
+            del self.get()[to_uid].from_node_uid_dict[node_uid]
+        for from_uid in self.get()[node_uid].from_node_uid_dict.keys():
             # delete (other -> node)
-            self.get()[from_uid].to_node_uid_set.remove(node_uid)
+            del self.get()[from_uid].to_node_uid_dict[node_uid]
         # then delete node
         del self.get()[node_uid]
         self._modified = True
@@ -134,8 +134,8 @@ class RoadMap:
         :param from_uid: uid of the source node
         :param to_uid: uid of the destination node
         """
-        self.get()[from_uid].to_node_uid_set.add(to_uid)
-        self.get()[to_uid].from_node_uid_set.add(from_uid)
+        self.get()[from_uid].to_node_uid_dict[to_uid] = True
+        self.get()[to_uid].from_node_uid_dict[from_uid] = True
         self._modified = True
 
     def add_edges(self, edges: list[list[str]]) -> None:
@@ -152,8 +152,8 @@ class RoadMap:
         :param from_uid: uid of the source node
         :param to_uid: uid of the destination node
         """
-        self.get()[from_uid].to_node_uid_set.remove(to_uid)
-        self.get()[to_uid].from_node_uid_set.remove(from_uid)
+        del self.get()[from_uid].to_node_uid_dict[to_uid]
+        del self.get()[to_uid].from_node_uid_dict[from_uid]
         self._modified = True
 
     def enable_kd_tree(self) -> None:
@@ -231,7 +231,7 @@ class RoadMap:
         """
         # edges
         for (ix, iy, i_uid) in zip(self.sample_x(), self.sample_y(), self.sample_uid()):
-            for j_uid in self.get()[i_uid].to_node_uid_set:
+            for j_uid in self.get()[i_uid].to_node_uid_dict.keys():
                 j_node = self.get()[j_uid]
                 plt.plot([ix, j_node.x],
                          [iy, j_node.y], '-y', alpha=0.2)  # -k = yellow solid line
