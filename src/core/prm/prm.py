@@ -211,8 +211,14 @@ class Prm:
             start_node = RoadMapNode(x=start[0], y=start[1])
             goal_node = RoadMapNode(x=goal[0], y=goal[1])
 
-            return self._rrt_base(start=start_node, goal=goal_node,
-                                  animation=animation, animate_interval=animate_interval)
+            path, cost, new_road_map = self._rrt_base(start=start_node, goal=goal_node,
+                                                      animation=animation, animate_interval=animate_interval)
+
+            if path is not None:
+                path = [[cur_node.x, cur_node.y] for cur_node in path]
+                return path, cost, new_road_map
+
+            return None, -1, None
         finally:
             self._record_time(timer=self.query_timer, metric='rrt', val=(time.time() - t0))
             self._postproc_timers()
@@ -305,7 +311,7 @@ class Prm:
                     self.road_map.block_edge(from_uid=from_uid, to_uid=cur_node.node_uid)
 
     def _rrt_base(self, start: RoadMapNode, goal: RoadMapNode,
-                  animation: bool = True, animate_interval: int = 5) -> (Optional[list[list[float]]],
+                  animation: bool = True, animate_interval: int = 5) -> (Optional[list[RoadMapNode]],
                                                                          float,
                                                                          Optional[RoadMap]):
         """
@@ -316,7 +322,7 @@ class Prm:
         :param goal: goal node
         :param animation: enables animation or not
         :param animate_interval: specifies how frequent (every x steps) should the graph be rendered
-        :return: found feasible path as an ordered list of 2D points, or None if not found + path cost +
+        :return: found feasible path as an ordered list of road map nodes, or None if not found + path cost +
         explored road map
         """
         # create RRT Nodes for starting/goal points
@@ -347,6 +353,7 @@ class Prm:
                     if self.obstacles.reachable_without_collision(from_x=new_node.x, from_y=new_node.y,
                                                                   to_x=final_node.x, to_y=final_node.y):
                         # add final node and form edge
+                        final_node.node_uid = goal_node.node_uid
                         new_road_map.add_node(node=final_node)
                         new_road_map.add_edge(from_uid=new_node.node_uid, to_uid=final_node.node_uid)
                         # calculate final path and cost
@@ -395,7 +402,7 @@ class Prm:
         return new_node
 
     @staticmethod
-    def _get_rrt_path_with_cost(road_map: RoadMap, final_node: RoadMapNode) -> (list[list[float]], float):
+    def _get_rrt_path_with_cost(road_map: RoadMap, final_node: RoadMapNode) -> (list[RoadMapNode], float):
         """
         Gets the path to the final node, along with its cost.
         :param road_map: give road map to operate on
@@ -406,7 +413,7 @@ class Prm:
         cost = 0.0
         cur_node = final_node
         while True:
-            path.append([cur_node.x, cur_node.y])
+            path.append(cur_node)
             if len(cur_node.from_node_uid_dict) == 0:
                 # no parent
                 break
