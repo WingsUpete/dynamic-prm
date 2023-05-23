@@ -24,6 +24,7 @@ class Prm:
                  map_range: list[float],
                  obstacles: ObstacleDict,
                  robot_radius: float,
+                 roadmap: Optional[RoadMap] = None,
                  init_n_samples: int = 300, init_n_neighbors: int = 10, max_edge_len: float = 30.0,
                  rrt_max_iter: int = 500, rrt_goal_sample_rate: float = 0.05,
                  rnd_seed: int = None):
@@ -32,6 +33,7 @@ class Prm:
         :param map_range: the range of the map, as `[min, max]` for both `x` and `y`
         :param obstacles: ordered dict of round obstacles
         :param robot_radius: radius of the circle robot
+        :param roadmap: provided roadmap, if any
         :param init_n_samples: initial number of points to sample
         :param init_n_neighbors: initial number of edges one sample point has
         :param max_edge_len: maximum edge length
@@ -64,9 +66,12 @@ class Prm:
         self.rnd_seed = rnd_seed
         random.seed(self.rnd_seed)
 
-        # build road map
-        self.road_map: Optional[RoadMap] = None
-        self._construct_road_map(n_samples=init_n_samples, n_neighbors=init_n_neighbors)
+        if roadmap:
+            self.road_map = roadmap
+        else:
+            # build road map
+            self.road_map: Optional[RoadMap] = None
+            self._construct_road_map(n_samples=init_n_samples, n_neighbors=init_n_neighbors)
 
         # timer info
         self._postproc_timers()
