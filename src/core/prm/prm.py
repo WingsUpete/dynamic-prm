@@ -82,7 +82,7 @@ class Prm:
         :return: found feasible path as an ordered list of 2D points, or None if not found + path cost
         """
         if animation:
-            self.draw_graph(start=start, goal=goal, road_map=self.road_map)
+            self.draw_graph(start=start, goal=goal, road_map=self.road_map.get_clear_roadmap())
 
         self._reset_query_timer()
         try:
@@ -91,17 +91,19 @@ class Prm:
                 return None, -1
 
             start_sample_node = self._get_nearest_feasible_roadmap_node(point_x=start[0], point_y=start[1],
-                                                                        from_point=True, road_map=self.road_map)
+                                                                        from_point=True,
+                                                                        road_map=self.road_map.get_clear_roadmap())
             if start_sample_node is None:
                 return None, -1
 
             end_sample_node = self._get_nearest_feasible_roadmap_node(point_x=goal[0], point_y=goal[1],
-                                                                      from_point=False, road_map=self.road_map)
+                                                                      from_point=False,
+                                                                      road_map=self.road_map.get_clear_roadmap())
             if end_sample_node is None:
                 return None, -1
 
             t0 = time.time()
-            path, cost = dijkstra(road_map=self.road_map,
+            path, cost = dijkstra(road_map=self.road_map.get_clear_roadmap(),
                                   start_uid=start_sample_node.node_uid, end_uid=end_sample_node.node_uid,
                                   animation=animation)
             self._record_time(timer=self.query_timer, metric='shortest_path', val=(time.time() - t0))

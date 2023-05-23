@@ -88,7 +88,7 @@ def analyze_path(my_prm: Prm, my_path: list[list[float]], my_path_cost: float, t
         return
     logger.info('Path cost = %.4f' % my_path_cost)
     my_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
-                      road_map=my_prm.road_map, path=my_path)
+                      road_map=my_prm.road_map.get_clear_roadmap(), path=my_path)
 
 
 def test_add_obstacle():
@@ -113,6 +113,12 @@ def test_add_obstacle():
     plt.waitforbuttonpress()
     my_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
                       road_map=my_prm.road_map.get_clear_roadmap(), path=None)
+    plt.waitforbuttonpress()
+
+    # query 2nd time
+    logger.info('2nd query.')
+    my_path, my_path_cost = my_prm.plan(**test_query)
+    analyze_path(my_prm, my_path, my_path_cost, test_query)
     plt.waitforbuttonpress()
 
 
