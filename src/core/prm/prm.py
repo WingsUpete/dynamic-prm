@@ -90,11 +90,13 @@ class Prm:
                 # query points collide! No solution
                 return None, -1
 
-            start_sample_node = self._get_nearest_feasible_sample_node(point_x=start[0], point_y=start[1], from_point=True)
+            start_sample_node = self._get_nearest_feasible_roadmap_node(point_x=start[0], point_y=start[1],
+                                                                        from_point=True, road_map=self.road_map)
             if start_sample_node is None:
                 return None, -1
 
-            end_sample_node = self._get_nearest_feasible_sample_node(point_x=goal[0], point_y=goal[1], from_point=False)
+            end_sample_node = self._get_nearest_feasible_roadmap_node(point_x=goal[0], point_y=goal[1],
+                                                                      from_point=False, road_map=self.road_map)
             if end_sample_node is None:
                 return None, -1
 
@@ -309,20 +311,6 @@ class Prm:
 
         path.reverse()
         return path, cost
-
-    def _get_nearest_feasible_sample_node(self, point_x: float, point_y: float,
-                                          from_point: bool) -> Optional[RoadMapNode]:
-        """
-        Finds the index of nearest feasible sample point from the given point. Feasibility indicates that the distance
-        between two points is smaller than preset maximum, and going straight between two points do not collide with
-        any obstacle.
-        :param point_x: x coordinate of the given point
-        :param point_y: y coordinate of the given point
-        :param from_point: specifies the direction (if True, from this point to sample point; otherwise reverse)
-        :return: the nearest feasible sample node, or None if not found
-        """
-        return self._get_nearest_feasible_roadmap_node(point_x=point_x, point_y=point_y, from_point=from_point,
-                                                       road_map=self.road_map)
 
     def _get_nearest_feasible_roadmap_node(self, point_x: float, point_y: float,
                                            from_point: bool, road_map: RoadMap) -> Optional[RoadMapNode]:
