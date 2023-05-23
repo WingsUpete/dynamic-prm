@@ -29,10 +29,12 @@ def get_test_problem(cur_seed: Optional[int] = None, init_n_samples: Optional[in
     # obstacles
     o_dict = ObstacleDict(map_range=cur_map_range, robot_radius=cur_robot_radius)
     for i in range(40):
-        cur_o = RoundObstacle(x=20.0, y=i, r=random.uniform(0, max_or), obstacle_type=ObstacleType.NORMAL)
+        cur_o = RoundObstacle(x=20.0, y=i, r=random.uniform(0, max_or),
+                              obstacle_uid=f'l{i}', obstacle_type=ObstacleType.NORMAL)
         o_dict.add_obstacle(obstacle=cur_o)
     for i in range(40):
-        cur_o = RoundObstacle(x=40.0, y=60.0 - i, r=random.uniform(0, max_or), obstacle_type=ObstacleType.NORMAL)
+        cur_o = RoundObstacle(x=40.0, y=60.0 - i, r=random.uniform(0, max_or),
+                              obstacle_uid=f'r{i}', obstacle_type=ObstacleType.NORMAL)
         o_dict.add_obstacle(obstacle=cur_o)
 
     # MAP
@@ -67,7 +69,7 @@ def store_test_problem(folder: str = './test_problem/') -> None:
 
     test_map, test_queries = get_test_problem(
         cur_seed=666666,
-        # init_n_samples=100
+        init_n_samples=20
     )
 
     to_files = [
