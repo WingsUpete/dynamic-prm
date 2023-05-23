@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 from collections import OrderedDict
 from typing import Optional
 
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial import KDTree
-import matplotlib.pyplot as plt
 
 from core.util.common import *
 from core.util.graph import Node2D
@@ -62,6 +64,27 @@ class RoadMap:
         :return: road map
         """
         return self._road_map
+
+    def get_clear_roadmap(self) -> RoadMap:
+        """
+        Gets a new version of road map with all blocked nodes/edges deleted
+        :return: a new road map
+        """
+        new_road_map = RoadMap(enable_kd_tree=self.kd_tree_enabled())
+
+        # add clear nodes
+        new_clear_nodes = [RoadMapNode(
+            x=cur_node.x, y=cur_node.y, node_uid=cur_node.node_uid
+        ) for cur_node in self.get().values() if cur_node.clear]
+        new_road_map.add_nodes(nodes=new_clear_nodes)
+
+        # add clear edges
+        for cur_uid in new_road_map.get().keys():
+            for (to_uid, to_able) in self.get()[cur_uid].to_node_uid_dict.items():
+                if to_able:
+                    new_road_map.add_edge(from_uid=cur_uid, to_uid=to_uid)
+
+        return new_road_map
 
     def get_node_by_index(self, index: int) -> RoadMapNode:
         """

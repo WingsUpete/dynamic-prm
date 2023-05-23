@@ -20,7 +20,7 @@ def print_roadmap_with_to_edges(rmp: RoadMap) -> None:
             print(f'{node.node_uid} --> {to_uid}')
 
 
-def test_roadmap():
+def construct_roadmap() -> RoadMap:
     rmp = RoadMap()
     for i in range(7):
         rmp.add_node(node=RoadMapNode(x=random(), y=random(), node_uid=f'{i+1}'))
@@ -33,6 +33,11 @@ def test_roadmap():
         ['5', '7'],
         ['7', '6'],
     ])
+    return rmp
+
+
+def test_roadmap():
+    rmp = construct_roadmap()
     print('from_edges:')
     print_roadmap_with_from_edges(rmp)
     print('---------------------------')
@@ -51,5 +56,22 @@ def test_roadmap():
     print_roadmap_with_to_edges(rmp)
 
 
+def test_blocking():
+    rmp = construct_roadmap()
+    print_roadmap_with_to_edges(rmp)
+    print('---------------------------')
+    print('Block "2 --> 4"')
+    rmp.block_edge(from_uid='2', to_uid='4')
+    print_roadmap_with_to_edges(rmp.get_clear_roadmap())
+    print('Recover')
+    rmp.unblock_edge(from_uid='2', to_uid='4')
+    print_roadmap_with_to_edges(rmp.get_clear_roadmap())
+    print('---------------------------')
+    print('Block node 5')
+    rmp.block_node(node_uid='5')
+    print_roadmap_with_to_edges(rmp.get_clear_roadmap())
+
+
 if __name__ == '__main__':
-    test_roadmap()
+    # test_roadmap()
+    test_blocking()
