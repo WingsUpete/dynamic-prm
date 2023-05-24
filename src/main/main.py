@@ -172,28 +172,24 @@ def cal_relative_delta(cur: float, base: float) -> float:
 
 
 def postproc_aggr_metric_dict(aggr_metric_dict: dict, n_runs: int,
-                              handle_path_cost: bool = True, calc_delta: bool = True) -> (dict, Optional[dict]):
+                              handle_path: bool = True, calc_delta: bool = True) -> (dict, Optional[dict]):
     """
     Postprocesses the aggregate metric dict. Also calculates a delta metric dict
     :param aggr_metric_dict: the aggregate metric dict to be postprocessed
     :param n_runs: number of runs during the aggregation
-    :param handle_path_cost: specifies whether to average path cost by number of found paths (if not, average by `n_runs`)
+    :param handle_path: specifies whether to average items like path cost by number of found paths (if not, average by `n_runs`)
     :param calc_delta: specifies whether to calculate the delta metric dict
     :return: the postprocessed aggregate metric result + calculated delta metric result
     """
     for alg_label in algorithm_dict.keys():
-        # path
-        if handle_path_cost:
-            if aggr_metric_dict[alg_label]['path_result']['path_found'] > 0:
-                aggr_metric_dict[alg_label]['path_result']['path_cost'] /= aggr_metric_dict[alg_label]['path_result']['path_found']
-                aggr_metric_dict[alg_label]['path_result']['path_found'] /= n_runs
-        else:
-            aggr_metric_dict[alg_label]['path_result']['path_cost'] /= n_runs
-            aggr_metric_dict[alg_label]['path_result']['path_found'] /= n_runs
-        # others
-        aggr_metric_dict[alg_label]['planning_time'] /= n_runs
-        aggr_metric_dict[alg_label]['extra']['n_new_nodes'] /= n_runs
-        aggr_metric_dict[alg_label]['extra']['repair_time'] /= n_runs
+        n_divide = aggr_metric_dict[alg_label]['path_result']['path_found'] if handle_path else n_runs
+        if n_divide > 0:
+            aggr_metric_dict[alg_label]['path_result']['path_cost'] /= n_divide
+            aggr_metric_dict[alg_label]['planning_time'] /= n_divide
+            aggr_metric_dict[alg_label]['extra']['n_new_nodes'] /= n_divide
+            aggr_metric_dict[alg_label]['extra']['repair_time'] /= n_divide
+
+        aggr_metric_dict[alg_label]['path_result']['path_found'] /= n_runs
 
     if not calc_delta:
         return aggr_metric_dict, None
@@ -249,32 +245,36 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
     # 2. RRT
     rrt_path, rrt_cost, rrt_roadmap = cur_prm.plan_rrt(animation=False, **case_query)
     metric_res['RRT'] = record_path_res(metric_res['RRT'], path=rrt_path, cost=rrt_cost)
-    metric_res['RRT']['planning_time'] = cur_prm.query_timer['rrt']
+    if rrt_path:
+        metric_res['RRT']['planning_time'] = cur_prm.query_timer['rrt']
 
     # 3. PRM
     prm_path, prm_cost = cur_prm.plan(animation=False, repair=False, eval_freedom=False, **case_query)
     metric_res['PRM'] = record_path_res(metric_res['PRM'], path=prm_path, cost=prm_cost)
-    metric_res['PRM']['planning_time'] = cur_prm.query_timer['shortest_path']
+    if prm_path:
+        metric_res['PRM']['planning_time'] = cur_prm.query_timer['shortest_path']
 
     # 4. R-PRM
     cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
     prm_path, prm_cost = cur_prm.plan(animation=False, repair=True, eval_freedom=False, **case_query)
     metric_res['R-PRM'] = record_path_res(metric_res['R-PRM'], path=prm_path, cost=prm_cost)
-    metric_res['R-PRM']['planning_time'] = (cur_prm.query_timer['shortest_path'] + cur_prm.query_timer['repair'])
-    metric_res['R-PRM']['extra'] = {
-        'n_new_nodes': cur_prm.query_timer['n_new_nodes'],
-        'repair_time': cur_prm.query_timer['repair']
-    }
+    if prm_path:
+        metric_res['R-PRM']['planning_time'] = (cur_prm.query_timer['shortest_path'] + cur_prm.query_timer['repair'])
+        metric_res['R-PRM']['extra'] = {
+            'n_new_nodes': cur_prm.query_timer['n_new_nodes'],
+            'repair_time': cur_prm.query_timer['repair']
+        }
 
     # 5. RF-PRM
     cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
     prm_path, prm_cost = cur_prm.plan(animation=False, repair=True, eval_freedom=True, **case_query)
     metric_res['RF-PRM'] = record_path_res(metric_res['RF-PRM'], path=prm_path, cost=prm_cost)
-    metric_res['RF-PRM']['planning_time'] = (cur_prm.query_timer['shortest_path'] + cur_prm.query_timer['repair'])
-    metric_res['RF-PRM']['extra'] = {
-        'n_new_nodes': cur_prm.query_timer['n_new_nodes'],
-        'repair_time': cur_prm.query_timer['repair']
-    }
+    if prm_path:
+        metric_res['RF-PRM']['planning_time'] = (cur_prm.query_timer['shortest_path'] + cur_prm.query_timer['repair'])
+        metric_res['RF-PRM']['extra'] = {
+            'n_new_nodes': cur_prm.query_timer['n_new_nodes'],
+            'repair_time': cur_prm.query_timer['repair']
+        }
 
     # TODO: 6. RFT-PRM
 
@@ -282,7 +282,8 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
     return metric_res
 
 
-def main(data_folder: str = DATA_DIR_DEFAULT, n_runs: int = N_RUNS_DEFAULT, logr: Optional[Logger] = None):
+def main(data_folder: str = DATA_DIR_DEFAULT, n_runs: int = N_RUNS_DEFAULT,
+         logr: Optional[Logger] = None, log_run: bool = False, log_path: bool = False):
     if logr is None:
         logr = Logger(activate=False)
 
@@ -302,10 +303,14 @@ def main(data_folder: str = DATA_DIR_DEFAULT, n_runs: int = N_RUNS_DEFAULT, logr
 
         aggr_res = construct_metric_res(aggregate=True)
         for run_i in range(n_runs):
-            logr.log(f'CASE {cur_case_i + 1} - RUN {run_i + 1}:\n')
             cur_map, cur_query, cur_roadmap, cur_o = load_add_obstacle_case(test_case=cur_case_json)
             cur_res = run_test_case(case_map=cur_map, case_query=cur_query, case_rmp=cur_roadmap, case_o=cur_o)
-            logr.log('%s\n' % pformat(cur_res, indent=4))
+            if log_run:
+                logr.log(f'CASE {cur_case_i + 1} - RUN {run_i + 1}:\n')
+                if not log_path:
+                    for alg_label in algorithm_dict.keys():
+                        del cur_res[alg_label]['path_result']['path']
+                logr.log('%s\n' % pformat(cur_res, indent=4))
             aggr_res = aggregate_metric_res(aggr_metric_dict=aggr_res, cur_metric_res=cur_res)
 
         aggr_res, delta_res = postproc_aggr_metric_dict(aggr_metric_dict=aggr_res, n_runs=n_runs)
@@ -314,7 +319,7 @@ def main(data_folder: str = DATA_DIR_DEFAULT, n_runs: int = N_RUNS_DEFAULT, logr
         overall_delta_res = aggregate_metric_res(aggr_metric_dict=overall_delta_res, cur_metric_res=delta_res)
 
     overall_delta_res, _ = postproc_aggr_metric_dict(aggr_metric_dict=overall_delta_res, n_runs=len(cases_json),
-                                                     handle_path_cost=False, calc_delta=False)
+                                                     handle_path=False, calc_delta=False)
     log_horizontal_split(logr)
     logr.log(f'> Finish running {len(cases_json)} test cases. Final results:\n')
     log_result(res=overall_delta_res, logr=logr)
