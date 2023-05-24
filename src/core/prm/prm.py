@@ -379,12 +379,16 @@ class Prm:
         n_total = 0
         n_pass = 0
         for deg in range(0, 360, 36):
-            n_total += 1
             rad = math.radians(deg)
-            if self.obstacles.reachable_without_collision(from_x=node.x, from_y=node.y,
-                                                          to_x=(node.x + dist * math.cos(rad)),
-                                                          to_y=(node.y + dist * math.sin(rad))):
-                n_pass += 1
+            n_success, n_checks = self.obstacles.count_successful_checks_before_collision(
+                from_x=node.x, from_y=node.y,
+                to_x=(node.x + dist * math.cos(rad)),
+                to_y=(node.y + dist * math.sin(rad))
+            )
+            n_pass += n_success
+            n_total += n_checks
+        if n_total == 0:
+            return 1
         return n_pass / n_total
 
     def add_obstacle_to_environment(self, obstacle: RoundObstacle) -> None:
