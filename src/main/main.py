@@ -28,6 +28,8 @@ algorithm_dict = OrderedDict([
     # ('RFT-PRM', 'Thrifty-Repair-PRM-with-Freedom'),
 ])
 
+img_dpi = 200
+
 
 def test() -> None:
     # DEBUG
@@ -241,7 +243,9 @@ def postproc_aggr_metric_dict(aggr_metric_dict: dict, n_runs: int,
     return aggr_metric_dict, delta_metric_dict
 
 
-def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: RoundObstacle, debug: bool = False) -> dict:
+def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: RoundObstacle,
+                  save_fig: bool = False, case_folder: str = None,
+                  debug: bool = False) -> dict:
     """
     Runs the test case and return recorded metrics. The following steps are operated:
 
@@ -262,6 +266,9 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
     :param case_query: query for the case
     :param case_rmp: roadmap for the case
     :param case_o: new obstacle for the case
+    :param save_fig: specifies whether to save figures for the algorithms
+    :param case_folder: the case folder for saving figures
+    :param debug: in debug mode, graphs are rendered for each algorithm
     :return: the recorded metrics for the test case
     """
     # construct metrics dict for each algorithm
@@ -276,6 +283,9 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
     if debug:
         cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path)
         plt.waitforbuttonpress()
+    if save_fig:
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path, pause=False)
+        plt.savefig(os.path.join(case_folder, 'b_prm.png'))
 
     # 2. add new obstacle
     cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
@@ -288,6 +298,9 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
     if debug:
         cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path)
         plt.waitforbuttonpress()
+    if save_fig:
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path, pause=False)
+        plt.savefig(os.path.join(case_folder, 'prm.png'))
 
     # 4. RRT
     rrt_path, rrt_cost, rrt_roadmap = cur_prm.plan_rrt(animation=False, **case_query)
@@ -297,6 +310,9 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
     if debug:
         cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=rrt_roadmap, path=rrt_path)
         plt.waitforbuttonpress()
+    if save_fig:
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=rrt_roadmap, path=rrt_path, pause=False)
+        plt.savefig(os.path.join(case_folder, 'rrt.png'))
 
     # 5. R-PRM
     cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
@@ -311,6 +327,9 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
     if debug:
         cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path)
         plt.waitforbuttonpress()
+    if save_fig:
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path, pause=False)
+        plt.savefig(os.path.join(case_folder, 'r_prm.png'))
 
     # 6. RF-PRM
     cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
@@ -325,6 +344,9 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
     if debug:
         cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path)
         plt.waitforbuttonpress()
+    if save_fig:
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path, pause=False)
+        plt.savefig(os.path.join(case_folder, 'rf_prm.png'))
 
     # TODO: 7. RFT-PRM
 
@@ -354,7 +376,8 @@ def main(data_folder: str = DATA_DIR_DEFAULT, n_runs: int = N_RUNS_DEFAULT,
         aggr_res = construct_metric_res(aggregate=True)
         for run_i in range(n_runs):
             cur_map, cur_query, cur_roadmap, cur_o = load_add_obstacle_case(test_case=cur_case_json)
-            cur_res = run_test_case(case_map=cur_map, case_query=cur_query, case_rmp=cur_roadmap, case_o=cur_o)
+            cur_res = run_test_case(case_map=cur_map, case_query=cur_query, case_rmp=cur_roadmap, case_o=cur_o,
+                                    save_fig=True if run_i == 0 else False, case_folder=cur_case_json['case'])
             if log_run:
                 logr.log(f'CASE {cur_case_i + 1} - RUN {run_i + 1}:\n')
                 if not log_path:
