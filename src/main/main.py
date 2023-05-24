@@ -26,6 +26,8 @@ algorithm_dict = OrderedDict([
     ('RRT', 'Naive-RRT'),
     ('R-PRM', 'Repair-PRM'),
     ('RF-PRM', 'Repair-PRM-with-Freedom'),
+    ('R-PRM*', 'Repair-PRM-Star'),
+    ('RF-PRM*', 'Repair-PRM-with-Freedom-Star'),
     # ('RFT-PRM', 'Thrifty-Repair-PRM-with-Freedom'),
 ])
 
@@ -268,11 +270,11 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
 
     [4] Use the solver to run RRT and record metrics.
 
-    [5] Create a new solver with new obstacle. Use it to run R-PRM and record metrics.
+    [5] Create a new solver with new obstacle. Use it to run R-PRM/R-PRM* and record metrics.
 
-    [6] Create a new solver with new obstacle. Use it to run RF-PRM and record metrics.
+    [6] Create a new solver with new obstacle. Use it to run RF-PRM/RF-PRM* and record metrics.
 
-    [7] Create a new solver with new obstacle. Use it to run RFT-PRM and record metrics.
+    [7] Create a new solver with new obstacle. Use it to run RFT-PRM/RFT-PRM* and record metrics.
     :param case_map: map for the case
     :param case_query: query for the case
     :param case_rmp: roadmap for the case
@@ -327,7 +329,7 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
 
     # 5. R-PRM
     cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
-    prm_path, prm_cost = cur_prm.plan(animation=False, repair=True, eval_freedom=False, **case_query)
+    prm_path, prm_cost = cur_prm.plan(animation=False, repair=True, eval_freedom=False, rrt_star=False, **case_query)
     metric_res['R-PRM'] = record_path_res(metric_res['R-PRM'], path=prm_path, cost=prm_cost)
     if prm_path:
         metric_res['R-PRM']['planning_time'] = (cur_prm.query_timer['shortest_path'] + cur_prm.query_timer['repair'])
@@ -342,9 +344,26 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
         cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path, pause=False)
         plt.savefig(os.path.join(case_folder, 'r_prm.png'))
 
+    # 5. R-PRM*
+    cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
+    prm_path, prm_cost = cur_prm.plan(animation=False, repair=True, eval_freedom=False, rrt_star=True, **case_query)
+    metric_res['R-PRM*'] = record_path_res(metric_res['R-PRM*'], path=prm_path, cost=prm_cost)
+    if prm_path:
+        metric_res['R-PRM*']['planning_time'] = (cur_prm.query_timer['shortest_path'] + cur_prm.query_timer['repair'])
+        metric_res['R-PRM*']['extra'] = {
+            'n_new_nodes': cur_prm.query_timer['n_new_nodes'],
+            'repair_time': cur_prm.query_timer['repair']
+        }
+    if debug:
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path)
+        plt.waitforbuttonpress()
+    if save_fig:
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path, pause=False)
+        plt.savefig(os.path.join(case_folder, 'r_prm_star.png'))
+
     # 6. RF-PRM
     cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
-    prm_path, prm_cost = cur_prm.plan(animation=False, repair=True, eval_freedom=True, **case_query)
+    prm_path, prm_cost = cur_prm.plan(animation=False, repair=True, eval_freedom=True, rrt_star=False, **case_query)
     metric_res['RF-PRM'] = record_path_res(metric_res['RF-PRM'], path=prm_path, cost=prm_cost)
     if prm_path:
         metric_res['RF-PRM']['planning_time'] = (cur_prm.query_timer['shortest_path'] + cur_prm.query_timer['repair'])
@@ -358,6 +377,23 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
     if save_fig:
         cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path, pause=False)
         plt.savefig(os.path.join(case_folder, 'rf_prm.png'))
+
+    # 6. RF-PRM*
+    cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
+    prm_path, prm_cost = cur_prm.plan(animation=False, repair=True, eval_freedom=True, rrt_star=True, **case_query)
+    metric_res['RF-PRM*'] = record_path_res(metric_res['RF-PRM*'], path=prm_path, cost=prm_cost)
+    if prm_path:
+        metric_res['RF-PRM*']['planning_time'] = (cur_prm.query_timer['shortest_path'] + cur_prm.query_timer['repair'])
+        metric_res['RF-PRM*']['extra'] = {
+            'n_new_nodes': cur_prm.query_timer['n_new_nodes'],
+            'repair_time': cur_prm.query_timer['repair']
+        }
+    if debug:
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path)
+        plt.waitforbuttonpress()
+    if save_fig:
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path, pause=False)
+        plt.savefig(os.path.join(case_folder, 'rf_prm_star.png'))
 
     # TODO: 7. RFT-PRM
 

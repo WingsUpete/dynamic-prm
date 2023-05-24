@@ -79,7 +79,7 @@ class Prm:
         self._postproc_timers()
 
     def plan(self, start: list[float], goal: list[float],
-             repair: bool = False, eval_freedom: bool = False,
+             repair: bool = False, eval_freedom: bool = False, rrt_star: bool = True,
              animation: bool = True) -> (Optional[list[list[float]]], float):
         """
         Plans the route using PRM.
@@ -89,6 +89,7 @@ class Prm:
         :param repair: specifies whether to repair PRM when new obstacles block the path that was feasible
         :param eval_freedom: specifies whether to evaluate and select nodes on the previous feasible path according
         to their "freedom" (directions that it can span out) for repairing
+        :param rrt_star: specifies whether to use RRT* in repairing
         :param animation: enables animation or not
         :return: found feasible path as an ordered list of 2D points, or None if not found + path cost
         """
@@ -117,7 +118,7 @@ class Prm:
                     t1 = time.time()
                     rrt_path, rrt_cost, rrt_road_map = self._rrt_base(start=RoadMapNode(x=start[0], y=start[1]),
                                                                       goal=RoadMapNode(x=goal[0], y=goal[1]),
-                                                                      rrt_star=True,
+                                                                      rrt_star=rrt_star,
                                                                       animation=animation)
                     if rrt_path is None:
                         # RRT still cannot fix the problem
@@ -162,7 +163,7 @@ class Prm:
                 # cannot find path even before nodes/edges are blocked, then run RRT from start to goal directly.
                 rrt_path, rrt_cost, rrt_road_map = self._rrt_base(start=RoadMapNode(x=start[0], y=start[1]),
                                                                   goal=RoadMapNode(x=goal[0], y=goal[1]),
-                                                                  rrt_star=True,
+                                                                  rrt_star=rrt_star,
                                                                   animation=animation)
                 if rrt_path is None:
                     # RRT still cannot fix the problem
@@ -244,7 +245,7 @@ class Prm:
 
             # RRT now!
             rrt_path, rrt_cost, rrt_road_map = self._rrt_base(start=sel_start_node, goal=sel_end_node,
-                                                              rrt_star=True,
+                                                              rrt_star=rrt_star,
                                                               animation=animation)
             if rrt_path is None:
                 # RRT still cannot fix the problem
