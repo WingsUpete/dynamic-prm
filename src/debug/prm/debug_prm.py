@@ -27,8 +27,8 @@ def load_sample_problem(animation=True):
     test_problem_folder = '../../sample_data/test_problem/'
     with open(os.path.join(test_problem_folder, 'map.pickle'), 'rb') as f:
         test_map = pickle.load(f)
-        test_map['rnd_seed'] = 6
-        test_map['init_n_samples'] = 30
+        test_map['rnd_seed'] = 666666
+        test_map['init_n_samples'] = 66
     with open(os.path.join(test_problem_folder, 'queries.pickle'), 'rb') as f:
         test_queries = pickle.load(f)
     test_query = test_queries[0]
@@ -113,7 +113,7 @@ def test_add_obstacle():
     plt.waitforbuttonpress()
 
     # add obstacle
-    add_obstacle = RoundObstacle(x=30, y=37, r=1, obstacle_type=ObstacleType.NORMAL, obstacle_uid='add')
+    add_obstacle = RoundObstacle(x=28, y=37, r=1, obstacle_type=ObstacleType.NORMAL, obstacle_uid='add')
     logger.info('Add one obstacle: %s' % add_obstacle)
     my_prm.add_obstacle_to_environment(obstacle=add_obstacle)
     my_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
@@ -131,7 +131,7 @@ def test_add_obstacle():
 
     # USE repair, query 3rd time
     test_query['repair'] = True
-    test_query['eval_freedom'] = True
+    test_query['eval_freedom'] = False
     logger.info('Using Repair PRM with freedom evaluation.')
     logger.info('3rd query.')
     my_path, my_path_cost = my_prm.plan(**test_query)
