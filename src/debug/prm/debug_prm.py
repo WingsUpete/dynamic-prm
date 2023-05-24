@@ -27,7 +27,8 @@ def load_sample_problem(animation=True):
     test_problem_folder = '../../sample_data/test_problem/'
     with open(os.path.join(test_problem_folder, 'map.pickle'), 'rb') as f:
         test_map = pickle.load(f)
-        test_map['rnd_seed'] = None
+        test_map['rnd_seed'] = 6
+        test_map['init_n_samples'] = 30
     with open(os.path.join(test_problem_folder, 'queries.pickle'), 'rb') as f:
         test_queries = pickle.load(f)
     test_query = test_queries[0]
@@ -84,6 +85,7 @@ def test_prm(use_rrt=False, show_map=False, animation=True):
 
 
 def analyze_path(my_prm: Prm, my_path: list[list[float]], my_path_cost: float, test_query: dict):
+    logger.info(my_prm.query_timer)
     if my_path is None:
         logger.info('Cannot find path.')
         return
@@ -144,9 +146,9 @@ def test_add_obstacle():
 
 
 if __name__ == '__main__':
-    # test_prm(
-    #     use_rrt=True,
-    #     # show_map=True,
-    #     # animation=False
-    # )
-    test_add_obstacle()
+    test_prm(
+        use_rrt=True,
+        # show_map=True,
+        # animation=False
+    )
+    # test_add_obstacle()

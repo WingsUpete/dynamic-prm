@@ -141,6 +141,7 @@ class Prm:
                                   animation=animation)
             if path is None:
                 # cannot find path even before nodes/edges are blocked, then nothing can be repaired.
+                self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
                 return None, -1
 
             # otherwise: feasible path exists before
@@ -214,19 +215,23 @@ class Prm:
                                                               animation=animation)
             if rrt_path is None:
                 # RRT still cannot fix the problem
+                self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
                 return None, -1
 
             # otherwise, RRT found a path!
             # append the RRT paths to the road map (only new nodes are appended, judging from uid)
+            n_new_nodes = 0
             for rrt_node in rrt_path:
                 if rrt_node.node_uid in self.road_map.get():
                     continue
                 new_rrt_node = RoadMapNode(x=rrt_node.x, y=rrt_node.y, node_uid=rrt_node.node_uid)
                 self.road_map.add_node(node=new_rrt_node)
+                n_new_nodes += 1
             for i in range(len(rrt_path) - 1):
                 cur_rrt_node = rrt_path[i]
                 nxt_rrt_node = rrt_path[i + 1]
                 self.road_map.add_edge(from_uid=cur_rrt_node.node_uid, to_uid=nxt_rrt_node.node_uid)
+            self._record_time(timer=self.query_timer, metric='n_new_nodes', val=n_new_nodes)
 
             # postprocess path
             road_map_path = path_first + rrt_path + path_last
@@ -672,7 +677,8 @@ class Prm:
         self.query_timer = {
             'shortest_path': 0.0,
             'rrt': 0.0,
-            'repair': 0.0
+            'repair': 0.0,
+            'n_new_nodes': 0.0
         }
 
     @staticmethod
