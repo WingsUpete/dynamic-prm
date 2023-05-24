@@ -20,12 +20,30 @@ TAG_DEFAULT = None
 N_RUNS_DEFAULT = 20
 
 algorithm_dict = OrderedDict([
+    ('bPRM', 'Naive-PRM (Before New Obstacle)'),
     ('PRM', 'Naive-PRM'),
     ('RRT', 'Naive-RRT'),
     ('R-PRM', 'Repair-PRM'),
     ('RF-PRM', 'Repair-PRM-with-Freedom'),
     # ('RFT-PRM', 'Thrifty-Repair-PRM-with-Freedom'),
 ])
+
+
+def test() -> None:
+    # DEBUG
+    cur_map, cur_query, cur_rmp, cur_o = load_add_obstacle_case(test_case={
+      "map": "./data/78",
+      "query": 0,
+      "case": "./data/78\\case_d6d977263bf3c3f711b787523cdd717f020d9a33e3f159e525a392966a83b802/"
+    })
+    cur_prm = construct_prm_solver_with_obstacle(case_map=cur_map, case_rmp=cur_rmp, case_o=cur_o)
+    cur_prm.draw_graph(start=cur_query['start'], goal=cur_query['goal'], road_map=cur_prm.road_map)
+    plt.waitforbuttonpress()
+    cur_res = run_test_case(case_map=cur_map, case_query=cur_query, case_rmp=cur_rmp, case_o=cur_o,
+                            debug=True
+                            )
+    logr = Logger(activate=True, logging_folder='./')
+    log_result(cur_res, logr)
 
 
 def log_horizontal_split(logr: Logger, ll: int = 80) -> None:
@@ -106,16 +124,17 @@ def record_path_res(metric_dict: dict, path: Optional[list[list[float]]], cost: 
     return metric_dict
 
 
-def construct_prm_solver_with_obstacle(case_map: dict, case_rmp: RoadMap, case_o: RoundObstacle) -> Prm:
+def construct_prm_solver_with_obstacle(case_map: dict, case_rmp: RoadMap, case_o: Optional[RoundObstacle]) -> Prm:
     """
     Constructs a new PRM solver with the new obstacle added.
     :param case_map: map for the case
     :param case_rmp: roadmap for the case
-    :param case_o: new obstacle for the case
+    :param case_o: new obstacle for the case; if not provided, do nothing
     :return: the constructed PRM solver
     """
     case_prm = Prm(roadmap=case_rmp, **case_map)
-    case_prm.add_obstacle_to_environment(obstacle=case_o)
+    if case_o:
+        case_prm.add_obstacle_to_environment(obstacle=case_o)
     return case_prm
 
 
@@ -196,42 +215,49 @@ def postproc_aggr_metric_dict(aggr_metric_dict: dict, n_runs: int,
     if not calc_delta:
         return aggr_metric_dict, None
 
-    # Compared to Naive PRM
+    # Compared to Naive bPRM
     delta_metric_dict = construct_metric_res(aggregate=True)
     for alg_label in algorithm_dict.keys():
-        if alg_label == 'PRM':
+        if alg_label == 'bPRM':
+            delta_metric_dict[alg_label]['path_result']['path_found'] = aggr_metric_dict[alg_label]['path_result']['path_found']
+            continue
+        if aggr_metric_dict[alg_label]['path_result']['path_found'] == 0:
+            # not even found a single path, no need to compare
             continue
         for nested_metric in ['path_result', 'extra']:
             for inner_metric in delta_metric_dict[alg_label][nested_metric].keys():
-                if (nested_metric == 'path_result') and (inner_metric == 'path'):
+                if (nested_metric == 'path_result') and (inner_metric in {'path', 'path_found'}):
+                    delta_metric_dict[alg_label][nested_metric][inner_metric] = aggr_metric_dict[alg_label][nested_metric][inner_metric]
                     continue
                 delta_metric_dict[alg_label][nested_metric][inner_metric] = cal_relative_delta(
                     cur=aggr_metric_dict[alg_label][nested_metric][inner_metric],
-                    base=aggr_metric_dict['PRM'][nested_metric][inner_metric]
+                    base=aggr_metric_dict['bPRM'][nested_metric][inner_metric]
                 )
         delta_metric_dict[alg_label]['planning_time'] = cal_relative_delta(
             cur=aggr_metric_dict[alg_label]['planning_time'],
-            base=aggr_metric_dict['PRM']['planning_time']
+            base=aggr_metric_dict['bPRM']['planning_time']
         )
 
     return aggr_metric_dict, delta_metric_dict
 
 
-def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: RoundObstacle, debug=False) -> dict:
+def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: RoundObstacle, debug: bool = False) -> dict:
     """
     Runs the test case and return recorded metrics. The following steps are operated:
 
-    [1] Create a PRM solver with the given roadmap. Add the new obstacle to it.
+    [1] Create a PRM solver with the given roadmap. Use bPRM to find the shortest path and record metrics
 
-    [2] Use the solver to run RRT and record metrics.
+    [2] Add the new obstacle to the map.
 
     [3] Use the solver to run PRM and record metrics.
 
-    [4] Create a new solver with new obstacle. Use it to run R-PRM and record metrics.
+    [4] Use the solver to run RRT and record metrics.
 
-    [5] Create a new solver with new obstacle. Use it to run RF-PRM and record metrics.
+    [5] Create a new solver with new obstacle. Use it to run R-PRM and record metrics.
 
-    [6] Create a new solver with new obstacle. Use it to run RFT-PRM and record metrics.
+    [6] Create a new solver with new obstacle. Use it to run RF-PRM and record metrics.
+
+    [7] Create a new solver with new obstacle. Use it to run RFT-PRM and record metrics.
     :param case_map: map for the case
     :param case_query: query for the case
     :param case_rmp: roadmap for the case
@@ -241,17 +267,18 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
     # construct metrics dict for each algorithm
     metric_res = construct_metric_res(aggregate=False)
 
-    # 1. create a PRM solver
-    cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
-
-    # 2. RRT
-    rrt_path, rrt_cost, rrt_roadmap = cur_prm.plan_rrt(animation=False, **case_query)
-    metric_res['RRT'] = record_path_res(metric_res['RRT'], path=rrt_path, cost=rrt_cost)
-    if rrt_path:
-        metric_res['RRT']['planning_time'] = cur_prm.query_timer['rrt']
+    # 1. bPRM
+    cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=None)
+    prm_path, prm_cost = cur_prm.plan(animation=False, repair=False, eval_freedom=False, **case_query)
+    metric_res['bPRM'] = record_path_res(metric_res['bPRM'], path=prm_path, cost=prm_cost)
+    if prm_path:
+        metric_res['bPRM']['planning_time'] = cur_prm.query_timer['shortest_path']
     if debug:
-        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=rrt_roadmap, path=rrt_path)
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path)
         plt.waitforbuttonpress()
+
+    # 2. add new obstacle
+    cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
 
     # 3. PRM
     prm_path, prm_cost = cur_prm.plan(animation=False, repair=False, eval_freedom=False, **case_query)
@@ -262,7 +289,16 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
         cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path)
         plt.waitforbuttonpress()
 
-    # 4. R-PRM
+    # 4. RRT
+    rrt_path, rrt_cost, rrt_roadmap = cur_prm.plan_rrt(animation=False, **case_query)
+    metric_res['RRT'] = record_path_res(metric_res['RRT'], path=rrt_path, cost=rrt_cost)
+    if rrt_path:
+        metric_res['RRT']['planning_time'] = cur_prm.query_timer['rrt']
+    if debug:
+        cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=rrt_roadmap, path=rrt_path)
+        plt.waitforbuttonpress()
+
+    # 5. R-PRM
     cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
     prm_path, prm_cost = cur_prm.plan(animation=False, repair=True, eval_freedom=False, **case_query)
     metric_res['R-PRM'] = record_path_res(metric_res['R-PRM'], path=prm_path, cost=prm_cost)
@@ -276,7 +312,7 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
         cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path)
         plt.waitforbuttonpress()
 
-    # 5. RF-PRM
+    # 6. RF-PRM
     cur_prm = construct_prm_solver_with_obstacle(case_map=case_map, case_rmp=case_rmp, case_o=case_o)
     prm_path, prm_cost = cur_prm.plan(animation=False, repair=True, eval_freedom=True, **case_query)
     metric_res['RF-PRM'] = record_path_res(metric_res['RF-PRM'], path=prm_path, cost=prm_cost)
@@ -290,7 +326,7 @@ def run_test_case(case_map: dict, case_query: dict, case_rmp: RoadMap, case_o: R
         cur_prm.draw_graph(start=case_query['start'], goal=case_query['goal'], road_map=cur_prm.road_map, path=prm_path)
         plt.waitforbuttonpress()
 
-    # TODO: 6. RFT-PRM
+    # TODO: 7. RFT-PRM
 
     # output
     return metric_res
