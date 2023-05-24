@@ -360,23 +360,25 @@ class Prm:
         cost += cal_dist(from_x=end_sample_node.x, from_y=end_sample_node.y, to_x=goal[0], to_y=goal[1])
         return path, cost
 
-    def calc_node_freedom(self, node: RoadMapNode) -> float:
+    def calc_node_freedom(self, node: RoadMapNode, wander_ratio: int = 3) -> float:
         """
         Calculates the freedom ([0, 1]) of the node: how casual it can span out to other positions without colliding
-        with obstacles. This is accomplished simply by sampling several points around the node (`2r` distance away) and
-        perform collision check. The percentage of passing sample points is considered as the freedom of the node.
+        with obstacles. This is accomplished simply by sampling several points around the node (`t * r` distance away)
+        and perform collision check. The percentage of passing sample points is considered as the freedom of the node.
         :param node: node to be evaluated
+        :param wander_ratio: `t` specifying how far to wander around the current node position
         :return: the freedom
         """
         # test 10 positions
-        dist = 2 * self.robot_radius
+        dist = wander_ratio * self.robot_radius
         n_total = 0
         n_pass = 0
         for deg in range(0, 360, 36):
             n_total += 1
             rad = math.radians(deg)
-            if not self.obstacles.point_collides(x=(node.x + dist * math.cos(rad)),
-                                                 y=(node.y + dist * math.sin(rad))):
+            if self.obstacles.reachable_without_collision(from_x=node.x, from_y=node.y,
+                                                          to_x=(node.x + dist * math.cos(rad)),
+                                                          to_y=(node.y + dist * math.sin(rad))):
                 n_pass += 1
         return n_pass / n_total
 
