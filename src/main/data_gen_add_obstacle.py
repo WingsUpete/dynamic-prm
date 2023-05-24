@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 
 from core.util.common import *
 from core.util.graph import ObstacleType, RoundObstacle
-from core.prm import Prm, RoadMapNode, RoadMap
+from core.prm import Prm, RoadMap
 
 DATA_DIR_DEFAULT = './data/'
 SEED_DEFAULT = None
@@ -138,7 +138,7 @@ def handle_problem(problem_folder: str) -> list[dict]:
                 })
 
                 # Saves figures about cases
-                cur_prm = Prm(roadmap=copy.deepcopy(new_roadmap), **test_map)
+                cur_prm = Prm(roadmap=new_roadmap, **test_map)
                 prm_path, _ = cur_prm.plan(animation=False, **test_query)
                 cur_prm.add_obstacle_to_environment(obstacle=new_obstacle)
                 cur_prm.draw_graph(start=test_query['start'], goal=test_query['goal'],
