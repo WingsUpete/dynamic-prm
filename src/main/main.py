@@ -1,3 +1,4 @@
+import copy
 import os
 import pickle
 import sys
@@ -126,17 +127,27 @@ def record_path_res(metric_dict: dict, path: Optional[list[list[float]]], cost: 
     return metric_dict
 
 
-def construct_prm_solver_with_obstacle(case_map: dict, case_rmp: RoadMap, case_o: Optional[RoundObstacle]) -> Prm:
+def construct_prm_solver_with_obstacle(case_map: dict,
+                                       case_rmp: Optional[RoadMap], case_o: Optional[RoundObstacle],
+                                       rmp_myself: bool = False) -> Prm:
     """
     Constructs a new PRM solver with the new obstacle added.
     :param case_map: map for the case
-    :param case_rmp: roadmap for the case
+    :param case_rmp: roadmap for the case; if not provided, generate road map myself
     :param case_o: new obstacle for the case; if not provided, do nothing
+    :param rmp_myself: specify whether to generate roadmap myself
     :return: the constructed PRM solver
     """
-    case_prm = Prm(roadmap=case_rmp, **case_map)
+    case_map = copy.deepcopy(case_map)
+    if case_rmp:
+        if rmp_myself:
+            case_prm = Prm(init_n_samples=len(case_rmp), **case_map)
+        else:
+            case_prm = Prm(roadmap=copy.deepcopy(case_rmp), **case_map)
+    else:
+        case_prm = Prm(**case_map)
     if case_o:
-        case_prm.add_obstacle_to_environment(obstacle=case_o)
+        case_prm.add_obstacle_to_environment(obstacle=copy.deepcopy(case_o))
     return case_prm
 
 
