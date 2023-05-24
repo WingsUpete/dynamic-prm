@@ -103,14 +103,31 @@ class Prm:
             start_sample_node = self._get_nearest_feasible_roadmap_node(point_x=start[0], point_y=start[1],
                                                                         from_point=True,
                                                                         road_map=self.road_map.get_clear_roadmap())
-            if start_sample_node is None:
-                return None, -1
 
             end_sample_node = self._get_nearest_feasible_roadmap_node(point_x=goal[0], point_y=goal[1],
                                                                       from_point=False,
                                                                       road_map=self.road_map.get_clear_roadmap())
-            if end_sample_node is None:
-                return None, -1
+            if (start_sample_node is None) or (end_sample_node is None):
+                if not repair:
+                    # cannot link to road map
+                    return None, -1
+                else:
+                    # repair: run RRT from start to goal directly.
+                    t1 = time.time()
+                    rrt_path, rrt_cost, rrt_road_map = self._rrt_base(start=RoadMapNode(x=start[0], y=start[1]),
+                                                                      goal=RoadMapNode(x=goal[0], y=goal[1]),
+                                                                      animation=animation)
+                    if rrt_path is None:
+                        # RRT still cannot fix the problem
+                        self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
+                        return None, -1
+
+                    # otherwise, RRT found a path!
+                    # append the RRT paths to the road map (only new nodes are appended, judging from uid)
+                    n_new_nodes = self._postproc_rrt_res_into_prm(rrt_path=rrt_path, rrt_rmp=None)
+                    self._record_time(timer=self.query_timer, metric='n_new_nodes', val=n_new_nodes)
+                    self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
+                    return [[cur_node.x, cur_node.y] for cur_node in rrt_path], rrt_cost
 
             t0 = time.time()
             path, cost = dijkstra(road_map=self.road_map.get_clear_roadmap(),
@@ -154,7 +171,7 @@ class Prm:
                 n_new_nodes = self._postproc_rrt_res_into_prm(rrt_path=rrt_path, rrt_rmp=None)
                 self._record_time(timer=self.query_timer, metric='n_new_nodes', val=n_new_nodes)
                 self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
-                return rrt_path, rrt_cost
+                return [[cur_node.x, cur_node.y] for cur_node in rrt_path], rrt_cost
 
             # otherwise: feasible path exists before
             # try to sample a starting point on the first path segment & an ending point on the last path segment
