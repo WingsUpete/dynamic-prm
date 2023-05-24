@@ -15,7 +15,7 @@ __all__ = ['RoadMapNode', 'RoadMap']
 
 class RoadMapNode(Node2D):
     """ Node for Road Map """
-    def __init__(self, x: float, y: float, node_uid: str = None):
+    def __init__(self, x: float, y: float, node_uid: str = None, cost: float = 0):
         """
         Creates a Road Map Node.
         :param x: x coordinate of the node
@@ -32,6 +32,9 @@ class RoadMapNode(Node2D):
         # storing neighbors: uid -> road is clear (not blocked) for this edge
         self.from_node_uid_dict: dict[str, bool] = {}
         self.to_node_uid_dict: dict[str, bool] = {}
+
+        # used for RRT*
+        self.cost = cost
 
 
 class RoadMap:
@@ -131,7 +134,18 @@ class RoadMap:
             dist_list = [cal_dist(from_x=cur_node.x, from_y=cur_node.y,
                                   to_x=point[0], to_y=point[1]) for cur_node in self.get().values()]
             nearest_ind = dist_list.index(min(dist_list))
-            return nearest_ind
+            return dist_list[nearest_ind], nearest_ind
+
+    def get_smallest_cost_node(self, point: list[float]) -> int:
+        """
+        Gets the node with the smallest cost to point
+        :param point: given point to be examined
+        :return: the index of the found node
+        """
+        dist_list = [(cur_node.cost + cal_dist(from_x=cur_node.x, from_y=cur_node.y,
+                                               to_x=point[0], to_y=point[1])) for cur_node in self.get().values()]
+        smallest_ind = dist_list.index(min(dist_list))
+        return smallest_ind
 
     def find_points_within_r(self, point: list[float], r: float) -> list[int]:
         """
@@ -141,7 +155,12 @@ class RoadMap:
         :return: all satisfied points as a list of indices, or nothing if KD Tree is disabled
         """
         if not self._enable_kd_tree:
-            return []
+            indices = []
+            for (i, ix, iy) in zip(range(len(self.sample_x())), self.sample_x(), self.sample_y()):
+                d = cal_dist(from_x=point[0], from_y=point[1], to_x=ix, to_y=iy)
+                if d <= r:
+                    indices.append(i)
+            return indices
         indices = self.kd_tree().query_ball_point(point, r=r)
         indices = [indices] if type(indices) == int else indices
         return indices

@@ -146,9 +146,9 @@ def test_add_obstacle():
 
 
 if __name__ == '__main__':
-    test_prm(
-        use_rrt=True,
-        # show_map=True,
-        # animation=False
-    )
-    # test_add_obstacle()
+    # test_prm(
+    #     use_rrt=True,
+    #     # show_map=True,
+    #     # animation=False
+    # )
+    test_add_obstacle()

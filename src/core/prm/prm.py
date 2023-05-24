@@ -3,6 +3,7 @@ import time
 from typing import Optional
 import random
 import copy
+from collections import deque
 
 import matplotlib.pyplot as plt
 
@@ -26,7 +27,7 @@ class Prm:
                  obstacles: ObstacleDict,
                  robot_radius: float,
                  roadmap: Optional[RoadMap] = None,
-                 init_n_samples: int = 300, init_n_neighbors: int = 10, max_edge_len: float = 10.0,
+                 init_n_samples: int = 300, init_n_neighbors: int = 10, max_edge_len: float = 15.0,
                  rrt_max_iter: int = 100, rrt_goal_sample_rate: float = 0.05,
                  rnd_seed: int = None):
         """
@@ -116,6 +117,7 @@ class Prm:
                     t1 = time.time()
                     rrt_path, rrt_cost, rrt_road_map = self._rrt_base(start=RoadMapNode(x=start[0], y=start[1]),
                                                                       goal=RoadMapNode(x=goal[0], y=goal[1]),
+                                                                      rrt_star=True,
                                                                       animation=animation)
                     if rrt_path is None:
                         # RRT still cannot fix the problem
@@ -160,6 +162,7 @@ class Prm:
                 # cannot find path even before nodes/edges are blocked, then run RRT from start to goal directly.
                 rrt_path, rrt_cost, rrt_road_map = self._rrt_base(start=RoadMapNode(x=start[0], y=start[1]),
                                                                   goal=RoadMapNode(x=goal[0], y=goal[1]),
+                                                                  rrt_star=True,
                                                                   animation=animation)
                 if rrt_path is None:
                     # RRT still cannot fix the problem
@@ -241,6 +244,7 @@ class Prm:
 
             # RRT now!
             rrt_path, rrt_cost, rrt_road_map = self._rrt_base(start=sel_start_node, goal=sel_end_node,
+                                                              rrt_star=True,
                                                               animation=animation)
             if rrt_path is None:
                 # RRT still cannot fix the problem
@@ -426,7 +430,7 @@ class Prm:
                                                               to_x=cur_node.x, to_y=cur_node.y):
                     self.road_map.block_edge(from_uid=from_uid, to_uid=cur_node.node_uid)
 
-    def _rrt_base(self, start: RoadMapNode, goal: RoadMapNode,
+    def _rrt_base(self, start: RoadMapNode, goal: RoadMapNode, rrt_star: bool = False,
                   animation: bool = True, animate_interval: int = 5) -> (Optional[list[RoadMapNode]],
                                                                          float,
                                                                          Optional[RoadMap]):
@@ -442,7 +446,7 @@ class Prm:
         explored road map
         """
         # create RRT Nodes for starting/goal points
-        start_node = RoadMapNode(x=start.x, y=start.y, node_uid=start.node_uid)
+        start_node = RoadMapNode(x=start.x, y=start.y, node_uid=start.node_uid, cost=0)
         goal_node = RoadMapNode(x=goal.x, y=goal.y, node_uid=goal.node_uid)
 
         new_road_map = RoadMap(enable_kd_tree=False)
@@ -451,7 +455,7 @@ class Prm:
             # sample one node on the map
             rnd_node = self._get_rrt_rand_node(goal_node=goal_node)
             # get nearest neighbor of the sampled node
-            nearest_node_ind = new_road_map.get_nearest_neighbor(point=[rnd_node.x, rnd_node.y])
+            _, nearest_node_ind = new_road_map.get_nearest_neighbor(point=[rnd_node.x, rnd_node.y])
             nearest_node = new_road_map.get_node_by_index(index=nearest_node_ind)
 
             # get the expected new node to reach
@@ -460,9 +464,48 @@ class Prm:
             # check if `nearest_node` can reach `new_node` (collision check)
             if self.obstacles.reachable_without_collision(from_x=nearest_node.x, from_y=nearest_node.y,
                                                           to_x=new_node.x, to_y=new_node.y):
+                near_indices = None
+                if rrt_star:
+                    # re-find nearest neighbor
+                    near_indices = new_road_map.find_points_within_r(point=[new_node.x, new_node.y],
+                                                                     r=self.max_edge_len + 0.1)
+                    min_cost = nearest_node.cost
+                    for near_ind in near_indices:
+                        cur_near_node = new_road_map.get_node_by_index(near_ind)
+                        cur_dist = cur_near_node.cost + cur_near_node.euclidean_distance(new_node)
+                        if (cur_dist < min_cost) and self.obstacles.reachable_without_collision(from_x=cur_near_node.x,
+                                                                                                from_y=cur_near_node.y,
+                                                                                                to_x=new_node.x,
+                                                                                                to_y=new_node.y):
+                            min_cost = cur_dist
+                            nearest_node = cur_near_node
+
                 # add new node and form edge
                 new_road_map.add_node(node=new_node)
                 new_road_map.add_edge(from_uid=nearest_node.node_uid, to_uid=new_node.node_uid)
+
+                # for RRT*, rewire the tree
+                if rrt_star:
+                    for near_ind in near_indices:
+                        near_node = new_road_map.get_node_by_index(index=near_ind)
+                        n2n_cost = new_node.cost + new_node.euclidean_distance(other=near_node)
+                        if (n2n_cost < near_node.cost) and self.obstacles.reachable_without_collision(from_x=new_node.x, from_y=new_node.y,
+                                                                                                      to_x=near_node.x, to_y=near_node.y):
+                            # closer from `new_node` to `near_node` -> rewire
+                            near_node.cost = n2n_cost
+                            new_road_map.remove_edge(from_uid=list(near_node.from_node_uid_dict.keys())[0],
+                                                     to_uid=near_node.node_uid)
+                            new_road_map.add_edge(from_uid=new_node.node_uid, to_uid=near_node.node_uid)
+                            # update cost to leaves
+                            queue = deque([new_road_map.get()[nxt_uid] for nxt_uid in near_node.to_node_uid_dict.keys()])
+                            while len(queue) != 0:
+                                cur_node = queue.popleft()
+                                cur_parent_uid = list(cur_node.from_node_uid_dict.keys())[0]
+                                cur_parent_node = new_road_map.get()[cur_parent_uid]
+                                cur_node.cost = cur_parent_node.cost + cur_parent_node.euclidean_distance(other=cur_node)
+                                for nxt_uid in cur_node.to_node_uid_dict.keys():
+                                    queue.append(new_road_map.get()[nxt_uid])
+
                 # goal check
                 if new_node.euclidean_distance(goal_node) <= self.max_edge_len:
                     final_node = self._steer_rrt(from_node=new_node, to_node=goal_node)
@@ -514,7 +557,8 @@ class Prm:
         d, theta = cal_dist_n_angle(from_x=from_node.x, from_y=from_node.y, to_x=to_node.x, to_y=to_node.y)
         extend_length = self.max_edge_len if self.max_edge_len <= d else d
         new_node = RoadMapNode(x=(from_node.x + extend_length * math.cos(theta)),
-                               y=(from_node.y + extend_length * math.sin(theta)))
+                               y=(from_node.y + extend_length * math.sin(theta)),
+                               cost=(from_node.cost + extend_length))
         return new_node
 
     @staticmethod
