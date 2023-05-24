@@ -1,0 +1,1523 @@
+> Main problem initialized.
+> Input variables: {'data_folder': 'data/', 'n_runs': 20, 'log_dir': 'log/', 'tag': None}
+> 100 cases collected.
+> Algorithms to evaluate:
+OrderedDict([   ('bPRM', 'Naive-PRM (Before New Obstacle)'),
+                ('PRM', 'Naive-PRM'),
+                ('RRT', 'Naive-RRT'),
+                ('R-PRM', 'Repair-PRM'),
+                ('RF-PRM', 'Repair-PRM-with-Freedom'),
+                ('R-PRM*', 'Repair-PRM-Star'),
+                ('RF-PRM*', 'Repair-PRM-with-Freedom-Star')])
+> Start running test cases.
+--------------------------------------------------------------------------------
+CASE 1:
+{   'case': './data/19\\case_90b20834f81ac78db855028e4ee04b7123e802c36d621e02ba2b31e46c83565b/',
+    'map': './data/19',
+    'query': 0}
+Loaded backend qtagg version 5.15.7.findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0.findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.05findfont: score(FontEntry(fname='D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\TCCEB.TTF', name='Tw Cen MT Condensed Extra Bold', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\consolaz.ttf', name='Consolas', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GILSANUB.TTF', name='Gill Sans Ultra Bold', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SegUIVar.ttf', name='Segoe UI Variable', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ROCC____.TTF', name='Rockwell Condensed', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOOKOSI.TTF', name='Bookman Old Style', style='italic', variant='normal', weight=300, stretch='normal', size='scalable')) = 11.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FZYTK.TTF', name='FZYaoTi', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\HARLOWSI.TTF', name='Harlow Solid Italic', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LEELAWAD.TTF', name='Leelawadee', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ROCKEB.TTF', name='Rockwell Extra Bold', style='normal', variant='normal', weight=800, stretch='normal', size='scalable')) = 10.43findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\cambriai.ttf', name='Cambria', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Inkfree.ttf', name='Ink Free', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\constani.ttf', name='Constantia', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\YuGothR.ttc', name='Yu Gothic', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\tahomabd.ttf', name='Tahoma', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segoeuib.ttf', name='Segoe UI', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Candarai.ttf', name='Candara', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FRADMIT.TTF', name='Franklin Gothic Demi', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LTYPEB.TTF', name='Lucida Sans Typewriter', style='normal', variant='normal', weight=600, stretch='normal', size='scalable')) = 10.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\mvboli.ttf', name='MV Boli', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\seguisb.ttf', name='Segoe UI', style='normal', variant='normal', weight=600, stretch='normal', size='scalable')) = 10.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ROCK.TTF', name='Rockwell', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\pala.ttf', name='Palatino Linotype', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ARIALNBI.TTF', name='Arial', style='italic', variant='normal', weight=700, stretch='condensed', size='scalable')) = 7.8986363636363635findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\arialbd.ttf', name='Arial', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 6.698636363636363findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\yumindb.ttf', name='Yu Mincho', style='normal', variant='normal', weight=600, stretch='normal', size='scalable')) = 10.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\malgun.ttf', name='Malgun Gothic', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ARIALNI.TTF', name='Arial', style='italic', variant='normal', weight=400, stretch='condensed', size='scalable')) = 7.613636363636363findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PERTILI.TTF', name='Perpetua Titling MT', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CALIFB.TTF', name='Californian FB', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\WINGDNG3.TTF', name='Wingdings 3', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GARABD.TTF', name='Garamond', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\cour.ttf', name='Courier New', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\YuGothL.ttc', name='Yu Gothic', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ERASMD.TTF', name='Eras Medium ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_BLAI.TTF', name='Bodoni MT', style='italic', variant='normal', weight=900, stretch='normal', size='scalable')) = 11.525findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\phagspa.ttf', name='Microsoft PhagsPa', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STXINWEI.TTF', name='STXinwei', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ROCKI.TTF', name='Rockwell', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segoeuii.ttf', name='Segoe UI', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BRLNSB.TTF', name='Berlin Sans FB', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\constan.ttf', name='Constantia', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\trebucit.ttf', name='Trebuchet MS', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CALISTB.TTF', name='Calisto MT', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LBRITEI.TTF', name='Lucida Bright', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STFANGSO.TTF', name='STFangsong', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\monbaiti.ttf', name='Mongolian Baiti', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Candarab.ttf', name='Candara', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\mmrtextb.ttf', name='Myanmar Text', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOOKOSBI.TTF', name='Bookman Old Style', style='italic', variant='normal', weight=600, stretch='normal', size='scalable')) = 11.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PRISTINA.TTF', name='Pristina', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CHILLER.TTF', name='Chiller', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\georgia.ttf', name='Georgia', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ebrimabd.ttf', name='Ebrima', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LFAXD.TTF', name='Lucida Fax', style='normal', variant='normal', weight=600, stretch='normal', size='scalable')) = 10.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LFAXI.TTF', name='Lucida Fax', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_CR.TTF', name='Bodoni MT', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FRAHV.TTF', name='Franklin Gothic Heavy', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Candarali.ttf', name='Candara', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PALSCRI.TTF', name='Palace Script MT', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GILI____.TTF', name='Gill Sans MT', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\verdanab.ttf', name='Verdana', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 3.9713636363636367findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\micross.ttf', name='Microsoft Sans Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GILB____.TTF', name='Gill Sans MT', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\courbd.ttf', name='Courier New', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GARAIT.TTF', name='Garamond', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ariblk.ttf', name='Arial', style='normal', variant='normal', weight=900, stretch='normal', size='scalable')) = 6.888636363636364findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\mingliub.ttc', name='MingLiU-ExtB', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ANTQUAB.TTF', name='Book Antiqua', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\MOD20.TTF', name='Modern No. 20', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\COOPBL.TTF', name='Cooper Black', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\HARNGTON.TTF', name='Harrington', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BRLNSR.TTF', name='Berlin Sans FB', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\MTCORSVA.TTF', name='Monotype Corsiva', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\verdanai.ttf', name='Verdana', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 4.6863636363636365findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\himalaya.ttf', name='Microsoft Himalaya', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\corbelb.ttf', name='Corbel', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\lucon.ttf', name='Lucida Console', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PERB____.TTF', name='Perpetua', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LTYPEO.TTF', name='Lucida Sans Typewriter', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ebrima.ttf', name='Ebrima', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\timesbi.ttf', name='Times New Roman', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ALGER.TTF', name='Algerian', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SIMLI.TTF', name='LiSu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\simsunb.ttf', name='SimSun-ExtB', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LBRITEDI.TTF', name='Lucida Bright', style='italic', variant='normal', weight=600, stretch='normal', size='scalable')) = 11.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LCALLIG.TTF', name='Lucida Calligraphy', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOOKOS.TTF', name='Bookman Old Style', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Candara.ttf', name='Candara', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\MATURASC.TTF', name='Matura MT Script Capitals', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\malgunbd.ttf', name='Malgun Gothic', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_B.TTF', name='Bodoni MT', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\bahnschrift.ttf', name='Bahnschrift', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\cambriaz.ttf', name='Cambria', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ARIALNB.TTF', name='Arial', style='normal', variant='normal', weight=700, stretch='condensed', size='scalable')) = 6.8986363636363635findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CALIST.TTF', name='Calisto MT', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GLECB.TTF', name='Gloucester MT Extra Condensed', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\webdings.ttf', name='Webdings', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SCHLBKBI.TTF', name='Century Schoolbook', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\trebuc.ttf', name='Trebuchet MS', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\calibri.ttf', name='Calibri', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SCHLBKI.TTF', name='Century Schoolbook', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STHUPO.TTF', name='STHupo', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GOUDOS.TTF', name='Goudy Old Style', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\COPRGTL.TTF', name='Copperplate Gothic Light', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LATINWD.TTF', name='Wide Latin', style='normal', variant='normal', weight=400, stretch='expanded', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BRLNSDB.TTF', name='Berlin Sans FB Demi', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\taileb.ttf', name='Microsoft Tai Le', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\msyi.ttf', name='Microsoft Yi Baiti', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segoepr.ttf', name='Segoe Print', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BELL.TTF', name='Bell MT', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\yumin.ttf', name='Yu Mincho', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SIMYOU.TTF', name='YouYuan', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\comic.ttf', name='Comic Sans MS', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ERASDEMI.TTF', name='Eras Demi ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\yuminl.ttf', name='Yu Mincho', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ANTQUABI.TTF', name='Book Antiqua', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\georgiaz.ttf', name='Georgia', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LTYPE.TTF', name='Lucida Sans Typewriter', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ROCCB___.TTF', name='Rockwell Condensed', style='normal', variant='normal', weight=700, stretch='condensed', size='scalable')) = 10.535findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\seguiemj.ttf', name='Segoe UI Emoji', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\OCRAEXT.TTF', name='OCR A Extended', style='normal', variant='normal', weight=400, stretch='expanded', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\verdanaz.ttf', name='Verdana', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 4.971363636363637findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PAPYRUS.TTF', name='Papyrus', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\MSUIGHUB.TTF', name='Microsoft Uighur', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GOTHICBI.TTF', name='Century Gothic', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\georgiai.ttf', name='Georgia', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segoeprb.ttf', name='Segoe Print', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BRUSHSCI.TTF', name='Brush Script MT', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_CB.TTF', name='Bodoni MT', style='normal', variant='normal', weight=700, stretch='condensed', size='scalable')) = 10.535findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Dengl.ttf', name='DengXian', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FORTE.TTF', name='Forte', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STLITI.TTF', name='STLiti', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LTYPEBO.TTF', name='Lucida Sans Typewriter', style='oblique', variant='normal', weight=600, stretch='normal', size='scalable')) = 11.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BSSYM7.TTF', name='Bookshelf Symbol 7', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\framdit.ttf', name='Franklin Gothic Medium', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\JOKERMAN.TTF', name='Jokerman', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\NirmalaS.ttf', name='Nirmala UI', style='normal', variant='normal', weight=350, stretch='normal', size='scalable')) = 10.0975findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BERNHC.TTF', name='Bernard MT Condensed', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CENTURY.TTF', name='Century', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CALISTBI.TTF', name='Calisto MT', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\seguisbi.ttf', name='Segoe UI', style='italic', variant='normal', weight=600, stretch='normal', size='scalable')) = 11.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GLSNECB.TTF', name='Gill Sans MT Ext Condensed Bold', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FRABK.TTF', name='Franklin Gothic Book', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segoesc.ttf', name='Segoe Script', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PERBI___.TTF', name='Perpetua', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FREESCPT.TTF', name='Freestyle Script', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CURLZ___.TTF', name='Curlz MT', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LBRITE.TTF', name='Lucida Bright', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\calibrii.ttf', name='Calibri', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BROADW.TTF', name='Broadway', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\DUBAI-LIGHT.TTF', name='Dubai', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\impact.ttf', name='Impact', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\MISTRAL.TTF', name='Mistral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\RAVIE.TTF', name='Ravie', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\REFSAN.TTF', name='MS Reference Sans Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_BLAR.TTF', name='Bodoni MT', style='normal', variant='normal', weight=900, stretch='normal', size='scalable')) = 10.525findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\symbol.ttf', name='Symbol', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segoeuisl.ttf', name='Segoe UI', style='normal', variant='normal', weight=350, stretch='normal', size='scalable')) = 10.0975findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\constanb.ttf', name='Constantia', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\palabi.ttf', name='Palatino Linotype', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FTLTLT.TTF', name='Footlight MT Light', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\gadugib.ttf', name='Gadugi', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LSANSI.TTF', name='Lucida Sans', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BASKVILL.TTF', name='Baskerville Old Face', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STXINGKA.TTF', name='STXingkai', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\constanz.ttf', name='Constantia', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\INFROMAN.TTF', name='Informal Roman', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\framd.ttf', name='Franklin Gothic Medium', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BAUHS93.TTF', name='Bauhaus 93', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LeelawUI.ttf', name='Leelawadee UI', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\consolab.ttf', name='Consolas', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segoeui.ttf', name='Segoe UI', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\georgiab.ttf', name='Georgia', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\consola.ttf', name='Consolas', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ntailub.ttf', name='Microsoft New Tai Lue', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\VINERITC.TTF', name='Viner Hand ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GOTHICI.TTF', name='Century Gothic', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SitkaVF-Italic.ttf', name='Sitka', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Candaraz.ttf', name='Candara', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STSONG.TTF', name='STSong', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\simfang.ttf', name='FangSong', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LFAX.TTF', name='Lucida Fax', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CASTELAR.TTF', name='Castellar', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SitkaVF.ttf', name='Sitka', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GARA.TTF', name='Garamond', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\palai.ttf', name='Palatino Linotype', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FRABKIT.TTF', name='Franklin Gothic Book', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GOUDOSI.TTF', name='Goudy Old Style', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Dengb.ttf', name='DengXian', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\holomdl2.ttf', name='HoloLens MDL2 Assets', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\corbeli.ttf', name='Corbel', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\MAIAN.TTF', name='Maiandra GD', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\calibrili.ttf', name='Calibri', style='italic', variant='normal', weight=300, stretch='normal', size='scalable')) = 11.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ntailu.ttf', name='Microsoft New Tai Lue', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ROCKBI.TTF', name='Rockwell', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\COPRGTB.TTF', name='Copperplate Gothic Bold', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\KUNSTLER.TTF', name='Kunstler Script', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_PSTC.TTF', name='Bodoni MT', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\tahoma.ttf', name='Tahoma', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LBRITED.TTF', name='Lucida Bright', style='normal', variant='normal', weight=600, stretch='normal', size='scalable')) = 10.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\calibril.ttf', name='Calibri', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\taile.ttf', name='Microsoft Tai Le', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GOUDOSB.TTF', name='Goudy Old Style', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\DUBAI-REGULAR.TTF', name='Dubai', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Candaral.ttf', name='Candara', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\MSUIGHUR.TTF', name='Microsoft Uighur', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\comici.ttf', name='Comic Sans MS', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GILBI___.TTF', name='Gill Sans MT', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ONYX.TTF', name='Onyx', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SCHLBKB.TTF', name='Century Schoolbook', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\cambriab.ttf', name='Cambria', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\mmrtext.ttf', name='Myanmar Text', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GIL_____.TTF', name='Gill Sans MT', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\OLDENGL.TTF', name='Old English Text MT', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ROCKB.TTF', name='Rockwell', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\AGENCYR.TTF', name='Agency FB', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\msyhl.ttc', name='Microsoft YaHei', style='normal', variant='normal', weight=290, stretch='normal', size='scalable')) = 10.1545findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ITCKRIST.TTF', name='Kristen ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\palab.ttf', name='Palatino Linotype', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ERASBD.TTF', name='Eras Bold ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\calibriz.ttf', name='Calibri', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\malgunsl.ttf', name='Malgun Gothic', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\msjh.ttc', name='Microsoft JhengHei', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\REFSPCL.TTF', name='MS Reference Specialty', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CENTAUR.TTF', name='Centaur', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\corbell.ttf', name='Corbel', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_BI.TTF', name='Bodoni MT', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\trebucbi.ttf', name='Trebuchet MS', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\VLADIMIR.TTF', name='Vladimir Script', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\msjhl.ttc', name='Microsoft JhengHei', style='normal', variant='normal', weight=290, stretch='normal', size='scalable')) = 10.1545findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\sylfaen.ttf', name='Sylfaen', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ELEPHNTI.TTF', name='Elephant', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\arial.ttf', name='Arial', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 6.413636363636363findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\comicz.ttf', name='Comic Sans MS', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\POORICH.TTF', name='Poor Richard', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\seguihis.ttf', name='Segoe UI Historic', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CALIFI.TTF', name='Californian FB', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PLAYBILL.TTF', name='Playbill', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ariali.ttf', name='Arial', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 7.413636363636363findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BELLB.TTF', name='Bell MT', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Deng.ttf', name='DengXian', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\meiryob.ttc', name='Meiryo', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\msgothic.ttc', name='MS Gothic', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\JUICE___.TTF', name='Juice ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GOUDYSTO.TTF', name='Goudy Stout', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BIZ-UDGothicB.ttc', name='BIZ UDGothic', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\times.ttf', name='Times New Roman', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\DUBAI-BOLD.TTF', name='Dubai', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BIZ-UDGothicR.ttc', name='BIZ UDGothic', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PERI____.TTF', name='Perpetua', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\AGENCYB.TTF', name='Agency FB', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FRAHVIT.TTF', name='Franklin Gothic Heavy', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\msyhbd.ttc', name='Microsoft YaHei', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GILLUBCD.TTF', name='Gill Sans Ultra Bold Condensed', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\UDDigiKyokashoN-R.ttc', name='UD Digi Kyokasho N-R', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\TCMI____.TTF', name='Tw Cen MT', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ANTQUAI.TTF', name='Book Antiqua', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\l_10646.ttf', name='Lucida Sans Unicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\timesbd.ttf', name='Times New Roman', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CENSCBK.TTF', name='Century Schoolbook', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\NIAGENG.TTF', name='Niagara Engraved', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\msjhbd.ttc', name='Microsoft JhengHei', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\wingding.ttf', name='Wingdings', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ERASLGHT.TTF', name='Eras Light ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LHANDW.TTF', name='Lucida Handwriting', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_CI.TTF', name='Bodoni MT', style='italic', variant='normal', weight=400, stretch='condensed', size='scalable')) = 11.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\RAGE.TTF', name='Rage Italic', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\couri.ttf', name='Courier New', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FRADM.TTF', name='Franklin Gothic Demi', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\javatext.ttf', name='Javanese Text', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\arialbi.ttf', name='Arial', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 7.698636363636363findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\simsun.ttc', name='SimSun', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segoescb.ttf', name='Segoe Script', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BELLI.TTF', name='Bell MT', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\simhei.ttf', name='SimHei', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LFAXDI.TTF', name='Lucida Fax', style='italic', variant='normal', weight=600, stretch='normal', size='scalable')) = 11.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\courbi.ttf', name='Courier New', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\NirmalaB.ttf', name='Nirmala UI', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOOKOSB.TTF', name='Bookman Old Style', style='normal', variant='normal', weight=600, stretch='normal', size='scalable')) = 10.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GOTHICB.TTF', name='Century Gothic', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segoeuil.ttf', name='Segoe UI', style='normal', variant='normal', weight=300, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GOTHIC.TTF', name='Century Gothic', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LeelUIsl.ttf', name='Leelawadee UI', style='normal', variant='normal', weight=350, stretch='normal', size='scalable')) = 10.0975findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BIZ-UDMinchoM.ttc', name='BIZ UDMincho', style='normal', variant='normal', weight=500, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_I.TTF', name='Bodoni MT', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\timesi.ttf', name='Times New Roman', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\OUTLOOK.TTF', name='MS Outlook', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\DUBAI-MEDIUM.TTF', name='Dubai', style='normal', variant='normal', weight=500, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STZHONGS.TTF', name='STZhongsong', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SNAP____.TTF', name='Snap ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\NIAGSOL.TTF', name='Niagara Solid', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BRITANIC.TTF', name='Britannic Bold', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\TCM_____.TTF', name='Tw Cen MT', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\seguibl.ttf', name='Segoe UI', style='normal', variant='normal', weight=900, stretch='normal', size='scalable')) = 10.525findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\corbel.ttf', name='Corbel', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\HTOWERT.TTF', name='High Tower Text', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segmdl2.ttf', name='Segoe MDL2 Assets', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ELEPHNT.TTF', name='Elephant', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PARCHM.TTF', name='Parchment', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SegoeIcons.ttf', name='Segoe Fluent Icons', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\seguili.ttf', name='Segoe UI', style='italic', variant='normal', weight=300, stretch='normal', size='scalable')) = 11.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GIGI.TTF', name='Gigi', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\TCCM____.TTF', name='Tw Cen MT Condensed', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\HATTEN.TTF', name='Haettenschweiler', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\simkai.ttf', name='KaiTi', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\phagspab.ttf', name='Microsoft PhagsPa', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ENGR.TTF', name='Engravers MT', style='normal', variant='normal', weight=500, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Gabriola.ttf', name='Gabriola', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\MAGNETOB.TTF', name='Magneto', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\corbelz.ttf', name='Corbel', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ITCBLKAD.TTF', name='Blackadder ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PER_____.TTF', name='Perpetua', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\meiryo.ttc', name='Meiryo', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ITCEDSCR.TTF', name='Edwardian Script ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FZSTK.TTF', name='FZShuTi', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ARIALN.TTF', name='Arial', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 6.613636363636363findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CALISTI.TTF', name='Calisto MT', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\segoeuiz.ttf', name='Segoe UI', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\WINGDNG2.TTF', name='Wingdings 2', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\seguibli.ttf', name='Segoe UI', style='italic', variant='normal', weight=900, stretch='normal', size='scalable')) = 11.525findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\cambria.ttc', name='Cambria', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\msyh.ttc', name='Microsoft YaHei', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\TCBI____.TTF', name='Tw Cen MT', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FRAMDCN.TTF', name='Franklin Gothic Medium Cond', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\marlett.ttf', name='Marlett', style='normal', variant='normal', weight=500, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\seguisym.ttf', name='Segoe UI Symbol', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\verdana.ttf', name='Verdana', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 3.6863636363636365findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LSANS.TTF', name='Lucida Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\YuGothB.ttc', name='Yu Gothic', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_CBI.TTF', name='Bodoni MT', style='italic', variant='normal', weight=700, stretch='condensed', size='scalable')) = 11.535findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BKANT.TTF', name='Book Antiqua', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\IMPRISHA.TTF', name='Imprint MT Shadow', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STXIHEI.TTF', name='STXihei', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BOD_R.TTF', name='Bodoni MT', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\TCCB____.TTF', name='Tw Cen MT Condensed', style='normal', variant='normal', weight=700, stretch='condensed', size='scalable')) = 10.535findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\calibrib.ttf', name='Calibri', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SHOWG.TTF', name='Showcard Gothic', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\YuGothM.ttc', name='Yu Gothic', style='normal', variant='normal', weight=500, stretch='normal', size='scalable')) = 10.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\TCB_____.TTF', name='Tw Cen MT', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\consolai.ttf', name='Consolas', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FRSCRIPT.TTF', name='French Script MT', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\BRADHITC.TTF', name='Bradley Hand ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\VIVALDII.TTF', name='Vivaldi', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STKAITI.TTF', name='STKaiti', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\trebucbd.ttf', name='Trebuchet MS', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\TEMPSITC.TTF', name='Tempus Sans ITC', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\UDDigiKyokashoN-B.ttc', name='UD Digi Kyokasho N-B', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\ARLRDBD.TTF', name='Arial Rounded MT Bold', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FRADMCN.TTF', name='Franklin Gothic Demi Cond', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LeelaUIb.ttf', name='Leelawadee UI', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STENCIL.TTF', name='Stencil', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\corbelli.ttf', name='Corbel', style='italic', variant='normal', weight=300, stretch='normal', size='scalable')) = 11.145findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LEELAWDB.TTF', name='Leelawadee', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\CALIFR.TTF', name='Californian FB', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\HTOWERTI.TTF', name='High Tower Text', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\COLONNA.TTF', name='Colonna MT', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\gadugi.ttf', name='Gadugi', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\PERTIBD.TTF', name='Perpetua Titling MT', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\Nirmala.ttf', name='Nirmala UI', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\SCRIPTBL.TTF', name='Script MT Bold', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\msmincho.ttc', name='MS Mincho', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\FELIXTI.TTF', name='Felix Titling', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\STCAIYUN.TTF', name='STCaiyun', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\GILC____.TTF', name='Gill Sans MT Condensed', style='normal', variant='normal', weight=400, stretch='condensed', size='scalable')) = 10.25findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LSANSD.TTF', name='Lucida Sans', style='normal', variant='normal', weight=600, stretch='normal', size='scalable')) = 10.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\seguisli.ttf', name='Segoe UI', style='italic', variant='normal', weight=350, stretch='normal', size='scalable')) = 11.0975findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\LSANSDI.TTF', name='Lucida Sans', style='italic', variant='normal', weight=600, stretch='normal', size='scalable')) = 11.24findfont: score(FontEntry(fname='C:\\Windows\\Fonts\\comicbd.ttf', name='Comic Sans MS', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0 to DejaVu Sans ('D:\\anaconda3\\envs\\robotics\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSans.ttf') with score of 0.050000.CASE 1 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.75			52.1175  			0.0256				0.0000			0.00
+R-PRM     		0.65			55.0406  			0.0293				0.0293			5.85
+RF-PRM    		0.80			54.9519  			0.0214				0.0214			6.00
+R-PRM*    		0.65			41.6072  			0.0283				0.0283			4.54
+RF-PRM*   		0.90			49.9918  			0.0372				0.0372			5.89
+
+--------------------------------------------------------------------------------
+CASE 2:
+{   'case': './data/19\\case_90a022a6d61336a2aca75224b667da971b0f4847f8d1b2dd537e98aa6b9fcb50/',
+    'map': './data/19',
+    'query': 0}
+CASE 2 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.85			31.6675  			0.0144				0.0000			0.00
+R-PRM     		0.75			32.2567  			0.0193				0.0193			3.93
+RF-PRM    		0.95			34.7549  			0.0210				0.0210			4.53
+R-PRM*    		0.90			30.9688  			0.0160				0.0160			3.83
+RF-PRM*   		0.95			30.2860  			0.0224				0.0224			3.79
+
+--------------------------------------------------------------------------------
+CASE 3:
+{   'case': './data/19\\case_55ad58d5128d53818d7d1d3b53251a6fc06897b58bbe76a6e709ff6b4e250a43/',
+    'map': './data/19',
+    'query': 1}
+CASE 3 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			57.7065  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			66.1964  			0.0181				0.0000			0.00
+R-PRM     		0.95			94.5913  			0.0155				0.0155			3.16
+RF-PRM    		0.90			79.6880  			0.0196				0.0195			1.89
+R-PRM*    		1.00			84.2496  			0.0124				0.0123			1.85
+RF-PRM*   		0.90			87.8778  			0.0263				0.0262			2.28
+
+--------------------------------------------------------------------------------
+CASE 4:
+{   'case': './data/19\\case_732380b9e166a0e38750ad3c9aeea156443917e7260ca9b6e6204c3d94c130d7/',
+    'map': './data/19',
+    'query': 1}
+CASE 4 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			40.4237  			0.0072				0.0000			0.00
+R-PRM     		1.00			47.3294  			0.0119				0.0119			5.00
+RF-PRM    		1.00			40.6944  			0.0105				0.0105			4.35
+R-PRM*    		1.00			43.2846  			0.0117				0.0117			4.45
+RF-PRM*   		1.00			38.0925  			0.0098				0.0098			4.10
+
+--------------------------------------------------------------------------------
+CASE 5:
+{   'case': './data/19\\case_1b8c40a719c639b82b4a80d77582f3c9e492c68f7e12ea22d506dfc944f3115f/',
+    'map': './data/19',
+    'query': 1}
+CASE 5 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			47.5855  			0.0085				0.0000			0.00
+R-PRM     		1.00			42.5082  			0.0081				0.0081			4.55
+RF-PRM    		1.00			46.6111  			0.0082				0.0082			4.60
+R-PRM*    		1.00			45.2372  			0.0137				0.0137			4.50
+RF-PRM*   		1.00			44.6598  			0.0118				0.0118			4.70
+
+--------------------------------------------------------------------------------
+CASE 6:
+{   'case': './data/19\\case_6197fadc33bd6e4e87ae5711c038f366c321d93a430fea14e89fcdef37fb8502/',
+    'map': './data/19',
+    'query': 2}
+CASE 6 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			44.9343  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.80			53.9121  			0.0171				0.0000			0.00
+R-PRM     		1.00			58.8464  			0.0067				0.0067			2.35
+RF-PRM    		1.00			56.0565  			0.0088				0.0087			2.30
+R-PRM*    		1.00			61.4586  			0.0088				0.0087			2.45
+RF-PRM*   		1.00			66.0129  			0.0129				0.0129			2.75
+
+--------------------------------------------------------------------------------
+CASE 7:
+{   'case': './data/32\\case_301be6f59d31bf4c6af72fca5d91c6b092fbd0acbdfa6dbd87443749767f6cbc/',
+    'map': './data/32',
+    'query': 0}
+CASE 7 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			81.6560  			0.0168				0.0000			0.00
+R-PRM     		1.00			87.2257  			0.0233				0.0233			7.40
+RF-PRM    		0.95			85.5377  			0.0168				0.0168			7.26
+R-PRM*    		1.00			91.2886  			0.0214				0.0214			7.65
+RF-PRM*   		1.00			89.3694  			0.0290				0.0290			7.70
+
+--------------------------------------------------------------------------------
+CASE 8:
+{   'case': './data/32\\case_e960f6c3aaeee70e8d07ffec6a0dbba98f4141709eb34da1360aee9987fe9367/',
+    'map': './data/32',
+    'query': 0}
+CASE 8 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			87.1357  			0.0183				0.0000			0.00
+R-PRM     		0.95			87.2297  			0.0198				0.0198			7.63
+RF-PRM    		1.00			88.3522  			0.0263				0.0263			7.65
+R-PRM*    		0.95			88.5234  			0.0212				0.0212			7.53
+RF-PRM*   		1.00			82.7416  			0.0195				0.0195			6.95
+
+--------------------------------------------------------------------------------
+CASE 9:
+{   'case': './data/32\\case_ca21a950ee09024c253ab5674bff1b88f2532467f1ead94158dec3fcf7735902/',
+    'map': './data/32',
+    'query': 0}
+CASE 9 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			83.6115  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			84.8942  			0.0202				0.0000			0.00
+R-PRM     		0.95			96.5284  			0.0162				0.0159			2.26
+RF-PRM    		0.95			93.2740  			0.0197				0.0195			1.84
+R-PRM*    		1.00			93.9427  			0.0097				0.0095			1.85
+RF-PRM*   		1.00			92.5417  			0.0180				0.0178			1.70
+
+--------------------------------------------------------------------------------
+CASE 10:
+{   'case': './data/32\\case_4d1b60d9d0bfecbb365b8ec1e377fd492762a5ab2a89b3a88937b6e6326e699a/',
+    'map': './data/32',
+    'query': 1}
+CASE 10 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			93.4920  			0.0325				0.0000			0.00
+R-PRM     		0.90			94.5487  			0.0307				0.0307			8.00
+RF-PRM    		0.95			100.9297 			0.0314				0.0314			8.74
+R-PRM*    		0.90			94.0464  			0.0379				0.0379			8.11
+RF-PRM*   		0.95			86.0643  			0.0290				0.0290			7.47
+
+--------------------------------------------------------------------------------
+CASE 11:
+{   'case': './data/32\\case_e3d54c51efdef82e51b5a44502fd5304177e8fcef3358a4184e6bb46dfdeb9aa/',
+    'map': './data/32',
+    'query': 1}
+CASE 11 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			103.1645 			0.0326				0.0000			0.00
+R-PRM     		0.95			103.9134 			0.0339				0.0339			8.68
+RF-PRM    		0.80			94.1841  			0.0315				0.0315			8.00
+R-PRM*    		0.95			95.0429  			0.0334				0.0334			8.26
+RF-PRM*   		0.80			99.0629  			0.0363				0.0363			8.31
+
+--------------------------------------------------------------------------------
+CASE 12:
+{   'case': './data/32\\case_3722d1f51e880051543424eb4aa95e7219525865219afa1a1018bb0e373cc607/',
+    'map': './data/32',
+    'query': 1}
+CASE 12 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			74.2513  			0.0003				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.80			109.2028 			0.0322				0.0000			0.00
+R-PRM     		0.85			100.0469 			0.0251				0.0250			3.82
+RF-PRM    		0.85			126.2221 			0.0359				0.0358			5.12
+R-PRM*    		0.80			95.6481  			0.0313				0.0311			3.31
+RF-PRM*   		0.95			124.2927 			0.0483				0.0480			5.32
+
+--------------------------------------------------------------------------------
+CASE 13:
+{   'case': './data/32\\case_5bbb94a23e956f451e7a5886350cd07f00ca2586ecb7975efce081efc97bf995/',
+    'map': './data/32',
+    'query': 2}
+CASE 13 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			87.0527  			0.0327				0.0000			0.00
+R-PRM     		0.90			81.7207  			0.0347				0.0347			7.39
+RF-PRM    		0.80			77.2288  			0.0172				0.0172			6.81
+R-PRM*    		0.90			77.3588  			0.0210				0.0210			6.94
+RF-PRM*   		0.85			71.9120  			0.0329				0.0329			6.41
+
+--------------------------------------------------------------------------------
+CASE 14:
+{   'case': './data/32\\case_4deee34d0d13d216e0b117bbac66d6cf43082fe3197f5aa74fc40dea4e91c0c5/',
+    'map': './data/32',
+    'query': 2}
+CASE 14 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			73.4386  			0.0191				0.0000			0.00
+R-PRM     		1.00			70.7991  			0.0163				0.0163			6.20
+RF-PRM    		1.00			76.0000  			0.0220				0.0220			6.70
+R-PRM*    		1.00			71.9717  			0.0167				0.0167			6.45
+RF-PRM*   		0.95			69.9666  			0.0202				0.0202			6.37
+
+--------------------------------------------------------------------------------
+CASE 15:
+{   'case': './data/32\\case_4465ffb024cf6998eb77b7faba836072d500423630c8dba21bfbec2fc90e0348/',
+    'map': './data/32',
+    'query': 2}
+CASE 15 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			95.8173  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			83.4079  			0.0248				0.0000			0.00
+R-PRM     		0.60			138.6066 			0.0233				0.0232			4.25
+RF-PRM    		0.75			141.1635 			0.0366				0.0365			4.47
+R-PRM*    		0.85			164.2339 			0.0442				0.0442			6.24
+RF-PRM*   		0.85			139.0245 			0.0393				0.0393			4.00
+
+--------------------------------------------------------------------------------
+CASE 16:
+{   'case': './data/98\\case_1f5ba51d939161857532943e5b941ff618fee23f8fe07fb62eb4dde573c5e27d/',
+    'map': './data/98',
+    'query': 0}
+CASE 16 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.20			54.0268  			0.0405				0.0000			0.00
+R-PRM     		0.30			51.0407  			0.0411				0.0411			5.50
+RF-PRM    		0.35			72.6992  			0.0543				0.0543			7.43
+R-PRM*    		0.15			23.2360  			0.0508				0.0508			4.00
+RF-PRM*   		0.15			28.4792  			0.0622				0.0622			4.00
+
+--------------------------------------------------------------------------------
+CASE 17:
+{   'case': './data/98\\case_a8605b8ef4d8ddeaede9f62befd6b51cab4912a321d63729f96582160e1f6434/',
+    'map': './data/98',
+    'query': 1}
+CASE 17 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.70			95.4735  			0.0309				0.0000			0.00
+R-PRM     		0.85			91.0251  			0.0325				0.0325			8.24
+RF-PRM    		0.90			86.7409  			0.0315				0.0315			7.89
+R-PRM*    		0.85			91.7596  			0.0437				0.0437			8.24
+RF-PRM*   		0.85			86.3755  			0.0293				0.0293			7.59
+
+--------------------------------------------------------------------------------
+CASE 18:
+{   'case': './data/98\\case_81761754ea6c1bae417af929cf0f55016f353d2d1796df1cf41b10ce287c1e3d/',
+    'map': './data/98',
+    'query': 1}
+CASE 18 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			73.1348  			0.0263				0.0000			0.00
+R-PRM     		0.85			92.0191  			0.0275				0.0275			8.18
+RF-PRM    		0.95			76.6175  			0.0208				0.0208			7.05
+R-PRM*    		0.95			81.5716  			0.0282				0.0282			7.26
+RF-PRM*   		0.95			74.4020  			0.0277				0.0277			6.84
+
+--------------------------------------------------------------------------------
+CASE 19:
+{   'case': './data/98\\case_2dd04dded3c13839fe516451fce75544c405fba7624ad1ef722a58091a4e6100/',
+    'map': './data/98',
+    'query': 1}
+CASE 19 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			86.0308  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			76.3845  			0.0233				0.0000			0.00
+R-PRM     		0.90			106.8418 			0.0107				0.0107			2.94
+RF-PRM    		0.90			107.3764 			0.0219				0.0219			3.00
+R-PRM*    		0.90			97.8346  			0.0175				0.0174			2.33
+RF-PRM*   		1.00			95.6137  			0.0179				0.0178			2.20
+
+--------------------------------------------------------------------------------
+CASE 20:
+{   'case': './data/98\\case_396a909d14dd22b3593955772b769a7d7f62a17b341188495534fab5e57634cb/',
+    'map': './data/98',
+    'query': 2}
+CASE 20 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			80.6473  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			89.8973  			0.0229				0.0000			0.00
+R-PRM     		1.00			118.2384 			0.0243				0.0243			5.50
+RF-PRM    		0.95			100.3194 			0.0265				0.0264			4.53
+R-PRM*    		0.85			106.3004 			0.0211				0.0211			4.71
+RF-PRM*   		1.00			96.7540  			0.0304				0.0303			3.80
+
+--------------------------------------------------------------------------------
+CASE 21:
+{   'case': './data/98\\case_7f03eff69fb947ca3c127abac53b6ecbf0e873f18e7c05606b57c3bc8a968cbd/',
+    'map': './data/98',
+    'query': 2}
+CASE 21 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			121.9227 			0.0295				0.0000			0.00
+R-PRM     		0.90			113.2449 			0.0298				0.0298			9.61
+RF-PRM    		0.90			108.0444 			0.0238				0.0238			9.00
+R-PRM*    		0.90			101.7390 			0.0333				0.0333			8.78
+RF-PRM*   		0.80			90.3066  			0.0278				0.0278			7.88
+
+--------------------------------------------------------------------------------
+CASE 22:
+{   'case': './data/98\\case_af48cf05ec63e8f65ad574892115f7b8a310a78bcbfdd4588e62edb7523798a6/',
+    'map': './data/98',
+    'query': 2}
+CASE 22 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			70.8504  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.85			104.3263 			0.0236				0.0000			0.00
+R-PRM     		0.95			100.2327 			0.0249				0.0249			8.84
+RF-PRM    		1.00			98.6542  			0.0288				0.0288			8.40
+R-PRM*    		0.95			103.6942 			0.0323				0.0323			9.00
+RF-PRM*   		0.90			89.7556  			0.0223				0.0223			7.56
+
+--------------------------------------------------------------------------------
+CASE 23:
+{   'case': './data/26\\case_e6c5b5ebfe31503bd77a6d9f78119820057a7cd3ede764f841c27a4f3728be80/',
+    'map': './data/26',
+    'query': 0}
+CASE 23 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			120.8749 			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			132.3296 			0.0382				0.0000			0.00
+R-PRM     		1.00			134.7417 			0.0139				0.0138			1.80
+RF-PRM    		0.90			139.9022 			0.0281				0.0281			2.17
+R-PRM*    		1.00			138.4054 			0.0173				0.0173			2.10
+RF-PRM*   		1.00			131.4193 			0.0372				0.0372			1.70
+
+--------------------------------------------------------------------------------
+CASE 24:
+{   'case': './data/26\\case_6b82f4bbe1f6cbf1f1ec0344fec80c3341d9c439f9a91a922a78238ba2189e61/',
+    'map': './data/26',
+    'query': 0}
+CASE 24 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			122.7602 			0.0004				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			132.5827 			0.0305				0.0000			0.00
+R-PRM     		1.00			137.8350 			0.0133				0.0131			2.55
+RF-PRM    		1.00			181.5860 			0.0316				0.0313			5.65
+R-PRM*    		1.00			134.0789 			0.0084				0.0080			2.30
+RF-PRM*   		1.00			184.2089 			0.0347				0.0345			5.80
+
+--------------------------------------------------------------------------------
+CASE 25:
+{   'case': './data/26\\case_4e684429dac01746573372466566c389371d65b07c28ef417d57fff5aa8abe02/',
+    'map': './data/26',
+    'query': 0}
+CASE 25 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			131.2308 			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			133.0405 			0.0369				0.0000			0.00
+R-PRM     		1.00			139.5857 			0.0091				0.0088			2.95
+RF-PRM    		1.00			137.0117 			0.0217				0.0217			2.75
+R-PRM*    		1.00			134.5370 			0.0102				0.0101			2.65
+RF-PRM*   		1.00			140.1423 			0.0227				0.0225			2.90
+
+--------------------------------------------------------------------------------
+CASE 26:
+{   'case': './data/26\\case_6b896e33fc9a5e0642263beabc7a469a2b92e6fc5b69c99e10378818ed50e52f/',
+    'map': './data/26',
+    'query': 1}
+CASE 26 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			190.3819 			0.0003				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			94.8004  			0.0245				0.0000			0.00
+R-PRM     		1.00			220.9628 			0.0161				0.0158			3.40
+RF-PRM    		1.00			216.3776 			0.0339				0.0337			3.20
+R-PRM*    		1.00			223.2364 			0.0159				0.0157			3.55
+RF-PRM*   		0.95			219.1718 			0.0375				0.0373			3.37
+
+--------------------------------------------------------------------------------
+CASE 27:
+{   'case': './data/26\\case_d8a5d117d9f4ee1d04028b843260799cbdd84c4484cd6ea1fc19d753f6e8cfd5/',
+    'map': './data/26',
+    'query': 1}
+CASE 27 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			98.0369  			0.0004				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			94.7248  			0.0291				0.0000			0.00
+R-PRM     		1.00			85.1159  			0.0124				0.0122			2.60
+RF-PRM    		0.95			121.8483 			0.0327				0.0324			5.42
+R-PRM*    		1.00			90.3345  			0.0164				0.0161			2.80
+RF-PRM*   		1.00			118.0014 			0.0343				0.0341			4.85
+
+--------------------------------------------------------------------------------
+CASE 28:
+{   'case': './data/26\\case_9977882a0e2eed17dc70640dba1b6c6fb88894602fa52ff391c033deafd9cdd4/',
+    'map': './data/26',
+    'query': 1}
+CASE 28 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			154.3547 			0.0005				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			94.8646  			0.0281				0.0000			0.00
+R-PRM     		0.75			93.4175  			0.0262				0.0262			8.07
+RF-PRM    		0.90			99.9148  			0.0257				0.0257			8.67
+R-PRM*    		0.85			98.7229  			0.0340				0.0340			8.41
+RF-PRM*   		0.85			99.9890  			0.0290				0.0290			8.53
+
+--------------------------------------------------------------------------------
+CASE 29:
+{   'case': './data/26\\case_199c671805ad3786625dc0522c17109be0b8e05bff1eb2bf344db37b27599806/',
+    'map': './data/26',
+    'query': 2}
+CASE 29 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			93.8143  			0.0005				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.05			75.5020  			0.0556				0.0000			0.00
+R-PRM     		0.70			104.3230 			0.0221				0.0220			2.79
+RF-PRM    		0.30			101.9263 			0.0422				0.0422			3.17
+R-PRM*    		0.85			100.0467 			0.0229				0.0228			2.47
+RF-PRM*   		0.35			94.5299  			0.0507				0.0507			2.43
+
+--------------------------------------------------------------------------------
+CASE 30:
+{   'case': './data/55\\case_944fbcfd2b625c710fd9274dbca101835e87659403f7bb3b5c12c5124d5d6b42/',
+    'map': './data/55',
+    'query': 1}
+CASE 30 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			78.1636  			0.0193				0.0000			0.00
+R-PRM     		0.85			75.3238  			0.0141				0.0141			7.29
+RF-PRM    		0.90			76.8602  			0.0173				0.0173			7.78
+R-PRM*    		0.95			69.1706  			0.0194				0.0194			6.89
+RF-PRM*   		0.90			67.4980  			0.0306				0.0306			6.89
+
+--------------------------------------------------------------------------------
+CASE 31:
+{   'case': './data/55\\case_dd49a7d2d055fa9d7b81d355a92a11816940ca99d8d019c101f67430e3c42bda/',
+    'map': './data/55',
+    'query': 1}
+CASE 31 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			96.2832  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			70.7770  			0.0109				0.0000			0.00
+R-PRM     		1.00			71.7811  			0.0041				0.0040			1.55
+RF-PRM    		1.00			67.8805  			0.0110				0.0108			1.30
+R-PRM*    		1.00			68.1616  			0.0039				0.0036			1.25
+RF-PRM*   		1.00			67.5820  			0.0095				0.0093			1.15
+
+--------------------------------------------------------------------------------
+CASE 32:
+{   'case': './data/55\\case_6c4faa44b84df59dc05444b837ad0bebe8057b804911fb36361611fc56ea6da0/',
+    'map': './data/55',
+    'query': 1}
+CASE 32 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			56.9987  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			68.8587  			0.0133				0.0000			0.00
+R-PRM     		1.00			60.2329  			0.0070				0.0069			3.05
+RF-PRM    		1.00			60.6965  			0.0108				0.0107			3.15
+R-PRM*    		1.00			62.8378  			0.0106				0.0105			3.00
+RF-PRM*   		1.00			65.1450  			0.0139				0.0137			3.40
+
+--------------------------------------------------------------------------------
+CASE 33:
+{   'case': './data/55\\case_92cbd570cc431268b746edd6ec719ad1e6b35a930fae46a807a4e1d0834d19f2/',
+    'map': './data/55',
+    'query': 2}
+CASE 33 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			115.8129 			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			76.2521  			0.0136				0.0000			0.00
+R-PRM     		1.00			149.2014 			0.0129				0.0128			4.00
+RF-PRM    		0.95			148.8096 			0.0178				0.0177			3.84
+R-PRM*    		1.00			145.3539 			0.0124				0.0124			3.65
+RF-PRM*   		0.95			145.8102 			0.0219				0.0217			4.16
+
+--------------------------------------------------------------------------------
+CASE 34:
+{   'case': './data/55\\case_9ea7a2fc30080009bb2e294d4ca3745a4501aa0889a269f707fdbe38e82b7971/',
+    'map': './data/55',
+    'query': 2}
+CASE 34 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			71.7349  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.80			77.7667  			0.0119				0.0000			0.00
+R-PRM     		0.95			74.9911  			0.0075				0.0075			2.26
+RF-PRM    		0.95			73.3558  			0.0123				0.0123			2.26
+R-PRM*    		0.90			78.5719  			0.0085				0.0085			2.78
+RF-PRM*   		0.85			74.9732  			0.0144				0.0143			2.12
+
+--------------------------------------------------------------------------------
+CASE 35:
+{   'case': './data/99\\case_245fdc08651808eaf7a4525257991bec22146922327819964c0d6b958ba5bdc7/',
+    'map': './data/99',
+    'query': 0}
+CASE 35 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			71.4686  			0.0004				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.65			95.4715  			0.0218				0.0000			0.00
+R-PRM     		0.30			82.4030  			0.0222				0.0222			7.50
+RF-PRM    		0.50			86.4993  			0.0266				0.0266			8.20
+R-PRM*    		0.60			84.3653  			0.0246				0.0246			7.92
+RF-PRM*   		0.60			83.0068  			0.0232				0.0232			7.83
+
+--------------------------------------------------------------------------------
+CASE 36:
+{   'case': './data/99\\case_7afc09ceaf51042e8655882256075d3d0e5233c6303d437ee99d81eddfaab58e/',
+    'map': './data/99',
+    'query': 0}
+CASE 36 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.75			82.3682  			0.0170				0.0000			0.00
+R-PRM     		0.55			89.9453  			0.0267				0.0267			8.55
+RF-PRM    		0.75			80.0959  			0.0228				0.0228			7.53
+R-PRM*    		0.55			73.2349  			0.0183				0.0183			6.91
+RF-PRM*   		0.80			85.9283  			0.0226				0.0226			8.44
+
+--------------------------------------------------------------------------------
+CASE 37:
+{   'case': './data/99\\case_732d5fa21e441e087a91e1b6283010a8e5b11a94c8b6bc56310936b49875110f/',
+    'map': './data/99',
+    'query': 0}
+CASE 37 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			118.2268 			0.0004				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.55			82.2391  			0.0176				0.0000			0.00
+R-PRM     		0.95			139.8531 			0.0140				0.0140			3.63
+RF-PRM    		1.00			156.9141 			0.0256				0.0255			4.80
+R-PRM*    		1.00			139.9512 			0.0202				0.0201			3.60
+RF-PRM*   		1.00			159.2031 			0.0283				0.0282			4.50
+
+--------------------------------------------------------------------------------
+CASE 38:
+{   'case': './data/99\\case_3864166e56576a7d0669dabab2850be093f2228cb5e2369e5ad08fbfe0fa97fa/',
+    'map': './data/99',
+    'query': 1}
+CASE 38 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			74.6349  			0.0200				0.0000			0.00
+R-PRM     		0.95			96.1459  			0.0224				0.0224			8.84
+RF-PRM    		1.00			78.8946  			0.0185				0.0185			7.10
+R-PRM*    		0.90			77.7911  			0.0197				0.0197			7.00
+RF-PRM*   		0.85			82.3588  			0.0271				0.0271			7.82
+
+--------------------------------------------------------------------------------
+CASE 39:
+{   'case': './data/99\\case_c0981238648c1fd84c87f44b36f32f630708e953c2d50baf0cfd140721b6935f/',
+    'map': './data/99',
+    'query': 1}
+CASE 39 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			103.7115 			0.0006				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			80.5960  			0.0179				0.0000			0.00
+R-PRM     		1.00			110.4825 			0.0059				0.0054			1.45
+RF-PRM    		1.00			112.1181 			0.0159				0.0156			1.60
+R-PRM*    		1.00			111.9458 			0.0063				0.0058			1.55
+RF-PRM*   		1.00			109.6980 			0.0150				0.0144			1.20
+
+--------------------------------------------------------------------------------
+CASE 40:
+{   'case': './data/99\\case_f85486059a7fab29b3ec946c68709df92aea8be420d02da908c4b566d0de1f00/',
+    'map': './data/99',
+    'query': 1}
+CASE 40 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			73.5310  			0.0005				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			73.9222  			0.0165				0.0000			0.00
+R-PRM     		1.00			103.3977 			0.0186				0.0185			3.90
+RF-PRM    		1.00			149.0168 			0.0299				0.0299			6.90
+R-PRM*    		1.00			93.0828  			0.0112				0.0110			2.85
+RF-PRM*   		0.90			144.6832 			0.0333				0.0333			6.50
+
+--------------------------------------------------------------------------------
+CASE 41:
+{   'case': './data/99\\case_e30e711b8544ca1e9f51e52e26967d0e6bb5f64ad471bb947bb36ed495915ef8/',
+    'map': './data/99',
+    'query': 2}
+CASE 41 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			50.6147  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			47.0427  			0.0145				0.0000			0.00
+R-PRM     		1.00			85.0399  			0.0227				0.0227			3.65
+RF-PRM    		0.90			73.2622  			0.0230				0.0230			2.61
+R-PRM*    		0.90			70.3363  			0.0274				0.0272			2.39
+RF-PRM*   		0.95			74.6250  			0.0294				0.0294			2.74
+
+--------------------------------------------------------------------------------
+CASE 42:
+{   'case': './data/99\\case_2c61556039302836f74bf3391578f3b3ebca9eee4c1e70544b99d8e3c0fecdc0/',
+    'map': './data/99',
+    'query': 2}
+CASE 42 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			45.3249  			0.0082				0.0000			0.00
+R-PRM     		1.00			48.5713  			0.0074				0.0074			4.85
+RF-PRM    		1.00			44.8596  			0.0082				0.0082			4.60
+R-PRM*    		1.00			45.0929  			0.0099				0.0099			4.65
+RF-PRM*   		1.00			46.6102  			0.0163				0.0163			4.75
+
+--------------------------------------------------------------------------------
+CASE 43:
+{   'case': './data/99\\case_cc70a93612494e34d1a94010edd850d4c34be82ac732b4493d3d819b55ddb542/',
+    'map': './data/99',
+    'query': 2}
+CASE 43 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			54.8910  			0.0163				0.0000			0.00
+R-PRM     		1.00			50.2338  			0.0137				0.0137			4.95
+RF-PRM    		0.90			50.3137  			0.0140				0.0140			5.06
+R-PRM*    		1.00			43.3568  			0.0131				0.0131			4.60
+RF-PRM*   		1.00			44.7348  			0.0171				0.0171			4.55
+
+--------------------------------------------------------------------------------
+CASE 44:
+{   'case': './data/69\\case_5edfd0d4d1d79f02196f695e00c65b56991733c955f27f38c5389b6c83270e98/',
+    'map': './data/69',
+    'query': 0}
+CASE 44 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			75.4540  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			50.8518  			0.0201				0.0000			0.00
+R-PRM     		0.90			103.1251 			0.0260				0.0258			3.50
+RF-PRM    		0.85			92.3686  			0.0266				0.0263			2.88
+R-PRM*    		0.90			92.0554  			0.0176				0.0176			2.72
+RF-PRM*   		1.00			93.1329  			0.0363				0.0363			2.85
+
+--------------------------------------------------------------------------------
+CASE 45:
+{   'case': './data/69\\case_375f8e53116ca93569060b89325da7c29fddc7c3152aa353d4ff998ab717406b/',
+    'map': './data/69',
+    'query': 0}
+CASE 45 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			51.8764  			0.0193				0.0000			0.00
+R-PRM     		0.95			50.8529  			0.0121				0.0121			4.89
+RF-PRM    		0.95			50.0953  			0.0184				0.0184			4.89
+R-PRM*    		1.00			49.6568  			0.0146				0.0146			4.85
+RF-PRM*   		1.00			46.7616  			0.0151				0.0151			4.60
+
+--------------------------------------------------------------------------------
+CASE 46:
+{   'case': './data/69\\case_6bdb09c568d6b0a6e8a75a477fd728f9381fcd7ec487e9a476f70444de4c25b0/',
+    'map': './data/69',
+    'query': 0}
+CASE 46 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.85			53.7757  			0.0196				0.0000			0.00
+R-PRM     		0.90			53.9096  			0.0174				0.0174			5.39
+RF-PRM    		0.95			50.6893  			0.0174				0.0174			5.26
+R-PRM*    		1.00			53.8371  			0.0298				0.0298			5.20
+RF-PRM*   		0.95			51.7235  			0.0183				0.0183			5.16
+
+--------------------------------------------------------------------------------
+CASE 47:
+{   'case': './data/69\\case_a2e892024f1abeaefe4cb6aa537009df72a5c18f4ed2c2665522d39219ca35b4/',
+    'map': './data/69',
+    'query': 1}
+CASE 47 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			86.3146  			0.0260				0.0000			0.00
+R-PRM     		0.95			78.2409  			0.0228				0.0228			6.95
+RF-PRM    		0.95			75.0710  			0.0243				0.0243			6.74
+R-PRM*    		1.00			73.3958  			0.0319				0.0319			6.55
+RF-PRM*   		0.90			75.9532  			0.0312				0.0312			7.00
+
+--------------------------------------------------------------------------------
+CASE 48:
+{   'case': './data/69\\case_ea0eb16017063cf5bc967a7c9142539f2bdfb146f1f7e1e1134e4c6d5fa77bc0/',
+    'map': './data/69',
+    'query': 1}
+CASE 48 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			78.0772  			0.0285				0.0000			0.00
+R-PRM     		0.85			79.2833  			0.0216				0.0216			7.06
+RF-PRM    		0.95			78.7580  			0.0195				0.0195			7.11
+R-PRM*    		0.95			72.7994  			0.0238				0.0238			6.53
+RF-PRM*   		0.80			77.6980  			0.0315				0.0315			6.88
+
+--------------------------------------------------------------------------------
+CASE 49:
+{   'case': './data/69\\case_0ef947ce4f442770668d0d0e0a08e2207e4868c2f09584100eebfe17c4540fb0/',
+    'map': './data/69',
+    'query': 1}
+CASE 49 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			70.7456  			0.0232				0.0000			0.00
+R-PRM     		1.00			72.1307  			0.0227				0.0227			6.40
+RF-PRM    		0.95			70.6459  			0.0214				0.0214			6.37
+R-PRM*    		0.95			71.2310  			0.0273				0.0273			6.42
+RF-PRM*   		0.90			73.4957  			0.0255				0.0255			6.56
+
+--------------------------------------------------------------------------------
+CASE 50:
+{   'case': './data/69\\case_4b0e05664c740601c817a75b461ebcdf7da09daa5e8ad6ae50ff684d6483655f/',
+    'map': './data/69',
+    'query': 2}
+CASE 50 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			96.5763  			0.0003				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			79.3756  			0.0263				0.0000			0.00
+R-PRM     		0.95			120.1097 			0.0207				0.0206			3.00
+RF-PRM    		0.95			146.3758 			0.0341				0.0340			4.47
+R-PRM*    		0.95			124.5721 			0.0264				0.0264			3.26
+RF-PRM*   		1.00			143.2934 			0.0369				0.0368			4.25
+
+--------------------------------------------------------------------------------
+CASE 51:
+{   'case': './data/69\\case_3b13a2f97312a7f627e9329d355f6d6851867f4aea404e32eb6cd509f6881b36/',
+    'map': './data/69',
+    'query': 2}
+CASE 51 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			81.7195  			0.0297				0.0000			0.00
+R-PRM     		0.85			89.5056  			0.0326				0.0326			7.76
+RF-PRM    		0.95			88.5638  			0.0270				0.0270			7.74
+R-PRM*    		0.90			74.9621  			0.0253				0.0253			6.72
+RF-PRM*   		1.00			78.0704  			0.0305				0.0305			7.10
+
+--------------------------------------------------------------------------------
+CASE 52:
+{   'case': './data/69\\case_76a3b6a6fd9e5779c120da171b8899f2dbf40e5b0e77b1e289ca5e7b61b65a42/',
+    'map': './data/69',
+    'query': 2}
+CASE 52 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.85			77.7377  			0.0259				0.0000			0.00
+R-PRM     		0.85			77.4037  			0.0282				0.0282			6.94
+RF-PRM    		0.90			71.6081  			0.0226				0.0226			6.61
+R-PRM*    		0.85			84.7459  			0.0318				0.0318			7.59
+RF-PRM*   		0.90			80.5353  			0.0431				0.0431			7.56
+
+--------------------------------------------------------------------------------
+CASE 53:
+{   'case': './data/2\\case_1add1f6f59e7d0221cbdc9e41b3e478e0743e5807c9326e18f58f8f0aee863c8/',
+    'map': './data/2',
+    'query': 0}
+CASE 53 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			34.5199  			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.65			38.7645  			0.0105				0.0000			0.00
+R-PRM     		0.90			42.3177  			0.0056				0.0056			1.22
+RF-PRM    		0.90			45.9475  			0.0099				0.0098			1.72
+R-PRM*    		1.00			43.0355  			0.0040				0.0040			1.30
+RF-PRM*   		0.95			45.2756  			0.0093				0.0093			1.74
+
+--------------------------------------------------------------------------------
+CASE 54:
+{   'case': './data/2\\case_3a0ad0f4da42c41e6ef8f2581a7d0eaca8992da0fcaf57adc69c5fc2a81f540f/',
+    'map': './data/2',
+    'query': 0}
+CASE 54 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			50.3418  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			31.3808  			0.0060				0.0000			0.00
+R-PRM     		0.95			65.0902  			0.0157				0.0157			2.58
+RF-PRM    		1.00			66.1039  			0.0086				0.0085			1.90
+R-PRM*    		0.85			64.3402  			0.0169				0.0169			2.00
+RF-PRM*   		1.00			61.8791  			0.0113				0.0112			1.75
+
+--------------------------------------------------------------------------------
+CASE 55:
+{   'case': './data/2\\case_38e922c7ebb32f4c848176ba2c65484eda0010e683ccde17a377033620547f11/',
+    'map': './data/2',
+    'query': 1}
+CASE 55 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			50.7219  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			43.1056  			0.0060				0.0000			0.00
+R-PRM     		0.95			65.6954  			0.0123				0.0120			2.32
+RF-PRM    		1.00			66.6960  			0.0165				0.0163			2.35
+R-PRM*    		0.95			68.9575  			0.0185				0.0181			2.58
+RF-PRM*   		1.00			65.9297  			0.0238				0.0235			2.10
+
+--------------------------------------------------------------------------------
+CASE 56:
+{   'case': './data/2\\case_7c277f28f3ec658f599791afd6f8a9322f600d59ebdcdaeeaf795454a66347ea/',
+    'map': './data/2',
+    'query': 1}
+CASE 56 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			60.1987  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			41.2934  			0.0049				0.0000			0.00
+R-PRM     		1.00			73.2286  			0.0061				0.0060			2.40
+RF-PRM    		0.95			68.9537  			0.0102				0.0102			2.05
+R-PRM*    		1.00			70.3233  			0.0070				0.0070			2.10
+RF-PRM*   		1.00			71.1448  			0.0099				0.0099			2.00
+
+--------------------------------------------------------------------------------
+CASE 57:
+{   'case': './data/2\\case_49b4ec8db4f59ca59554391aae9dd4104fbec64f5ff7a2c1f4408e0d4daa1d5e/',
+    'map': './data/2',
+    'query': 2}
+CASE 57 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			70.6163  			0.0000				0.0000			0.00
+PRM       		1.00			58.9735  			0.0000				0.0000			0.00
+RRT       		1.00			48.0229  			0.0050				0.0000			0.00
+R-PRM     		1.00			58.9735  			0.0002				0.0000			0.00
+RF-PRM    		1.00			58.9735  			0.0001				0.0000			0.00
+R-PRM*    		1.00			58.9735  			0.0000				0.0000			0.00
+RF-PRM*   		1.00			58.9735  			0.0000				0.0000			0.00
+
+--------------------------------------------------------------------------------
+CASE 58:
+{   'case': './data/2\\case_9eadfdf09e3041b214937d4a340d2fcc6992644eff486a1b147e272bbe871589/',
+    'map': './data/2',
+    'query': 2}
+CASE 58 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			43.6338  			0.0003				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			52.0777  			0.0046				0.0000			0.00
+R-PRM     		1.00			58.1669  			0.0027				0.0027			1.65
+RF-PRM    		1.00			54.0970  			0.0061				0.0061			1.15
+R-PRM*    		1.00			56.9127  			0.0025				0.0025			1.40
+RF-PRM*   		1.00			58.0485  			0.0064				0.0064			1.45
+
+--------------------------------------------------------------------------------
+CASE 59:
+{   'case': './data/22\\case_fca3c2e89cd158fd0f7b3334484fdf6e5c3f13291c3b3bed221a9f229adea196/',
+    'map': './data/22',
+    'query': 0}
+CASE 59 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			56.0054  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			67.5067  			0.0154				0.0000			0.00
+R-PRM     		0.70			98.8493  			0.0199				0.0199			4.21
+RF-PRM    		0.60			96.1862  			0.0249				0.0248			3.75
+R-PRM*    		0.65			98.6848  			0.0346				0.0346			3.85
+RF-PRM*   		0.55			85.6445  			0.0270				0.0268			2.73
+
+--------------------------------------------------------------------------------
+CASE 60:
+{   'case': './data/22\\case_57cf4272a4da1bbf9bb80ddf2b9dd167f38a20a92c6f5fd2604352bfa24e05c9/',
+    'map': './data/22',
+    'query': 0}
+CASE 60 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			84.7895  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			57.7993  			0.0130				0.0000			0.00
+R-PRM     		1.00			101.3442 			0.0095				0.0095			2.65
+RF-PRM    		1.00			86.6225  			0.0112				0.0112			1.50
+R-PRM*    		0.90			98.3376  			0.0123				0.0123			2.56
+RF-PRM*   		1.00			86.3191  			0.0114				0.0113			1.35
+
+--------------------------------------------------------------------------------
+CASE 61:
+{   'case': './data/22\\case_4f10d95075863a1f52bda8ca80570bf260eb777a58b5be48fb074c3b0b69fe6d/',
+    'map': './data/22',
+    'query': 0}
+CASE 61 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			137.9413 			0.0004				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			50.7687  			0.0119				0.0000			0.00
+R-PRM     		0.95			132.6404 			0.0076				0.0071			2.47
+RF-PRM    		0.95			155.6507 			0.0247				0.0244			4.32
+R-PRM*    		1.00			137.1483 			0.0130				0.0126			2.90
+RF-PRM*   		0.90			149.7450 			0.0256				0.0254			3.83
+
+--------------------------------------------------------------------------------
+CASE 62:
+{   'case': './data/22\\case_a73c034bbe0618ad44345e14804735b34b64531b4085fc415882de5eae9ed42a/',
+    'map': './data/22',
+    'query': 1}
+CASE 62 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			65.9811  			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			59.6272  			0.0095				0.0000			0.00
+R-PRM     		1.00			90.6904  			0.0128				0.0127			2.95
+RF-PRM    		1.00			81.7067  			0.0153				0.0153			2.00
+R-PRM*    		1.00			88.4043  			0.0151				0.0151			2.60
+RF-PRM*   		1.00			81.8633  			0.0191				0.0191			2.15
+
+--------------------------------------------------------------------------------
+CASE 63:
+{   'case': './data/22\\case_146f98321b375037cda72fa71b4577417bae3664453a1082fef7354701991afa/',
+    'map': './data/22',
+    'query': 1}
+CASE 63 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			47.5170  			0.0097				0.0000			0.00
+R-PRM     		0.80			57.1682  			0.0132				0.0132			6.06
+RF-PRM    		0.95			51.9245  			0.0128				0.0128			5.53
+R-PRM*    		0.85			57.3089  			0.0115				0.0115			5.53
+RF-PRM*   		0.90			51.3139  			0.0153				0.0153			5.50
+
+--------------------------------------------------------------------------------
+CASE 64:
+{   'case': './data/22\\case_7363b8abd0a7fe61545954a70046b57ad2aff5d19a46826ccc4f2796920da666/',
+    'map': './data/22',
+    'query': 2}
+CASE 64 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			74.5881  			0.0004				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.75			79.7377  			0.0220				0.0000			0.00
+R-PRM     		0.65			100.1051 			0.0206				0.0202			3.54
+RF-PRM    		0.65			99.6291  			0.0321				0.0315			2.85
+R-PRM*    		0.55			98.9419  			0.0262				0.0259			3.36
+RF-PRM*   		0.75			98.6032  			0.0374				0.0368			3.07
+
+--------------------------------------------------------------------------------
+CASE 65:
+{   'case': './data/22\\case_2a6abdeb3d8f740bb71eb3ff5e7ffab2e6968a7f0449666e0c59951a6849c9f5/',
+    'map': './data/22',
+    'query': 2}
+CASE 65 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			127.1618 			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.80			86.8679  			0.0237				0.0000			0.00
+R-PRM     		1.00			133.2267 			0.0048				0.0047			1.55
+RF-PRM    		1.00			130.8377 			0.0136				0.0136			1.10
+R-PRM*    		1.00			137.5053 			0.0061				0.0060			1.75
+RF-PRM*   		1.00			132.9654 			0.0142				0.0141			1.25
+
+--------------------------------------------------------------------------------
+CASE 66:
+{   'case': './data/9\\case_dc8bbd7f7f631ab20324f1b12d81375f957237955caf37c18dcfb90e51bf0183/',
+    'map': './data/9',
+    'query': 0}
+CASE 66 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			75.1928  			0.0134				0.0000			0.00
+R-PRM     		0.95			74.5886  			0.0139				0.0139			6.79
+RF-PRM    		1.00			76.6463  			0.0121				0.0121			6.95
+R-PRM*    		1.00			77.2829  			0.0121				0.0121			6.90
+RF-PRM*   		1.00			72.1273  			0.0141				0.0141			6.55
+
+--------------------------------------------------------------------------------
+CASE 67:
+{   'case': './data/9\\case_91e2e9cbe974ba9039fa8b922a454e6f87a5747432c192b3322c457e7d9ea9c6/',
+    'map': './data/9',
+    'query': 0}
+CASE 67 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			70.1763  			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			83.8857  			0.0168				0.0000			0.00
+R-PRM     		0.95			102.6493 			0.0194				0.0193			3.95
+RF-PRM    		1.00			102.0169 			0.0225				0.0224			3.95
+R-PRM*    		1.00			95.7116  			0.0149				0.0148			3.45
+RF-PRM*   		0.95			92.3587  			0.0262				0.0261			3.11
+
+--------------------------------------------------------------------------------
+CASE 68:
+{   'case': './data/9\\case_e14d49154e704dce9f822edd3f3bdd74647d616a555e75d6f45362d26de62b7f/',
+    'map': './data/9',
+    'query': 0}
+CASE 68 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			84.4109  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			76.6803  			0.0163				0.0000			0.00
+R-PRM     		1.00			111.9022 			0.0131				0.0131			4.10
+RF-PRM    		1.00			123.6750 			0.0174				0.0174			4.60
+R-PRM*    		0.90			114.2581 			0.0182				0.0182			4.33
+RF-PRM*   		1.00			123.2796 			0.0161				0.0161			4.65
+
+--------------------------------------------------------------------------------
+CASE 69:
+{   'case': './data/9\\case_191261e9ebdaec5ffae6639ee3a0c221e0fb22feb20baaa0327daff559772b1b/',
+    'map': './data/9',
+    'query': 1}
+CASE 69 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			40.2608  			0.0055				0.0000			0.00
+R-PRM     		1.00			37.8488  			0.0058				0.0058			4.00
+RF-PRM    		1.00			40.9374  			0.0047				0.0047			4.15
+R-PRM*    		1.00			34.6491  			0.0034				0.0034			3.70
+RF-PRM*   		1.00			39.5204  			0.0063				0.0063			4.15
+
+--------------------------------------------------------------------------------
+CASE 70:
+{   'case': './data/9\\case_c30b9189f166ce0bb3c02f938c3606d6465391db7bceb94d2e1ec4eda46e53c7/',
+    'map': './data/9',
+    'query': 1}
+CASE 70 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			58.7650  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.85			60.8777  			0.0143				0.0000			0.00
+R-PRM     		1.00			79.1820  			0.0112				0.0110			2.40
+RF-PRM    		1.00			94.8124  			0.0204				0.0203			3.40
+R-PRM*    		1.00			78.0044  			0.0136				0.0135			2.10
+RF-PRM*   		1.00			100.9734 			0.0189				0.0188			3.60
+
+--------------------------------------------------------------------------------
+CASE 71:
+{   'case': './data/9\\case_819c8264d6382654d53e2b9332a515c16b19b75e38d2013574bd1a875335d3ee/',
+    'map': './data/9',
+    'query': 1}
+CASE 71 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			30.1678  			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			53.1150  			0.0117				0.0000			0.00
+R-PRM     		1.00			47.6819  			0.0084				0.0083			1.40
+RF-PRM    		0.90			53.8781  			0.0172				0.0172			2.06
+R-PRM*    		1.00			45.9540  			0.0066				0.0066			1.20
+RF-PRM*   		1.00			47.3655  			0.0095				0.0095			1.35
+
+--------------------------------------------------------------------------------
+CASE 72:
+{   'case': './data/9\\case_a1c6335c5dfb281d1de7780e102c7932f891a49c0b15e276938cfa782941cd69/',
+    'map': './data/9',
+    'query': 2}
+CASE 72 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			126.5728 			0.0007				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			76.7385  			0.0123				0.0000			0.00
+R-PRM     		0.60			206.9218 			0.0323				0.0318			7.08
+RF-PRM    		1.00			169.0760 			0.0244				0.0238			3.70
+R-PRM*    		0.85			204.7266 			0.0437				0.0433			6.53
+RF-PRM*   		1.00			171.9850 			0.0365				0.0360			4.20
+
+--------------------------------------------------------------------------------
+CASE 73:
+{   'case': './data/9\\case_4d14c09bf836f18a0f7a38d02f91c872d6cd6150b6517f9c803b43eb9aa373ef/',
+    'map': './data/9',
+    'query': 2}
+CASE 73 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			120.9586 			0.0003				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			66.3936  			0.0112				0.0000			0.00
+R-PRM     		1.00			148.5583 			0.0158				0.0158			3.60
+RF-PRM    		0.95			160.0370 			0.0322				0.0322			4.26
+R-PRM*    		0.95			163.8852 			0.0177				0.0177			4.58
+RF-PRM*   		0.95			154.7353 			0.0330				0.0330			3.79
+
+--------------------------------------------------------------------------------
+CASE 74:
+{   'case': './data/9\\case_f76e63a9641b5d006972a2d09c695eee0ee2bf979fff153676fcbbfc35d24ca5/',
+    'map': './data/9',
+    'query': 2}
+CASE 74 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			97.0104  			0.0207				0.0000			0.00
+R-PRM     		1.00			92.7305  			0.0200				0.0200			8.00
+RF-PRM    		1.00			94.2253  			0.0199				0.0199			8.20
+R-PRM*    		0.90			98.0496  			0.0231				0.0231			8.61
+RF-PRM*   		1.00			94.5093  			0.0256				0.0256			8.15
+
+--------------------------------------------------------------------------------
+CASE 75:
+{   'case': './data/71\\case_ea26e7674c42545f14c4a4eef80a47bebbfa2e2e71cbbb009cb8b5a45cb775d0/',
+    'map': './data/71',
+    'query': 0}
+CASE 75 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.80			100.5534 			0.0235				0.0000			0.00
+R-PRM     		0.65			93.1365  			0.0230				0.0230			8.31
+RF-PRM    		0.90			102.6941 			0.0236				0.0236			9.39
+R-PRM*    		0.75			98.0559  			0.0326				0.0326			9.20
+RF-PRM*   		0.95			95.6381  			0.0277				0.0277			8.74
+
+--------------------------------------------------------------------------------
+CASE 76:
+{   'case': './data/71\\case_3779e6aaa95c8e1c6e71cafef2f1b63079c1e818a44d101abb59b8e1f4270876/',
+    'map': './data/71',
+    'query': 0}
+CASE 76 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			86.7773  			0.0007				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.80			95.9876  			0.0250				0.0000			0.00
+R-PRM     		0.85			95.5347  			0.0149				0.0146			2.65
+RF-PRM    		0.95			117.9856 			0.0321				0.0318			4.21
+R-PRM*    		1.00			96.5869  			0.0167				0.0162			2.50
+RF-PRM*   		0.90			123.6926 			0.0377				0.0373			4.72
+
+--------------------------------------------------------------------------------
+CASE 77:
+{   'case': './data/71\\case_706c0126baf44035bd6c0e272dd7a72da68544b69dcb7c154a5ff49d3d77f727/',
+    'map': './data/71',
+    'query': 0}
+CASE 77 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			111.6611 			0.0003				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.75			91.6261  			0.0148				0.0000			0.00
+R-PRM     		1.00			134.3411 			0.0111				0.0111			2.45
+RF-PRM    		0.95			164.4508 			0.0241				0.0240			4.32
+R-PRM*    		1.00			134.6437 			0.0082				0.0082			2.20
+RF-PRM*   		1.00			170.8886 			0.0319				0.0319			4.85
+
+--------------------------------------------------------------------------------
+CASE 78:
+{   'case': './data/71\\case_be4f56b4b7b3c60061ccda7910e45bb17cc2caa25c7dc414895a164fb2de1423/',
+    'map': './data/71',
+    'query': 1}
+CASE 78 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			99.8326  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			58.4273  			0.0108				0.0000			0.00
+R-PRM     		0.90			135.7226 			0.0201				0.0198			5.39
+RF-PRM    		1.00			137.4562 			0.0251				0.0250			5.10
+R-PRM*    		1.00			123.6997 			0.0209				0.0208			4.25
+RF-PRM*   		0.95			127.9372 			0.0235				0.0234			4.53
+
+--------------------------------------------------------------------------------
+CASE 79:
+{   'case': './data/71\\case_ef05df16e16ca8c9d35972e7c863dcb8defe26f226f5dd73304548625b8c8788/',
+    'map': './data/71',
+    'query': 1}
+CASE 79 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			60.7182  			0.0124				0.0000			0.00
+R-PRM     		1.00			63.7640  			0.0174				0.0174			6.00
+RF-PRM    		1.00			59.6056  			0.0118				0.0118			5.60
+R-PRM*    		0.95			55.9638  			0.0123				0.0123			5.37
+RF-PRM*   		1.00			61.5614  			0.0137				0.0137			5.90
+
+--------------------------------------------------------------------------------
+CASE 80:
+{   'case': './data/71\\case_d19c939bdfc296681dbcf9e3695188a3e28a425013f40fdd9a5681a944156d7f/',
+    'map': './data/71',
+    'query': 1}
+CASE 80 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			56.7062  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			81.6397  			0.0187				0.0000			0.00
+R-PRM     		1.00			70.7339  			0.0120				0.0117			3.05
+RF-PRM    		1.00			70.9865  			0.0141				0.0139			3.25
+R-PRM*    		1.00			73.9445  			0.0169				0.0168			3.60
+RF-PRM*   		1.00			71.0232  			0.0131				0.0130			3.25
+
+--------------------------------------------------------------------------------
+CASE 81:
+{   'case': './data/71\\case_067dd408368c92c6a5b1de08a66db4b2c4a480cf0133b94e84c7b754274512c4/',
+    'map': './data/71',
+    'query': 2}
+CASE 81 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			76.2875  			0.0004				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			73.1514  			0.0144				0.0000			0.00
+R-PRM     		1.00			112.7237 			0.0188				0.0187			3.85
+RF-PRM    		1.00			102.3175 			0.0179				0.0177			2.80
+R-PRM*    		0.95			99.4509  			0.0176				0.0175			3.16
+RF-PRM*   		1.00			98.5932  			0.0146				0.0145			2.45
+
+--------------------------------------------------------------------------------
+CASE 82:
+{   'case': './data/71\\case_fa63be1f7caf5d946006a804a0b42ade0226f504526561bac05f1ed6c869f089/',
+    'map': './data/71',
+    'query': 2}
+CASE 82 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			111.8512 			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			73.2242  			0.0150				0.0000			0.00
+R-PRM     		0.85			117.2738 			0.0128				0.0127			2.06
+RF-PRM    		0.90			120.1704 			0.0207				0.0206			1.94
+R-PRM*    		0.85			115.8084 			0.0108				0.0106			1.59
+RF-PRM*   		0.90			118.3036 			0.0335				0.0335			2.17
+
+--------------------------------------------------------------------------------
+CASE 83:
+{   'case': './data/71\\case_42c37e065baa611fc5dabb769c599dafb417be50035e1cfc1dcb51bf5b3ee860/',
+    'map': './data/71',
+    'query': 2}
+CASE 83 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			103.4632 			0.0005				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			65.0007  			0.0154				0.0000			0.00
+R-PRM     		0.90			111.5683 			0.0094				0.0090			2.22
+RF-PRM    		1.00			112.0133 			0.0205				0.0202			2.35
+R-PRM*    		0.95			114.3639 			0.0080				0.0075			2.32
+RF-PRM*   		0.95			109.1525 			0.0200				0.0196			1.79
+
+--------------------------------------------------------------------------------
+CASE 84:
+{   'case': './data/28\\case_06346d0c10f58f06ebda063f7b4932a0125d8b7a4687df6e5f782fc5c185a1d3/',
+    'map': './data/28',
+    'query': 0}
+CASE 84 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.60			126.4918 			0.0438				0.0000			0.00
+R-PRM     		0.70			130.7869 			0.0501				0.0501			11.14
+RF-PRM    		0.40			118.6132 			0.0418				0.0418			9.62
+R-PRM*    		0.40			138.6719 			0.0563				0.0563			11.62
+RF-PRM*   		0.65			149.2506 			0.0576				0.0576			11.92
+
+--------------------------------------------------------------------------------
+CASE 85:
+{   'case': './data/28\\case_9b9b70bf2eb6ba04d84c8f65b60288847f46259516dd423e09bc256ad2284648/',
+    'map': './data/28',
+    'query': 0}
+CASE 85 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.30			126.8401 			0.0439				0.0000			0.00
+R-PRM     		0.50			157.3086 			0.0388				0.0388			12.20
+RF-PRM    		0.65			149.0341 			0.0475				0.0475			11.92
+R-PRM*    		0.65			144.1101 			0.0498				0.0498			11.54
+RF-PRM*   		0.60			145.1373 			0.0609				0.0609			11.58
+
+--------------------------------------------------------------------------------
+CASE 86:
+{   'case': './data/28\\case_43e495dd44e23edcff14abcecb964178c49d2a6f4a369912d53d919af6c6f2f5/',
+    'map': './data/28',
+    'query': 0}
+CASE 86 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			161.2887 			0.0003				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.50			155.6941 			0.0451				0.0000			0.00
+R-PRM     		0.95			173.1773 			0.0093				0.0091			1.79
+RF-PRM    		0.90			194.6530 			0.0342				0.0341			3.17
+R-PRM*    		1.00			183.3797 			0.0205				0.0204			2.50
+RF-PRM*   		0.95			187.4798 			0.0363				0.0361			2.79
+
+--------------------------------------------------------------------------------
+CASE 87:
+{   'case': './data/28\\case_04d5a475fde88d94ad5add06ce20e65c852509ad913bfaf58504a3ab40805974/',
+    'map': './data/28',
+    'query': 1}
+CASE 87 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			51.7218  			0.0004				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			49.1046  			0.0172				0.0000			0.00
+R-PRM     		0.90			45.6023  			0.0130				0.0130			4.61
+RF-PRM    		0.90			45.0208  			0.0135				0.0135			4.72
+R-PRM*    		1.00			38.1849  			0.0126				0.0126			4.15
+RF-PRM*   		0.95			37.0923  			0.0158				0.0158			4.21
+
+--------------------------------------------------------------------------------
+CASE 88:
+{   'case': './data/28\\case_676a467fd1b3021f89e7f46e1103ac5915a6637e1127f0bc44abd0b8dd2b912c/',
+    'map': './data/28',
+    'query': 1}
+CASE 88 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			40.0542  			0.0105				0.0000			0.00
+R-PRM     		1.00			38.1594  			0.0098				0.0098			4.30
+RF-PRM    		1.00			39.5847  			0.0075				0.0075			4.15
+R-PRM*    		1.00			39.6427  			0.0116				0.0116			4.35
+RF-PRM*   		1.00			40.0721  			0.0099				0.0099			4.30
+
+--------------------------------------------------------------------------------
+CASE 89:
+{   'case': './data/28\\case_1122d784847ae7adafb5ca559e058618596435581d4f78c67f9c6af7fd99d613/',
+    'map': './data/28',
+    'query': 1}
+CASE 89 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			40.3794  			0.0115				0.0000			0.00
+R-PRM     		1.00			45.2803  			0.0110				0.0110			4.55
+RF-PRM    		1.00			41.2633  			0.0072				0.0072			4.25
+R-PRM*    		1.00			39.6343  			0.0073				0.0073			4.25
+RF-PRM*   		1.00			38.4259  			0.0057				0.0057			4.05
+
+--------------------------------------------------------------------------------
+CASE 90:
+{   'case': './data/28\\case_83481c6d18ef4739008b1352546235346b6cb60e36ae59054212803a55d19d2f/',
+    'map': './data/28',
+    'query': 2}
+CASE 90 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			80.2120  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			89.0943  			0.0297				0.0000			0.00
+R-PRM     		0.85			106.2802 			0.0307				0.0307			3.88
+RF-PRM    		0.85			106.6326 			0.0377				0.0376			3.94
+R-PRM*    		0.95			102.3601 			0.0317				0.0316			3.68
+RF-PRM*   		1.00			109.1491 			0.0384				0.0383			4.05
+
+--------------------------------------------------------------------------------
+CASE 91:
+{   'case': './data/28\\case_e1d98a7480e22055c044712001ac81e5c32e4adadeb73fe934648e62bf5fb767/',
+    'map': './data/28',
+    'query': 2}
+CASE 91 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			93.0467  			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.80			84.7660  			0.0274				0.0000			0.00
+R-PRM     		0.95			105.7026 			0.0132				0.0129			1.32
+RF-PRM    		0.95			127.6363 			0.0343				0.0339			2.95
+R-PRM*    		1.00			108.0239 			0.0153				0.0148			1.35
+RF-PRM*   		0.95			127.1573 			0.0414				0.0410			2.84
+
+--------------------------------------------------------------------------------
+CASE 92:
+{   'case': './data/40\\case_1a402e6fd029a3b6777625020dc74c049c6c999f2152d97bffd3044b800ad298/',
+    'map': './data/40',
+    'query': 0}
+CASE 92 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			42.1194  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			51.3804  			0.0104				0.0000			0.00
+R-PRM     		0.75			76.8687  			0.0190				0.0190			5.20
+RF-PRM    		0.80			80.9969  			0.0181				0.0181			5.38
+R-PRM*    		0.75			65.2909  			0.0244				0.0244			4.00
+RF-PRM*   		0.85			68.6153  			0.0279				0.0279			4.35
+
+--------------------------------------------------------------------------------
+CASE 93:
+{   'case': './data/40\\case_220c1410ad1926129c7fb879c567f135348547b9f4a7b1a2ecea55d485635a2c/',
+    'map': './data/40',
+    'query': 0}
+CASE 93 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			41.2353  			0.0003				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			49.2501  			0.0116				0.0000			0.00
+R-PRM     		0.95			74.7531  			0.0158				0.0157			4.00
+RF-PRM    		0.95			68.1519  			0.0174				0.0172			3.32
+R-PRM*    		1.00			69.8438  			0.0166				0.0166			3.30
+RF-PRM*   		1.00			67.3068  			0.0197				0.0194			3.30
+
+--------------------------------------------------------------------------------
+CASE 94:
+{   'case': './data/40\\case_a280fa27f37507b4c85287eb641d8517bad668014baf0cd1729802025f5bc811/',
+    'map': './data/40',
+    'query': 0}
+CASE 94 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.90			49.3695  			0.0110				0.0000			0.00
+R-PRM     		1.00			42.5172  			0.0066				0.0066			4.75
+RF-PRM    		1.00			46.2506  			0.0097				0.0097			5.35
+R-PRM*    		0.95			35.6225  			0.0075				0.0075			4.37
+RF-PRM*   		1.00			38.4463  			0.0134				0.0134			4.45
+
+--------------------------------------------------------------------------------
+CASE 95:
+{   'case': './data/40\\case_c138222b3c1f16b93f883a2b86d97cfdc37ce53a43243c66a936fda2cdf477e4/',
+    'map': './data/40',
+    'query': 1}
+CASE 95 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			65.2152  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			71.7389  			0.0133				0.0000			0.00
+R-PRM     		1.00			87.3568  			0.0067				0.0067			3.15
+RF-PRM    		1.00			84.4642  			0.0099				0.0099			2.95
+R-PRM*    		1.00			83.8365  			0.0073				0.0073			2.65
+RF-PRM*   		1.00			87.8311  			0.0120				0.0120			2.95
+
+--------------------------------------------------------------------------------
+CASE 96:
+{   'case': './data/40\\case_99fb8ff199e425bd59638cc4e11d3820bcd88fede36391684b16e726b70637c5/',
+    'map': './data/40',
+    'query': 1}
+CASE 96 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.00			0.0000   			0.0000				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			69.8119  			0.0119				0.0000			0.00
+R-PRM     		1.00			73.8712  			0.0114				0.0114			7.05
+RF-PRM    		1.00			67.6072  			0.0095				0.0095			6.65
+R-PRM*    		1.00			64.7469  			0.0138				0.0138			6.25
+RF-PRM*   		0.95			64.0301  			0.0082				0.0082			6.11
+
+--------------------------------------------------------------------------------
+CASE 97:
+{   'case': './data/40\\case_73db21f1095605db3a2530f03c097ee5d7c7db0f10661836ffb86df03ef1a2f3/',
+    'map': './data/40',
+    'query': 2}
+CASE 97 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			110.0341 			0.0006				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			48.9845  			0.0071				0.0000			0.00
+R-PRM     		0.85			166.4814 			0.0166				0.0166			5.24
+RF-PRM    		1.00			165.5968 			0.0225				0.0223			5.15
+R-PRM*    		0.75			161.7605 			0.0263				0.0263			4.87
+RF-PRM*   		1.00			151.8494 			0.0172				0.0172			3.55
+
+--------------------------------------------------------------------------------
+CASE 98:
+{   'case': './data/40\\case_14177d4a4476ba45952c45172aa41fc8b13213492fdcbea4e560f4e4ee60f8a5/',
+    'map': './data/40',
+    'query': 2}
+CASE 98 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			40.9676  			0.0000				0.0000			0.00
+PRM       		1.00			40.9676  			0.0000				0.0000			0.00
+RRT       		1.00			46.8876  			0.0089				0.0000			0.00
+R-PRM     		1.00			40.9676  			0.0000				0.0000			0.00
+RF-PRM    		1.00			40.9676  			0.0000				0.0000			0.00
+R-PRM*    		1.00			40.9676  			0.0000				0.0000			0.00
+RF-PRM*   		1.00			40.9676  			0.0000				0.0000			0.00
+
+--------------------------------------------------------------------------------
+CASE 99:
+{   'case': './data/40\\case_477027e6b71e22c9416dc29b6070175d7784ba94656418ee8a338586e41f584a/',
+    'map': './data/40',
+    'query': 2}
+CASE 99 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			114.9632 			0.0002				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		1.00			39.1933  			0.0081				0.0000			0.00
+R-PRM     		0.95			134.9523 			0.0124				0.0123			4.89
+RF-PRM    		1.00			127.5636 			0.0150				0.0150			4.10
+R-PRM*    		1.00			126.5945 			0.0153				0.0152			4.20
+RF-PRM*   		0.90			126.1461 			0.0230				0.0230			4.22
+
+--------------------------------------------------------------------------------
+CASE 100:
+{   'case': './data/78\\case_d6d977263bf3c3f711b787523cdd717f020d9a33e3f159e525a392966a83b802/',
+    'map': './data/78',
+    'query': 0}
+CASE 100 - OVERALL:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		1.00			61.3609  			0.0001				0.0000			0.00
+PRM       		0.00			0.0000   			0.0000				0.0000			0.00
+RRT       		0.95			35.1435  			0.0072				0.0000			0.00
+R-PRM     		0.90			37.6147  			0.0101				0.0101			4.17
+RF-PRM    		0.95			40.4569  			0.0108				0.0108			4.21
+R-PRM*    		0.95			35.6223  			0.0132				0.0132			3.89
+RF-PRM*   		0.95			39.4733  			0.0086				0.0086			4.21
+
+--------------------------------------------------------------------------------
+> Finish running 100 test cases. Final results:
+algorithm		path_found		path_cost		planning_time		repair_time		n_new_nodes
+bPRM      		0.62			0.0000   			0.0000				0.0000			0.00
+PRM       		0.02			-0.0016  			0.0000				0.0000			0.00
+RRT       		0.90			27.4757  			0.0192				0.0000			0.00
+R-PRM     		0.90			28.3335  			0.0169				0.0170			4.64
+RF-PRM    		0.92			27.6495  			0.0208				0.0209			4.70
+R-PRM*    		0.92			26.6384  			0.0189				0.0190			4.40
+RF-PRM*   		0.93			26.5858  			0.0242				0.0243			4.51
+
