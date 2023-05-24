@@ -26,8 +26,8 @@ class Prm:
                  obstacles: ObstacleDict,
                  robot_radius: float,
                  roadmap: Optional[RoadMap] = None,
-                 init_n_samples: int = 300, init_n_neighbors: int = 10, max_edge_len: float = 30.0,
-                 rrt_max_iter: int = 500, rrt_goal_sample_rate: float = 0.05,
+                 init_n_samples: int = 300, init_n_neighbors: int = 10, max_edge_len: float = 10.0,
+                 rrt_max_iter: int = 100, rrt_goal_sample_rate: float = 0.05,
                  rnd_seed: int = None):
         """
         Creates a PRM Solver for a robot to solve path-planning problems.
