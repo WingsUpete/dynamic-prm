@@ -5,6 +5,8 @@ sys.path.append(os.path.join(os.getcwd(), '../'))   # load core
 import argparse
 import json
 from typing import Optional
+from pprint import pformat
+from collections import OrderedDict
 
 from util import Logger
 from core.prm import RoadMap, Prm
@@ -15,17 +17,33 @@ LOG_DIR_DEFAULT = 'log/'
 TAG_DEFAULT = None
 N_RUNS_DEFAULT = 20
 
-algorithm_dict = {
-    'RRT': 'Naive-RRT',
-    'PRM': 'Naive-PRM',
-    'R-PRM': 'Repair-PRM',
-    'RF-PRM': 'Repair-PRM-with-Freedom',
-    # 'RFT-PRM': 'Thrifty-Repair-PRM-with-Freedom',
-}
+algorithm_dict = OrderedDict([
+    ('PRM', 'Naive-PRM'),
+    ('RRT', 'Naive-RRT'),
+    ('R-PRM', 'Repair-PRM'),
+    ('RF-PRM', 'Repair-PRM-with-Freedom'),
+    # ('RFT-PRM', 'Thrifty-Repair-PRM-with-Freedom'),
+])
 
 
-def log_horizontal_split(logr: Logger, l: int = 20):
-    logr.log('%s\n' % ('-'*l))
+def log_horizontal_split(logr: Logger, ll: int = 80) -> None:
+    logr.log('%s\n' % ('-'*ll))
+
+
+def log_result(res: dict, logr: Logger) -> None:
+    """
+    Format logs the result metric dict
+    :param res: res dict to log
+    :param logr: logger to perform the logging
+    """
+    logr.log('algorithm\t\tpath_found\t\tpath_cost\t\tplanning_time\t\trepair_time\t\tn_new_nodes\n')
+    for alg_label in algorithm_dict.keys():
+        logr.log('%-10s\t\t%.2f\t\t\t%-9s\t\t\t%.4f\t\t\t\t%.4f\t\t\t%.2f\n' % (
+            alg_label, res[alg_label]['path_result']['path_found'], '%.4f' % res[alg_label]['path_result']['path_cost'],
+            res[alg_label]['planning_time'],
+            res[alg_label]['extra']['repair_time'], res[alg_label]['extra']['n_new_nodes']
+        ))
+    logr.log('\n')
 
 
 def list_data_items(data_folder: str = DATA_DIR_DEFAULT) -> list[dict]:
@@ -116,8 +134,8 @@ def construct_metric_res(aggregate: bool = False) -> dict:
             },
             'planning_time': 0,
             'extra': {
+                'repair_time': 0,
                 'n_new_nodes': 0,
-                'repair_time': 0
             }
         } for (alg_label, alg_description) in algorithm_dict.items()
     }
@@ -271,32 +289,35 @@ def main(data_folder: str = DATA_DIR_DEFAULT, n_runs: int = N_RUNS_DEFAULT, logr
     cases_json = list_data_items(data_folder=data_folder)
     logr.log(f'> {len(cases_json)} cases collected.\n')
 
+    logr.log('> Algorithms to evaluate:\n')
+    logr.log('%s\n' % pformat(algorithm_dict, indent=4))
+
     logr.log('> Start running test cases.\n')
     overall_delta_res = construct_metric_res(aggregate=True)
     for cur_case_i in range(len(cases_json)):
         cur_case_json = cases_json[cur_case_i]
         log_horizontal_split(logr)
         logr.log(f'CASE {cur_case_i + 1}:\n')
-        logr.log('%s\n' % cur_case_json)
+        logr.log('%s\n' % pformat(cur_case_json, indent=4))
 
         aggr_res = construct_metric_res(aggregate=True)
         for run_i in range(n_runs):
             logr.log(f'CASE {cur_case_i + 1} - RUN {run_i + 1}:\n')
             cur_map, cur_query, cur_roadmap, cur_o = load_add_obstacle_case(test_case=cur_case_json)
             cur_res = run_test_case(case_map=cur_map, case_query=cur_query, case_rmp=cur_roadmap, case_o=cur_o)
-            logr.log('%s\n' % cur_res)
+            logr.log('%s\n' % pformat(cur_res, indent=4))
             aggr_res = aggregate_metric_res(aggr_metric_dict=aggr_res, cur_metric_res=cur_res)
 
         aggr_res, delta_res = postproc_aggr_metric_dict(aggr_metric_dict=aggr_res, n_runs=n_runs)
         logr.log(f'CASE {cur_case_i + 1} - OVERALL:\n')
-        logr.log('%s\n' % aggr_res)
+        log_result(res=aggr_res, logr=logr)
         overall_delta_res = aggregate_metric_res(aggr_metric_dict=overall_delta_res, cur_metric_res=delta_res)
 
     overall_delta_res, _ = postproc_aggr_metric_dict(aggr_metric_dict=overall_delta_res, n_runs=len(cases_json),
                                                      handle_path_cost=False, calc_delta=False)
     log_horizontal_split(logr)
     logr.log(f'> Finish running {len(cases_json)} test cases. Final results:\n')
-    logr.log('%s\n' % overall_delta_res)
+    log_result(res=overall_delta_res, logr=logr)
 
 
 if __name__ == '__main__':
