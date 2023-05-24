@@ -133,16 +133,28 @@ class Prm:
             # otherwise: repair
             if animation:
                 self.draw_graph(start=start, goal=goal, road_map=self.road_map)
-
-            t1 = time.time()
             # Rerun Dijkstra on the general road map to check if previously there was a path
             path, cost = dijkstra(road_map=self.road_map,
                                   start_uid=start_sample_node.node_uid, end_uid=end_sample_node.node_uid,
                                   animation=animation)
+
+            t1 = time.time()
             if path is None:
-                # cannot find path even before nodes/edges are blocked, then nothing can be repaired.
+                # cannot find path even before nodes/edges are blocked, then run RRT from start to goal directly.
+                rrt_path, rrt_cost, rrt_road_map = self._rrt_base(start=RoadMapNode(x=start[0], y=start[1]),
+                                                                  goal=RoadMapNode(x=goal[0], y=goal[1]),
+                                                                  animation=animation)
+                if rrt_path is None:
+                    # RRT still cannot fix the problem
+                    self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
+                    return None, -1
+
+                # otherwise, RRT found a path!
+                # append the RRT paths to the road map (only new nodes are appended, judging from uid)
+                n_new_nodes = self._postproc_rrt_res_into_prm(rrt_path=rrt_path, rrt_rmp=None)
+                self._record_time(timer=self.query_timer, metric='n_new_nodes', val=n_new_nodes)
                 self._record_time(timer=self.query_timer, metric='repair', val=(time.time() - t1))
-                return None, -1
+                return rrt_path, rrt_cost
 
             # otherwise: feasible path exists before
             # try to sample a starting point on the first path segment & an ending point on the last path segment
@@ -220,17 +232,7 @@ class Prm:
 
             # otherwise, RRT found a path!
             # append the RRT paths to the road map (only new nodes are appended, judging from uid)
-            n_new_nodes = 0
-            for rrt_node in rrt_path:
-                if rrt_node.node_uid in self.road_map.get():
-                    continue
-                new_rrt_node = RoadMapNode(x=rrt_node.x, y=rrt_node.y, node_uid=rrt_node.node_uid)
-                self.road_map.add_node(node=new_rrt_node)
-                n_new_nodes += 1
-            for i in range(len(rrt_path) - 1):
-                cur_rrt_node = rrt_path[i]
-                nxt_rrt_node = rrt_path[i + 1]
-                self.road_map.add_edge(from_uid=cur_rrt_node.node_uid, to_uid=nxt_rrt_node.node_uid)
+            n_new_nodes = self._postproc_rrt_res_into_prm(rrt_path=rrt_path, rrt_rmp=None)
             self._record_time(timer=self.query_timer, metric='n_new_nodes', val=n_new_nodes)
 
             # postprocess path
@@ -288,6 +290,35 @@ class Prm:
         finally:
             self._record_time(timer=self.query_timer, metric='rrt', val=(time.time() - t0))
             self._postproc_timers()
+
+    def _postproc_rrt_res_into_prm(self, rrt_path: list[RoadMapNode] = None, rrt_rmp: RoadMap = None) -> int:
+        """
+        Postprocesses the RRT result by adding sampled nodes into the roadmap of PRM.
+        :param rrt_path: if provided, add the new nodes (new uid) on the path
+        :param rrt_rmp: if provided, add all new nodes + edges on the RRT roadmap
+        :return: number of new nodes added
+        """
+        if rrt_rmp:
+            # Not yet implemented
+            return 0
+
+        if rrt_path:
+            n_new_nodes = 0
+            # nodes
+            for rrt_node in rrt_path:
+                if rrt_node.node_uid in self.road_map.get():
+                    continue
+                new_rrt_node = RoadMapNode(x=rrt_node.x, y=rrt_node.y, node_uid=rrt_node.node_uid)
+                self.road_map.add_node(node=new_rrt_node)
+                n_new_nodes += 1
+            # edges
+            for i in range(len(rrt_path) - 1):
+                cur_rrt_node = self.road_map.get()[rrt_path[i].node_uid]
+                nxt_rrt_node = self.road_map.get()[rrt_path[i + 1].node_uid]
+                if nxt_rrt_node.node_uid not in cur_rrt_node.to_node_uid_dict:
+                    self.road_map.add_edge(from_uid=cur_rrt_node.node_uid, to_uid=nxt_rrt_node.node_uid)
+
+            return n_new_nodes
 
     @staticmethod
     def _postproc_path_with_cost(path: list[RoadMapNode], cost: float,
