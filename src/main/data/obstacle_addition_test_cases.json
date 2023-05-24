@@ -1,1 +1,506 @@
-{"folder": "./data/", "n_cases": 100, "test_cases": [{"map": "./data/19", "query": 0, "case": "./data/19\\case_90b20834f81ac78db855028e4ee04b7123e802c36d621e02ba2b31e46c83565b/"}, {"map": "./data/19", "query": 0, "case": "./data/19\\case_90a022a6d61336a2aca75224b667da971b0f4847f8d1b2dd537e98aa6b9fcb50/"}, {"map": "./data/19", "query": 1, "case": "./data/19\\case_55ad58d5128d53818d7d1d3b53251a6fc06897b58bbe76a6e709ff6b4e250a43/"}, {"map": "./data/19", "query": 1, "case": "./data/19\\case_732380b9e166a0e38750ad3c9aeea156443917e7260ca9b6e6204c3d94c130d7/"}, {"map": "./data/19", "query": 1, "case": "./data/19\\case_1b8c40a719c639b82b4a80d77582f3c9e492c68f7e12ea22d506dfc944f3115f/"}, {"map": "./data/19", "query": 2, "case": "./data/19\\case_6197fadc33bd6e4e87ae5711c038f366c321d93a430fea14e89fcdef37fb8502/"}, {"map": "./data/32", "query": 0, "case": "./data/32\\case_301be6f59d31bf4c6af72fca5d91c6b092fbd0acbdfa6dbd87443749767f6cbc/"}, {"map": "./data/32", "query": 0, "case": "./data/32\\case_e960f6c3aaeee70e8d07ffec6a0dbba98f4141709eb34da1360aee9987fe9367/"}, {"map": "./data/32", "query": 0, "case": "./data/32\\case_ca21a950ee09024c253ab5674bff1b88f2532467f1ead94158dec3fcf7735902/"}, {"map": "./data/32", "query": 1, "case": "./data/32\\case_4d1b60d9d0bfecbb365b8ec1e377fd492762a5ab2a89b3a88937b6e6326e699a/"}, {"map": "./data/32", "query": 1, "case": "./data/32\\case_e3d54c51efdef82e51b5a44502fd5304177e8fcef3358a4184e6bb46dfdeb9aa/"}, {"map": "./data/32", "query": 1, "case": "./data/32\\case_3722d1f51e880051543424eb4aa95e7219525865219afa1a1018bb0e373cc607/"}, {"map": "./data/32", "query": 2, "case": "./data/32\\case_5bbb94a23e956f451e7a5886350cd07f00ca2586ecb7975efce081efc97bf995/"}, {"map": "./data/32", "query": 2, "case": "./data/32\\case_4deee34d0d13d216e0b117bbac66d6cf43082fe3197f5aa74fc40dea4e91c0c5/"}, {"map": "./data/32", "query": 2, "case": "./data/32\\case_4465ffb024cf6998eb77b7faba836072d500423630c8dba21bfbec2fc90e0348/"}, {"map": "./data/98", "query": 0, "case": "./data/98\\case_1f5ba51d939161857532943e5b941ff618fee23f8fe07fb62eb4dde573c5e27d/"}, {"map": "./data/98", "query": 1, "case": "./data/98\\case_a8605b8ef4d8ddeaede9f62befd6b51cab4912a321d63729f96582160e1f6434/"}, {"map": "./data/98", "query": 1, "case": "./data/98\\case_81761754ea6c1bae417af929cf0f55016f353d2d1796df1cf41b10ce287c1e3d/"}, {"map": "./data/98", "query": 1, "case": "./data/98\\case_2dd04dded3c13839fe516451fce75544c405fba7624ad1ef722a58091a4e6100/"}, {"map": "./data/98", "query": 2, "case": "./data/98\\case_396a909d14dd22b3593955772b769a7d7f62a17b341188495534fab5e57634cb/"}, {"map": "./data/98", "query": 2, "case": "./data/98\\case_7f03eff69fb947ca3c127abac53b6ecbf0e873f18e7c05606b57c3bc8a968cbd/"}, {"map": "./data/98", "query": 2, "case": "./data/98\\case_af48cf05ec63e8f65ad574892115f7b8a310a78bcbfdd4588e62edb7523798a6/"}, {"map": "./data/26", "query": 0, "case": "./data/26\\case_e6c5b5ebfe31503bd77a6d9f78119820057a7cd3ede764f841c27a4f3728be80/"}, {"map": "./data/26", "query": 0, "case": "./data/26\\case_6b82f4bbe1f6cbf1f1ec0344fec80c3341d9c439f9a91a922a78238ba2189e61/"}, {"map": "./data/26", "query": 0, "case": "./data/26\\case_4e684429dac01746573372466566c389371d65b07c28ef417d57fff5aa8abe02/"}, {"map": "./data/26", "query": 1, "case": "./data/26\\case_6b896e33fc9a5e0642263beabc7a469a2b92e6fc5b69c99e10378818ed50e52f/"}, {"map": "./data/26", "query": 1, "case": "./data/26\\case_d8a5d117d9f4ee1d04028b843260799cbdd84c4484cd6ea1fc19d753f6e8cfd5/"}, {"map": "./data/26", "query": 1, "case": "./data/26\\case_9977882a0e2eed17dc70640dba1b6c6fb88894602fa52ff391c033deafd9cdd4/"}, {"map": "./data/26", "query": 2, "case": "./data/26\\case_199c671805ad3786625dc0522c17109be0b8e05bff1eb2bf344db37b27599806/"}, {"map": "./data/55", "query": 1, "case": "./data/55\\case_944fbcfd2b625c710fd9274dbca101835e87659403f7bb3b5c12c5124d5d6b42/"}, {"map": "./data/55", "query": 1, "case": "./data/55\\case_dd49a7d2d055fa9d7b81d355a92a11816940ca99d8d019c101f67430e3c42bda/"}, {"map": "./data/55", "query": 1, "case": "./data/55\\case_6c4faa44b84df59dc05444b837ad0bebe8057b804911fb36361611fc56ea6da0/"}, {"map": "./data/55", "query": 2, "case": "./data/55\\case_92cbd570cc431268b746edd6ec719ad1e6b35a930fae46a807a4e1d0834d19f2/"}, {"map": "./data/55", "query": 2, "case": "./data/55\\case_9ea7a2fc30080009bb2e294d4ca3745a4501aa0889a269f707fdbe38e82b7971/"}, {"map": "./data/99", "query": 0, "case": "./data/99\\case_245fdc08651808eaf7a4525257991bec22146922327819964c0d6b958ba5bdc7/"}, {"map": "./data/99", "query": 0, "case": "./data/99\\case_7afc09ceaf51042e8655882256075d3d0e5233c6303d437ee99d81eddfaab58e/"}, {"map": "./data/99", "query": 0, "case": "./data/99\\case_732d5fa21e441e087a91e1b6283010a8e5b11a94c8b6bc56310936b49875110f/"}, {"map": "./data/99", "query": 1, "case": "./data/99\\case_3864166e56576a7d0669dabab2850be093f2228cb5e2369e5ad08fbfe0fa97fa/"}, {"map": "./data/99", "query": 1, "case": "./data/99\\case_c0981238648c1fd84c87f44b36f32f630708e953c2d50baf0cfd140721b6935f/"}, {"map": "./data/99", "query": 1, "case": "./data/99\\case_f85486059a7fab29b3ec946c68709df92aea8be420d02da908c4b566d0de1f00/"}, {"map": "./data/99", "query": 2, "case": "./data/99\\case_e30e711b8544ca1e9f51e52e26967d0e6bb5f64ad471bb947bb36ed495915ef8/"}, {"map": "./data/99", "query": 2, "case": "./data/99\\case_2c61556039302836f74bf3391578f3b3ebca9eee4c1e70544b99d8e3c0fecdc0/"}, {"map": "./data/99", "query": 2, "case": "./data/99\\case_cc70a93612494e34d1a94010edd850d4c34be82ac732b4493d3d819b55ddb542/"}, {"map": "./data/69", "query": 0, "case": "./data/69\\case_5edfd0d4d1d79f02196f695e00c65b56991733c955f27f38c5389b6c83270e98/"}, {"map": "./data/69", "query": 0, "case": "./data/69\\case_375f8e53116ca93569060b89325da7c29fddc7c3152aa353d4ff998ab717406b/"}, {"map": "./data/69", "query": 0, "case": "./data/69\\case_6bdb09c568d6b0a6e8a75a477fd728f9381fcd7ec487e9a476f70444de4c25b0/"}, {"map": "./data/69", "query": 1, "case": "./data/69\\case_a2e892024f1abeaefe4cb6aa537009df72a5c18f4ed2c2665522d39219ca35b4/"}, {"map": "./data/69", "query": 1, "case": "./data/69\\case_ea0eb16017063cf5bc967a7c9142539f2bdfb146f1f7e1e1134e4c6d5fa77bc0/"}, {"map": "./data/69", "query": 1, "case": "./data/69\\case_0ef947ce4f442770668d0d0e0a08e2207e4868c2f09584100eebfe17c4540fb0/"}, {"map": "./data/69", "query": 2, "case": "./data/69\\case_4b0e05664c740601c817a75b461ebcdf7da09daa5e8ad6ae50ff684d6483655f/"}, {"map": "./data/69", "query": 2, "case": "./data/69\\case_3b13a2f97312a7f627e9329d355f6d6851867f4aea404e32eb6cd509f6881b36/"}, {"map": "./data/69", "query": 2, "case": "./data/69\\case_76a3b6a6fd9e5779c120da171b8899f2dbf40e5b0e77b1e289ca5e7b61b65a42/"}, {"map": "./data/2", "query": 0, "case": "./data/2\\case_1add1f6f59e7d0221cbdc9e41b3e478e0743e5807c9326e18f58f8f0aee863c8/"}, {"map": "./data/2", "query": 0, "case": "./data/2\\case_3a0ad0f4da42c41e6ef8f2581a7d0eaca8992da0fcaf57adc69c5fc2a81f540f/"}, {"map": "./data/2", "query": 1, "case": "./data/2\\case_38e922c7ebb32f4c848176ba2c65484eda0010e683ccde17a377033620547f11/"}, {"map": "./data/2", "query": 1, "case": "./data/2\\case_7c277f28f3ec658f599791afd6f8a9322f600d59ebdcdaeeaf795454a66347ea/"}, {"map": "./data/2", "query": 2, "case": "./data/2\\case_49b4ec8db4f59ca59554391aae9dd4104fbec64f5ff7a2c1f4408e0d4daa1d5e/"}, {"map": "./data/2", "query": 2, "case": "./data/2\\case_9eadfdf09e3041b214937d4a340d2fcc6992644eff486a1b147e272bbe871589/"}, {"map": "./data/22", "query": 0, "case": "./data/22\\case_fca3c2e89cd158fd0f7b3334484fdf6e5c3f13291c3b3bed221a9f229adea196/"}, {"map": "./data/22", "query": 0, "case": "./data/22\\case_57cf4272a4da1bbf9bb80ddf2b9dd167f38a20a92c6f5fd2604352bfa24e05c9/"}, {"map": "./data/22", "query": 0, "case": "./data/22\\case_4f10d95075863a1f52bda8ca80570bf260eb777a58b5be48fb074c3b0b69fe6d/"}, {"map": "./data/22", "query": 1, "case": "./data/22\\case_a73c034bbe0618ad44345e14804735b34b64531b4085fc415882de5eae9ed42a/"}, {"map": "./data/22", "query": 1, "case": "./data/22\\case_146f98321b375037cda72fa71b4577417bae3664453a1082fef7354701991afa/"}, {"map": "./data/22", "query": 2, "case": "./data/22\\case_7363b8abd0a7fe61545954a70046b57ad2aff5d19a46826ccc4f2796920da666/"}, {"map": "./data/22", "query": 2, "case": "./data/22\\case_2a6abdeb3d8f740bb71eb3ff5e7ffab2e6968a7f0449666e0c59951a6849c9f5/"}, {"map": "./data/9", "query": 0, "case": "./data/9\\case_dc8bbd7f7f631ab20324f1b12d81375f957237955caf37c18dcfb90e51bf0183/"}, {"map": "./data/9", "query": 0, "case": "./data/9\\case_91e2e9cbe974ba9039fa8b922a454e6f87a5747432c192b3322c457e7d9ea9c6/"}, {"map": "./data/9", "query": 0, "case": "./data/9\\case_e14d49154e704dce9f822edd3f3bdd74647d616a555e75d6f45362d26de62b7f/"}, {"map": "./data/9", "query": 1, "case": "./data/9\\case_191261e9ebdaec5ffae6639ee3a0c221e0fb22feb20baaa0327daff559772b1b/"}, {"map": "./data/9", "query": 1, "case": "./data/9\\case_c30b9189f166ce0bb3c02f938c3606d6465391db7bceb94d2e1ec4eda46e53c7/"}, {"map": "./data/9", "query": 1, "case": "./data/9\\case_819c8264d6382654d53e2b9332a515c16b19b75e38d2013574bd1a875335d3ee/"}, {"map": "./data/9", "query": 2, "case": "./data/9\\case_a1c6335c5dfb281d1de7780e102c7932f891a49c0b15e276938cfa782941cd69/"}, {"map": "./data/9", "query": 2, "case": "./data/9\\case_4d14c09bf836f18a0f7a38d02f91c872d6cd6150b6517f9c803b43eb9aa373ef/"}, {"map": "./data/9", "query": 2, "case": "./data/9\\case_f76e63a9641b5d006972a2d09c695eee0ee2bf979fff153676fcbbfc35d24ca5/"}, {"map": "./data/71", "query": 0, "case": "./data/71\\case_ea26e7674c42545f14c4a4eef80a47bebbfa2e2e71cbbb009cb8b5a45cb775d0/"}, {"map": "./data/71", "query": 0, "case": "./data/71\\case_3779e6aaa95c8e1c6e71cafef2f1b63079c1e818a44d101abb59b8e1f4270876/"}, {"map": "./data/71", "query": 0, "case": "./data/71\\case_706c0126baf44035bd6c0e272dd7a72da68544b69dcb7c154a5ff49d3d77f727/"}, {"map": "./data/71", "query": 1, "case": "./data/71\\case_be4f56b4b7b3c60061ccda7910e45bb17cc2caa25c7dc414895a164fb2de1423/"}, {"map": "./data/71", "query": 1, "case": "./data/71\\case_ef05df16e16ca8c9d35972e7c863dcb8defe26f226f5dd73304548625b8c8788/"}, {"map": "./data/71", "query": 1, "case": "./data/71\\case_d19c939bdfc296681dbcf9e3695188a3e28a425013f40fdd9a5681a944156d7f/"}, {"map": "./data/71", "query": 2, "case": "./data/71\\case_067dd408368c92c6a5b1de08a66db4b2c4a480cf0133b94e84c7b754274512c4/"}, {"map": "./data/71", "query": 2, "case": "./data/71\\case_fa63be1f7caf5d946006a804a0b42ade0226f504526561bac05f1ed6c869f089/"}, {"map": "./data/71", "query": 2, "case": "./data/71\\case_42c37e065baa611fc5dabb769c599dafb417be50035e1cfc1dcb51bf5b3ee860/"}, {"map": "./data/28", "query": 0, "case": "./data/28\\case_06346d0c10f58f06ebda063f7b4932a0125d8b7a4687df6e5f782fc5c185a1d3/"}, {"map": "./data/28", "query": 0, "case": "./data/28\\case_9b9b70bf2eb6ba04d84c8f65b60288847f46259516dd423e09bc256ad2284648/"}, {"map": "./data/28", "query": 0, "case": "./data/28\\case_43e495dd44e23edcff14abcecb964178c49d2a6f4a369912d53d919af6c6f2f5/"}, {"map": "./data/28", "query": 1, "case": "./data/28\\case_04d5a475fde88d94ad5add06ce20e65c852509ad913bfaf58504a3ab40805974/"}, {"map": "./data/28", "query": 1, "case": "./data/28\\case_676a467fd1b3021f89e7f46e1103ac5915a6637e1127f0bc44abd0b8dd2b912c/"}, {"map": "./data/28", "query": 1, "case": "./data/28\\case_1122d784847ae7adafb5ca559e058618596435581d4f78c67f9c6af7fd99d613/"}, {"map": "./data/28", "query": 2, "case": "./data/28\\case_83481c6d18ef4739008b1352546235346b6cb60e36ae59054212803a55d19d2f/"}, {"map": "./data/28", "query": 2, "case": "./data/28\\case_e1d98a7480e22055c044712001ac81e5c32e4adadeb73fe934648e62bf5fb767/"}, {"map": "./data/40", "query": 0, "case": "./data/40\\case_1a402e6fd029a3b6777625020dc74c049c6c999f2152d97bffd3044b800ad298/"}, {"map": "./data/40", "query": 0, "case": "./data/40\\case_220c1410ad1926129c7fb879c567f135348547b9f4a7b1a2ecea55d485635a2c/"}, {"map": "./data/40", "query": 0, "case": "./data/40\\case_a280fa27f37507b4c85287eb641d8517bad668014baf0cd1729802025f5bc811/"}, {"map": "./data/40", "query": 1, "case": "./data/40\\case_c138222b3c1f16b93f883a2b86d97cfdc37ce53a43243c66a936fda2cdf477e4/"}, {"map": "./data/40", "query": 1, "case": "./data/40\\case_99fb8ff199e425bd59638cc4e11d3820bcd88fede36391684b16e726b70637c5/"}, {"map": "./data/40", "query": 2, "case": "./data/40\\case_73db21f1095605db3a2530f03c097ee5d7c7db0f10661836ffb86df03ef1a2f3/"}, {"map": "./data/40", "query": 2, "case": "./data/40\\case_14177d4a4476ba45952c45172aa41fc8b13213492fdcbea4e560f4e4ee60f8a5/"}, {"map": "./data/40", "query": 2, "case": "./data/40\\case_477027e6b71e22c9416dc29b6070175d7784ba94656418ee8a338586e41f584a/"}, {"map": "./data/78", "query": 0, "case": "./data/78\\case_d6d977263bf3c3f711b787523cdd717f020d9a33e3f159e525a392966a83b802/"}]}
+{
+  "folder": "./data/",
+  "n_cases": 100,
+  "test_cases": [
+    {
+      "map": "./data/19",
+      "query": 0,
+      "case": "./data/19\\case_90b20834f81ac78db855028e4ee04b7123e802c36d621e02ba2b31e46c83565b/"
+    },
+    {
+      "map": "./data/19",
+      "query": 0,
+      "case": "./data/19\\case_90a022a6d61336a2aca75224b667da971b0f4847f8d1b2dd537e98aa6b9fcb50/"
+    },
+    {
+      "map": "./data/19",
+      "query": 1,
+      "case": "./data/19\\case_55ad58d5128d53818d7d1d3b53251a6fc06897b58bbe76a6e709ff6b4e250a43/"
+    },
+    {
+      "map": "./data/19",
+      "query": 1,
+      "case": "./data/19\\case_732380b9e166a0e38750ad3c9aeea156443917e7260ca9b6e6204c3d94c130d7/"
+    },
+    {
+      "map": "./data/19",
+      "query": 1,
+      "case": "./data/19\\case_1b8c40a719c639b82b4a80d77582f3c9e492c68f7e12ea22d506dfc944f3115f/"
+    },
+    {
+      "map": "./data/19",
+      "query": 2,
+      "case": "./data/19\\case_6197fadc33bd6e4e87ae5711c038f366c321d93a430fea14e89fcdef37fb8502/"
+    },
+    {
+      "map": "./data/32",
+      "query": 0,
+      "case": "./data/32\\case_301be6f59d31bf4c6af72fca5d91c6b092fbd0acbdfa6dbd87443749767f6cbc/"
+    },
+    {
+      "map": "./data/32",
+      "query": 0,
+      "case": "./data/32\\case_e960f6c3aaeee70e8d07ffec6a0dbba98f4141709eb34da1360aee9987fe9367/"
+    },
+    {
+      "map": "./data/32",
+      "query": 0,
+      "case": "./data/32\\case_ca21a950ee09024c253ab5674bff1b88f2532467f1ead94158dec3fcf7735902/"
+    },
+    {
+      "map": "./data/32",
+      "query": 1,
+      "case": "./data/32\\case_4d1b60d9d0bfecbb365b8ec1e377fd492762a5ab2a89b3a88937b6e6326e699a/"
+    },
+    {
+      "map": "./data/32",
+      "query": 1,
+      "case": "./data/32\\case_e3d54c51efdef82e51b5a44502fd5304177e8fcef3358a4184e6bb46dfdeb9aa/"
+    },
+    {
+      "map": "./data/32",
+      "query": 1,
+      "case": "./data/32\\case_3722d1f51e880051543424eb4aa95e7219525865219afa1a1018bb0e373cc607/"
+    },
+    {
+      "map": "./data/32",
+      "query": 2,
+      "case": "./data/32\\case_5bbb94a23e956f451e7a5886350cd07f00ca2586ecb7975efce081efc97bf995/"
+    },
+    {
+      "map": "./data/32",
+      "query": 2,
+      "case": "./data/32\\case_4deee34d0d13d216e0b117bbac66d6cf43082fe3197f5aa74fc40dea4e91c0c5/"
+    },
+    {
+      "map": "./data/32",
+      "query": 2,
+      "case": "./data/32\\case_4465ffb024cf6998eb77b7faba836072d500423630c8dba21bfbec2fc90e0348/"
+    },
+    {
+      "map": "./data/98",
+      "query": 0,
+      "case": "./data/98\\case_1f5ba51d939161857532943e5b941ff618fee23f8fe07fb62eb4dde573c5e27d/"
+    },
+    {
+      "map": "./data/98",
+      "query": 1,
+      "case": "./data/98\\case_a8605b8ef4d8ddeaede9f62befd6b51cab4912a321d63729f96582160e1f6434/"
+    },
+    {
+      "map": "./data/98",
+      "query": 1,
+      "case": "./data/98\\case_81761754ea6c1bae417af929cf0f55016f353d2d1796df1cf41b10ce287c1e3d/"
+    },
+    {
+      "map": "./data/98",
+      "query": 1,
+      "case": "./data/98\\case_2dd04dded3c13839fe516451fce75544c405fba7624ad1ef722a58091a4e6100/"
+    },
+    {
+      "map": "./data/98",
+      "query": 2,
+      "case": "./data/98\\case_396a909d14dd22b3593955772b769a7d7f62a17b341188495534fab5e57634cb/"
+    },
+    {
+      "map": "./data/98",
+      "query": 2,
+      "case": "./data/98\\case_7f03eff69fb947ca3c127abac53b6ecbf0e873f18e7c05606b57c3bc8a968cbd/"
+    },
+    {
+      "map": "./data/98",
+      "query": 2,
+      "case": "./data/98\\case_af48cf05ec63e8f65ad574892115f7b8a310a78bcbfdd4588e62edb7523798a6/"
+    },
+    {
+      "map": "./data/26",
+      "query": 0,
+      "case": "./data/26\\case_e6c5b5ebfe31503bd77a6d9f78119820057a7cd3ede764f841c27a4f3728be80/"
+    },
+    {
+      "map": "./data/26",
+      "query": 0,
+      "case": "./data/26\\case_6b82f4bbe1f6cbf1f1ec0344fec80c3341d9c439f9a91a922a78238ba2189e61/"
+    },
+    {
+      "map": "./data/26",
+      "query": 0,
+      "case": "./data/26\\case_4e684429dac01746573372466566c389371d65b07c28ef417d57fff5aa8abe02/"
+    },
+    {
+      "map": "./data/26",
+      "query": 1,
+      "case": "./data/26\\case_6b896e33fc9a5e0642263beabc7a469a2b92e6fc5b69c99e10378818ed50e52f/"
+    },
+    {
+      "map": "./data/26",
+      "query": 1,
+      "case": "./data/26\\case_d8a5d117d9f4ee1d04028b843260799cbdd84c4484cd6ea1fc19d753f6e8cfd5/"
+    },
+    {
+      "map": "./data/26",
+      "query": 1,
+      "case": "./data/26\\case_9977882a0e2eed17dc70640dba1b6c6fb88894602fa52ff391c033deafd9cdd4/"
+    },
+    {
+      "map": "./data/26",
+      "query": 2,
+      "case": "./data/26\\case_199c671805ad3786625dc0522c17109be0b8e05bff1eb2bf344db37b27599806/"
+    },
+    {
+      "map": "./data/55",
+      "query": 1,
+      "case": "./data/55\\case_944fbcfd2b625c710fd9274dbca101835e87659403f7bb3b5c12c5124d5d6b42/"
+    },
+    {
+      "map": "./data/55",
+      "query": 1,
+      "case": "./data/55\\case_dd49a7d2d055fa9d7b81d355a92a11816940ca99d8d019c101f67430e3c42bda/"
+    },
+    {
+      "map": "./data/55",
+      "query": 1,
+      "case": "./data/55\\case_6c4faa44b84df59dc05444b837ad0bebe8057b804911fb36361611fc56ea6da0/"
+    },
+    {
+      "map": "./data/55",
+      "query": 2,
+      "case": "./data/55\\case_92cbd570cc431268b746edd6ec719ad1e6b35a930fae46a807a4e1d0834d19f2/"
+    },
+    {
+      "map": "./data/55",
+      "query": 2,
+      "case": "./data/55\\case_9ea7a2fc30080009bb2e294d4ca3745a4501aa0889a269f707fdbe38e82b7971/"
+    },
+    {
+      "map": "./data/99",
+      "query": 0,
+      "case": "./data/99\\case_245fdc08651808eaf7a4525257991bec22146922327819964c0d6b958ba5bdc7/"
+    },
+    {
+      "map": "./data/99",
+      "query": 0,
+      "case": "./data/99\\case_7afc09ceaf51042e8655882256075d3d0e5233c6303d437ee99d81eddfaab58e/"
+    },
+    {
+      "map": "./data/99",
+      "query": 0,
+      "case": "./data/99\\case_732d5fa21e441e087a91e1b6283010a8e5b11a94c8b6bc56310936b49875110f/"
+    },
+    {
+      "map": "./data/99",
+      "query": 1,
+      "case": "./data/99\\case_3864166e56576a7d0669dabab2850be093f2228cb5e2369e5ad08fbfe0fa97fa/"
+    },
+    {
+      "map": "./data/99",
+      "query": 1,
+      "case": "./data/99\\case_c0981238648c1fd84c87f44b36f32f630708e953c2d50baf0cfd140721b6935f/"
+    },
+    {
+      "map": "./data/99",
+      "query": 1,
+      "case": "./data/99\\case_f85486059a7fab29b3ec946c68709df92aea8be420d02da908c4b566d0de1f00/"
+    },
+    {
+      "map": "./data/99",
+      "query": 2,
+      "case": "./data/99\\case_e30e711b8544ca1e9f51e52e26967d0e6bb5f64ad471bb947bb36ed495915ef8/"
+    },
+    {
+      "map": "./data/99",
+      "query": 2,
+      "case": "./data/99\\case_2c61556039302836f74bf3391578f3b3ebca9eee4c1e70544b99d8e3c0fecdc0/"
+    },
+    {
+      "map": "./data/99",
+      "query": 2,
+      "case": "./data/99\\case_cc70a93612494e34d1a94010edd850d4c34be82ac732b4493d3d819b55ddb542/"
+    },
+    {
+      "map": "./data/69",
+      "query": 0,
+      "case": "./data/69\\case_5edfd0d4d1d79f02196f695e00c65b56991733c955f27f38c5389b6c83270e98/"
+    },
+    {
+      "map": "./data/69",
+      "query": 0,
+      "case": "./data/69\\case_375f8e53116ca93569060b89325da7c29fddc7c3152aa353d4ff998ab717406b/"
+    },
+    {
+      "map": "./data/69",
+      "query": 0,
+      "case": "./data/69\\case_6bdb09c568d6b0a6e8a75a477fd728f9381fcd7ec487e9a476f70444de4c25b0/"
+    },
+    {
+      "map": "./data/69",
+      "query": 1,
+      "case": "./data/69\\case_a2e892024f1abeaefe4cb6aa537009df72a5c18f4ed2c2665522d39219ca35b4/"
+    },
+    {
+      "map": "./data/69",
+      "query": 1,
+      "case": "./data/69\\case_ea0eb16017063cf5bc967a7c9142539f2bdfb146f1f7e1e1134e4c6d5fa77bc0/"
+    },
+    {
+      "map": "./data/69",
+      "query": 1,
+      "case": "./data/69\\case_0ef947ce4f442770668d0d0e0a08e2207e4868c2f09584100eebfe17c4540fb0/"
+    },
+    {
+      "map": "./data/69",
+      "query": 2,
+      "case": "./data/69\\case_4b0e05664c740601c817a75b461ebcdf7da09daa5e8ad6ae50ff684d6483655f/"
+    },
+    {
+      "map": "./data/69",
+      "query": 2,
+      "case": "./data/69\\case_3b13a2f97312a7f627e9329d355f6d6851867f4aea404e32eb6cd509f6881b36/"
+    },
+    {
+      "map": "./data/69",
+      "query": 2,
+      "case": "./data/69\\case_76a3b6a6fd9e5779c120da171b8899f2dbf40e5b0e77b1e289ca5e7b61b65a42/"
+    },
+    {
+      "map": "./data/2",
+      "query": 0,
+      "case": "./data/2\\case_1add1f6f59e7d0221cbdc9e41b3e478e0743e5807c9326e18f58f8f0aee863c8/"
+    },
+    {
+      "map": "./data/2",
+      "query": 0,
+      "case": "./data/2\\case_3a0ad0f4da42c41e6ef8f2581a7d0eaca8992da0fcaf57adc69c5fc2a81f540f/"
+    },
+    {
+      "map": "./data/2",
+      "query": 1,
+      "case": "./data/2\\case_38e922c7ebb32f4c848176ba2c65484eda0010e683ccde17a377033620547f11/"
+    },
+    {
+      "map": "./data/2",
+      "query": 1,
+      "case": "./data/2\\case_7c277f28f3ec658f599791afd6f8a9322f600d59ebdcdaeeaf795454a66347ea/"
+    },
+    {
+      "map": "./data/2",
+      "query": 2,
+      "case": "./data/2\\case_49b4ec8db4f59ca59554391aae9dd4104fbec64f5ff7a2c1f4408e0d4daa1d5e/"
+    },
+    {
+      "map": "./data/2",
+      "query": 2,
+      "case": "./data/2\\case_9eadfdf09e3041b214937d4a340d2fcc6992644eff486a1b147e272bbe871589/"
+    },
+    {
+      "map": "./data/22",
+      "query": 0,
+      "case": "./data/22\\case_fca3c2e89cd158fd0f7b3334484fdf6e5c3f13291c3b3bed221a9f229adea196/"
+    },
+    {
+      "map": "./data/22",
+      "query": 0,
+      "case": "./data/22\\case_57cf4272a4da1bbf9bb80ddf2b9dd167f38a20a92c6f5fd2604352bfa24e05c9/"
+    },
+    {
+      "map": "./data/22",
+      "query": 0,
+      "case": "./data/22\\case_4f10d95075863a1f52bda8ca80570bf260eb777a58b5be48fb074c3b0b69fe6d/"
+    },
+    {
+      "map": "./data/22",
+      "query": 1,
+      "case": "./data/22\\case_a73c034bbe0618ad44345e14804735b34b64531b4085fc415882de5eae9ed42a/"
+    },
+    {
+      "map": "./data/22",
+      "query": 1,
+      "case": "./data/22\\case_146f98321b375037cda72fa71b4577417bae3664453a1082fef7354701991afa/"
+    },
+    {
+      "map": "./data/22",
+      "query": 2,
+      "case": "./data/22\\case_7363b8abd0a7fe61545954a70046b57ad2aff5d19a46826ccc4f2796920da666/"
+    },
+    {
+      "map": "./data/22",
+      "query": 2,
+      "case": "./data/22\\case_2a6abdeb3d8f740bb71eb3ff5e7ffab2e6968a7f0449666e0c59951a6849c9f5/"
+    },
+    {
+      "map": "./data/9",
+      "query": 0,
+      "case": "./data/9\\case_dc8bbd7f7f631ab20324f1b12d81375f957237955caf37c18dcfb90e51bf0183/"
+    },
+    {
+      "map": "./data/9",
+      "query": 0,
+      "case": "./data/9\\case_91e2e9cbe974ba9039fa8b922a454e6f87a5747432c192b3322c457e7d9ea9c6/"
+    },
+    {
+      "map": "./data/9",
+      "query": 0,
+      "case": "./data/9\\case_e14d49154e704dce9f822edd3f3bdd74647d616a555e75d6f45362d26de62b7f/"
+    },
+    {
+      "map": "./data/9",
+      "query": 1,
+      "case": "./data/9\\case_191261e9ebdaec5ffae6639ee3a0c221e0fb22feb20baaa0327daff559772b1b/"
+    },
+    {
+      "map": "./data/9",
+      "query": 1,
+      "case": "./data/9\\case_c30b9189f166ce0bb3c02f938c3606d6465391db7bceb94d2e1ec4eda46e53c7/"
+    },
+    {
+      "map": "./data/9",
+      "query": 1,
+      "case": "./data/9\\case_819c8264d6382654d53e2b9332a515c16b19b75e38d2013574bd1a875335d3ee/"
+    },
+    {
+      "map": "./data/9",
+      "query": 2,
+      "case": "./data/9\\case_a1c6335c5dfb281d1de7780e102c7932f891a49c0b15e276938cfa782941cd69/"
+    },
+    {
+      "map": "./data/9",
+      "query": 2,
+      "case": "./data/9\\case_4d14c09bf836f18a0f7a38d02f91c872d6cd6150b6517f9c803b43eb9aa373ef/"
+    },
+    {
+      "map": "./data/9",
+      "query": 2,
+      "case": "./data/9\\case_f76e63a9641b5d006972a2d09c695eee0ee2bf979fff153676fcbbfc35d24ca5/"
+    },
+    {
+      "map": "./data/71",
+      "query": 0,
+      "case": "./data/71\\case_ea26e7674c42545f14c4a4eef80a47bebbfa2e2e71cbbb009cb8b5a45cb775d0/"
+    },
+    {
+      "map": "./data/71",
+      "query": 0,
+      "case": "./data/71\\case_3779e6aaa95c8e1c6e71cafef2f1b63079c1e818a44d101abb59b8e1f4270876/"
+    },
+    {
+      "map": "./data/71",
+      "query": 0,
+      "case": "./data/71\\case_706c0126baf44035bd6c0e272dd7a72da68544b69dcb7c154a5ff49d3d77f727/"
+    },
+    {
+      "map": "./data/71",
+      "query": 1,
+      "case": "./data/71\\case_be4f56b4b7b3c60061ccda7910e45bb17cc2caa25c7dc414895a164fb2de1423/"
+    },
+    {
+      "map": "./data/71",
+      "query": 1,
+      "case": "./data/71\\case_ef05df16e16ca8c9d35972e7c863dcb8defe26f226f5dd73304548625b8c8788/"
+    },
+    {
+      "map": "./data/71",
+      "query": 1,
+      "case": "./data/71\\case_d19c939bdfc296681dbcf9e3695188a3e28a425013f40fdd9a5681a944156d7f/"
+    },
+    {
+      "map": "./data/71",
+      "query": 2,
+      "case": "./data/71\\case_067dd408368c92c6a5b1de08a66db4b2c4a480cf0133b94e84c7b754274512c4/"
+    },
+    {
+      "map": "./data/71",
+      "query": 2,
+      "case": "./data/71\\case_fa63be1f7caf5d946006a804a0b42ade0226f504526561bac05f1ed6c869f089/"
+    },
+    {
+      "map": "./data/71",
+      "query": 2,
+      "case": "./data/71\\case_42c37e065baa611fc5dabb769c599dafb417be50035e1cfc1dcb51bf5b3ee860/"
+    },
+    {
+      "map": "./data/28",
+      "query": 0,
+      "case": "./data/28\\case_06346d0c10f58f06ebda063f7b4932a0125d8b7a4687df6e5f782fc5c185a1d3/"
+    },
+    {
+      "map": "./data/28",
+      "query": 0,
+      "case": "./data/28\\case_9b9b70bf2eb6ba04d84c8f65b60288847f46259516dd423e09bc256ad2284648/"
+    },
+    {
+      "map": "./data/28",
+      "query": 0,
+      "case": "./data/28\\case_43e495dd44e23edcff14abcecb964178c49d2a6f4a369912d53d919af6c6f2f5/"
+    },
+    {
+      "map": "./data/28",
+      "query": 1,
+      "case": "./data/28\\case_04d5a475fde88d94ad5add06ce20e65c852509ad913bfaf58504a3ab40805974/"
+    },
+    {
+      "map": "./data/28",
+      "query": 1,
+      "case": "./data/28\\case_676a467fd1b3021f89e7f46e1103ac5915a6637e1127f0bc44abd0b8dd2b912c/"
+    },
+    {
+      "map": "./data/28",
+      "query": 1,
+      "case": "./data/28\\case_1122d784847ae7adafb5ca559e058618596435581d4f78c67f9c6af7fd99d613/"
+    },
+    {
+      "map": "./data/28",
+      "query": 2,
+      "case": "./data/28\\case_83481c6d18ef4739008b1352546235346b6cb60e36ae59054212803a55d19d2f/"
+    },
+    {
+      "map": "./data/28",
+      "query": 2,
+      "case": "./data/28\\case_e1d98a7480e22055c044712001ac81e5c32e4adadeb73fe934648e62bf5fb767/"
+    },
+    {
+      "map": "./data/40",
+      "query": 0,
+      "case": "./data/40\\case_1a402e6fd029a3b6777625020dc74c049c6c999f2152d97bffd3044b800ad298/"
+    },
+    {
+      "map": "./data/40",
+      "query": 0,
+      "case": "./data/40\\case_220c1410ad1926129c7fb879c567f135348547b9f4a7b1a2ecea55d485635a2c/"
+    },
+    {
+      "map": "./data/40",
+      "query": 0,
+      "case": "./data/40\\case_a280fa27f37507b4c85287eb641d8517bad668014baf0cd1729802025f5bc811/"
+    },
+    {
+      "map": "./data/40",
+      "query": 1,
+      "case": "./data/40\\case_c138222b3c1f16b93f883a2b86d97cfdc37ce53a43243c66a936fda2cdf477e4/"
+    },
+    {
+      "map": "./data/40",
+      "query": 1,
+      "case": "./data/40\\case_99fb8ff199e425bd59638cc4e11d3820bcd88fede36391684b16e726b70637c5/"
+    },
+    {
+      "map": "./data/40",
+      "query": 2,
+      "case": "./data/40\\case_73db21f1095605db3a2530f03c097ee5d7c7db0f10661836ffb86df03ef1a2f3/"
+    },
+    {
+      "map": "./data/40",
+      "query": 2,
+      "case": "./data/40\\case_14177d4a4476ba45952c45172aa41fc8b13213492fdcbea4e560f4e4ee60f8a5/"
+    },
+    {
+      "map": "./data/40",
+      "query": 2,
+      "case": "./data/40\\case_477027e6b71e22c9416dc29b6070175d7784ba94656418ee8a338586e41f584a/"
+    },
+    {
+      "map": "./data/78",
+      "query": 0,
+      "case": "./data/78\\case_d6d977263bf3c3f711b787523cdd717f020d9a33e3f159e525a392966a83b802/"
+    }
+  ]
+}
