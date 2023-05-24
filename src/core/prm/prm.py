@@ -2,6 +2,7 @@ import math
 import time
 from typing import Optional
 import random
+import copy
 
 import matplotlib.pyplot as plt
 
@@ -54,7 +55,7 @@ class Prm:
         self.query_timer: Optional[dict] = None
 
         self.map_min, self.map_max = map_range
-        self.obstacles = obstacles
+        self.obstacles = copy.deepcopy(obstacles)
 
         self.robot_radius = robot_radius
 
@@ -67,7 +68,7 @@ class Prm:
         random.seed(self.rnd_seed)
 
         if roadmap:
-            self.road_map = roadmap
+            self.road_map = copy.deepcopy(roadmap)
         else:
             # build road map
             self.road_map: Optional[RoadMap] = None
